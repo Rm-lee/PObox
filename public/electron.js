@@ -1,5 +1,5 @@
 const electron = require("electron");
-const { Tray, Menu,app } = electron;
+const { Tray, Menu, app } = electron;
 const positioner = require("electron-traywindow-positioner");
 const BrowserWindow = electron.BrowserWindow;
 const path = require("path");
@@ -34,7 +34,14 @@ const os = require("os");
 const dialog = electron.dialog;
 const { shell } = require("electron");
 const { exec } = require("child_process");
-const {newBookmarkNoProj,getEveryBookmark,newProjBookmark,getProjBookmarks,deleteBookmark,updateBookmark} = require(path.join(__dirname, "./ipcAPI/bookMarkAPI"))
+const {
+  newBookmarkNoProj,
+  getEveryBookmark,
+  newProjBookmark,
+  getProjBookmarks,
+  deleteBookmark,
+  updateBookmark
+} = require(path.join(__dirname, "./ipcAPI/bookMarkAPI"));
 const sysos = os.platform();
 
 //create db and run migrations
@@ -180,7 +187,6 @@ ipc.on("launch-app-in-dir", async (event, app, path) => {
   }
 });
 
-
 //app launcher solo
 
 ipc.on("launch-app-solo", async (event, app) => {
@@ -209,19 +215,18 @@ ipc.on("launch-app-solo", async (event, app) => {
 
 //select dir of project with dialog
 ipc.on("select-dirs", async (event, arg) => {
-  console.log("got message from proload to electron");
   const result = await dialog.showOpenDialog(window, {
     properties: ["openDirectory"]
   });
   event.sender.send("proj-selected", result.filePaths[0]);
 });
 //bookmark ipc APIs
-newBookmarkNoProj()
-getEveryBookmark()
-newProjBookmark()
-getProjBookmarks()
-deleteBookmark()
-updateBookmark()
+newBookmarkNoProj();
+getEveryBookmark();
+newProjBookmark();
+getProjBookmarks();
+deleteBookmark();
+updateBookmark();
 //newproj
 ipc.on("newProj", async function(event, arg) {
   await add(arg);
@@ -334,16 +339,12 @@ ipc.on("updateApp", async function(event, id, app) {
   });
 });
 
-
-
-
 //define window and tray globaly
 let window = undefined;
 
 let mainWindow;
-let iconPath
+let iconPath;
 let appTray = null;
-
 
 const toggleWindow = () => {
   if (window.isVisible()) {
@@ -382,9 +383,6 @@ function createWindow() {
   //     ".config/google-chrome/Default/Extensions/lmhkpmbekcpmknklioeibfkpmmfibljd/2.17.0_0"
   //   )
   // );
-  ////////////////
- 
-
 }
 const showWindow = () => {
   const trayBounds = appTray.getBounds();
@@ -396,7 +394,7 @@ const showWindow = () => {
 };
 
 app.on("ready", () => {
-  iconPath = path.join(__dirname, "code.png"); 
+  iconPath = path.join(__dirname, "code.png");
   appTray = new Tray(iconPath);
   var contextMenu = Menu.buildFromTemplate([
     {
@@ -417,7 +415,7 @@ app.on("ready", () => {
   appTray.on("click", function(event) {
     toggleWindow();
   });
-  
+
   appTray.setContextMenu(contextMenu);
 
   createWindow();

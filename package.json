@@ -3,7 +3,7 @@
   "version": "0.0.3",
   "description": "Keeps Project files and resources organized and easily accessible from a system tray app",
   "author": {
-    "name":"hyde-jekyll",
+    "name": "hyde-jekyll",
     "email": "tes@email.com"
   },
   "build": {
@@ -11,9 +11,8 @@
     "win": {
       "icon": "build/icon.png"
     },
-    "linux":{
-       "icon":"build/icon.png"
-       
+    "linux": {
+      "icon": "build/icon.png"
     }
   },
   "main": "public/electron.js",
