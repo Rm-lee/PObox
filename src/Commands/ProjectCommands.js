@@ -19,15 +19,11 @@ flex-direction:wrap;
 flex-wrap:wrap;
 width:100%;
 padding:0;
-
-
 `;
 function ProjectCommands(props) {
   const [commandText, setCommandText] = useState();
   const [modalOpen, setModalOpen] = useState(false);
-
   const dragCRef = useRef();
-
   const Fragment = React.Fragment;
   const [projCommands, setProjCommands] = useState();
 
