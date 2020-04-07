@@ -109,21 +109,22 @@ const AddProjectModal = props => {
             </Form.Field>
             <Form.Field>
               <label>Location</label>
-              <div>
+              <div style={{ display: "flex", justifyContent: "space-between" }}>
                 <input
                   id="project-path-input"
-                  style={{ width: "80%" }}
+                  style={{ width: "60%" }}
                   placeholder="Location"
                   value={projectObj.project_path}
                   onChange={projectChange}
                   name="project_path"
                 />
                 <Button
+                  style={{ width: "25%", height: "40px", fontSize: ".9rem" }}
                   onClick={() => {
                     props.chooseProjectDir();
                   }}
                 >
-                  Choose Project
+                  File Picker
                 </Button>
               </div>
             </Form.Field>
@@ -137,17 +138,22 @@ const AddProjectModal = props => {
             </Form.Field>
           </Form>
         </Modal.Content>
-        <Button style={{ float: "right" }} onClick={handleClose} color="red">
+
+        <Button
+          style={{ float: "right", margin: "10px" }}
+          onClick={handleClose}
+          color="red"
+        >
           Cancel
         </Button>
         <Button
-          style={{ float: "right" }}
+          style={{ float: "right", margin: "10px" }}
           onClick={() => {
             submitProject();
             handleClose();
             console.log(projectObj);
           }}
-          color="green"
+          color="teal"
         >
           Add Project
         </Button>

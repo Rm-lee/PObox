@@ -111,10 +111,10 @@ function Project(props) {
       {project1 && (
         <div
           style={{
-            padding: "10px 10px",
+            padding: "5px 10px",
             display: "flex",
             justifyContent: "flex-start",
-            alignItems: "flex-start"
+            alignItems: "center"
           }}
         >
           <div
