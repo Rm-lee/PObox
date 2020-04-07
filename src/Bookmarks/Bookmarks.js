@@ -127,7 +127,8 @@ function Bookmarks(props) {
               options={options}
               placeholder="Category"
               onChange={dropChange}
-            />{" "}
+              style={{ width: "40%" }}
+            />
             <Input
               type="text"
               style={{ width: "40%" }}
@@ -152,58 +153,66 @@ function Bookmarks(props) {
         </Divider>
         {updatedBookList &&
           updatedBookList.map(mark => (
-            <Popup
-              style={{ fontSize: ".8rem" }}
-              content="Launch"
-              trigger={
-                <List.Item style={itemStyle}>
-                  <Icon
-                    style={{ marginRight: "10px" }}
-                    name="chrome"
-                    size="large"
-                    color="teal"
-                  />
-                  <List.Content>
-                    <div
-                      style={{
-                        display: "flex",
-                        justifyContent: "space-between"
+            <List.Item style={itemStyle} onClick={() => openLink(mark.url)}>
+              <Icon
+                style={{ marginRight: "10px" }}
+                name="chrome"
+                size="large"
+                color="teal"
+              />
+              <List.Content>
+                <div
+                  style={{
+                    display: "flex",
+                    justifyContent: "space-between"
+                  }}
+                >
+                  <List.Header
+                    key={mark.name}
+                    style={{ color: "darkslategrey", fontSize: "1.3rem" }}
+                  >
+                    {mark.name}
+                  </List.Header>
+                  <div
+                    style={{
+                      display: "flex",
+                      flexDirection: "row",
+                      width: "40%",
+                      justifyContent: "space-between"
+                    }}
+                  >
+                    <Popup
+                      style={{ fontSize: ".8rem" }}
+                      content={mark.url}
+                      trigger={
+                        <p style={{ fontSize: ".9rem" }}>
+                          {mark.url.substring(0, 20) + "..."}
+                        </p>
+                      }
+                      basic
+                    />
+                    <Icon
+                      onClick={() => {
+                        props.deleteBookMark(mark.id);
                       }}
-                    >
-                      <List.Header
-                        onClick={() => openLink(mark.url)}
-                        key={mark.name}
-                        style={{ color: "darkslategrey", fontSize: "1.3rem" }}
-                      >
-                        {" "}
-                        {mark.name}{" "}
-                      </List.Header>
-                      <div style={{ fontSize: ".8rem" }}>{mark.url}</div>
-                      <Icon
-                        onClick={() => {
-                          props.deleteBookMark(mark.id);
-                        }}
-                        color="red"
-                        name="close"
-                      />
-                    </div>
-                  </List.Content>
-                  <List.Content>
-                    <List.Description
-                      style={{
-                        paddingLeft: "45px",
-                        width: "100%",
-                        fontSize: ".9rem"
-                      }}
-                    >
-                      {mark.description}
-                    </List.Description>
-                  </List.Content>
-                </List.Item>
-              }
-              basic
-              inverted
-            />
+                      color="red"
+                      name="close"
+                    />
+                  </div>
+                </div>
+              </List.Content>
+              <List.Content>
+                <List.Description
+                  style={{
+                    paddingLeft: "45px",
+                    width: "100%",
+                    fontSize: ".9rem"
+                  }}
+                >
+                  {mark.description}
+                </List.Description>
+              </List.Content>
+            </List.Item>
           ))}
       </List>
     </>

@@ -8,6 +8,7 @@ import {
   Segment,
   Button,
   Divider,
+  Popup,
   Icon
 } from "semantic-ui-react";
 import Styled from "styled-components";
@@ -17,13 +18,13 @@ import { connect } from "react-redux";
 // import { Link, } from "react-router-dom"
 import Todo from "./Todo";
 import ProjectBookmarks from "../Bookmarks/ProjectBookmarks";
-import ProjSettings from './ProjSettings'
+import ProjSettings from "./ProjSettings";
 import CommandViewer from "../Commands/CommandViewer";
 import ProjectApps from "../Apps/ProjectApps";
 import ProjectCommands from "../Commands/ProjectCommands";
 import { dragIn } from "../Utils/DragnDrop";
-import { deleteProj,setCurrentProject } from "../Actions/index";
-import './settings.css'
+import { deleteProj, setCurrentProject } from "../Actions/index";
+import "./settings.css";
 const HalfDiv = Styled.div`
 display:flex;
 justify-content:space-evenly;
@@ -39,7 +40,7 @@ padding-top:0;
 `;
 
 function Project(props) {
-  const [settings, setSettings] = useState(false)
+  const [settings, setSettings] = useState(false);
 
   const [project1, setProject1] = useState();
   const [modalOpen, setModalOpen] = useState(false);
@@ -50,28 +51,28 @@ function Project(props) {
   const [view, setView] = useState();
   const [commandInViewer, setCommandInViewer] = useState("");
   useEffect(() => {
-    if(!props.projects){
-      props.history.push('/')
+    if (!props.projects) {
+      props.history.push("/");
+    } else {
+      setProject1(
+        props.projects.find(obj => obj.name === props.match.params.name)
+      );
+      props.setCurrentProject(
+        props.projects.find(obj => obj.name === props.match.params.name)
+      );
+
+      return () => {
+        props.setCurrentProject(null);
+      };
     }
-   else{setProject1(
-      props.projects.find(obj => obj.name === props.match.params.name)
-      
-    );  props.setCurrentProject(props.projects.find(obj => obj.name === props.match.params.name))
-
-    return () => {
-      props.setCurrentProject(null)
-    };
-   } 
   }, [props.projects, project1]);
-
- 
 
   const dragRef = useRef();
   useEffect(() => {
     if (dragRef.current !== null)
       dragIn(dragRef.current, setFileName, setModalOpen);
   }, []);
-  
+
   useEffect(() => {
     switch (activeItem) {
       case "Apps":
@@ -95,9 +96,8 @@ function Project(props) {
     }
   }, [activeItem, project1]);
   const openCloseSettings = () => {
-    setSettings(!settings)
-
-  }
+    setSettings(!settings);
+  };
   const handleActive = (e, { name }) => {
     setActiveItem(name);
   };
@@ -105,16 +105,44 @@ function Project(props) {
     props.deleteProj(ID);
     props.history.push("/projects");
   };
-console.log(settings)
+  console.log(settings);
   return (
     <>
-      {project1 &&
-      <div style={{padding:"10px 10px",display:"flex",justifyContent:"flex-start",alignItems:"center"}} >
-      <div><Header style={{color:"#335577"}}as="h2">{project1.name}</Header></div>
-     
-      </div> }
-      <ProjSettings close={openCloseSettings} deleteThisProject={deleteThisProject} project={project1} visible={settings} />
-      <Grid style={{  height: "330px" }}>
+      {project1 && (
+        <div
+          style={{
+            padding: "10px 10px",
+            display: "flex",
+            justifyContent: "flex-start",
+            alignItems: "flex-start"
+          }}
+        >
+          <div
+            style={{
+              width: "100%",
+              display: "flex",
+              justifyContent: "space-between"
+            }}
+          >
+            <Header style={{ color: "#335577" }} as="h2">
+              {project1.name}
+            </Header>
+            <Popup
+              style={{ fontSize: ".8rem" }}
+              content={project1.project_path}
+              trigger={<p>{project1.project_path.substring(0, 35) + "..."}</p>}
+              basic
+            />
+          </div>
+        </div>
+      )}
+      <ProjSettings
+        close={openCloseSettings}
+        deleteThisProject={deleteThisProject}
+        project={project1}
+        visible={settings}
+      />
+      <Grid style={{ height: "330px" }}>
         <Grid.Column width={5}>
           <Menu fluid vertical tabular>
             <Menu.Item
@@ -149,14 +177,12 @@ console.log(settings)
               active={activeItem === "Todo"}
               onClick={handleActive}
             />
-
-           
           </Menu>
           <Divider></Divider>
         </Grid.Column>
 
         <Grid.Column stretched width={11} style={{ paddingLeft: "0" }}>
-          <Segment >{view}</Segment>
+          <Segment>{view}</Segment>
         </Grid.Column>
       </Grid>
 
@@ -171,13 +197,12 @@ console.log(settings)
 function mapStateToProps(state) {
   return {
     projects: state.projects,
-    bookmarks: state.bookmarks,
-    
+    bookmarks: state.bookmarks
   };
 }
 const mapDispatchToProps = {
   deleteProj: deleteProj,
-  setCurrentProject:setCurrentProject
+  setCurrentProject: setCurrentProject
 };
 export default withRouter(
   connect(mapStateToProps, mapDispatchToProps)(Project)
