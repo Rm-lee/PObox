@@ -101,8 +101,8 @@ const ProjectBookmarks = props => {
           selection
           style={{
             overflowY: "scroll",
-            minHeight: "250px",
-            maxHeight: "250px",
+            minHeight: "300px",
+            maxHeight: "300px",
             width: "90%",
             paddingTop: "0",
             marginTop: "0"

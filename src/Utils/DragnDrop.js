@@ -1,9 +1,8 @@
-export const dragIn = (el,setName,setModal,type) => {
-  //type is boolean declaring whether dropping text==false, or a file==true, 
-    
-    console.log(el)
-    if(el){
-    const holder = document.getElementById(el.props.id)
+export const dragIn = (el, setName, setModal, type) => {
+  //type is boolean declaring whether dropping text==false, or a file==true,
+
+  if (el) {
+    const holder = document.getElementById(el.props.id);
     holder.ondragover = () => {
       return false;
     };
@@ -16,22 +15,18 @@ export const dragIn = (el,setName,setModal,type) => {
       return false;
     };
 
-    holder.ondrop = (e) => {
+    holder.ondrop = e => {
       e.preventDefault();
-      let f = e.dataTransfer.files[0] 
-      
-    
-      if (f && !type){         
-       setName(f.path)
-       setModal(true)      
+      let f = e.dataTransfer.files[0];
+
+      if (f && !type) {
+        setName(f.path);
+        setModal(true);
+      } else {
+        let text = e.dataTransfer.getData("text");
+        setName(text);
+        setModal(true);
       }
-      else{
-          let text = e.dataTransfer.getData("text")
-          setName(text)
-          setModal(true)
-          console.log(text)
-      }
-      
-  };
-}
-}
+    };
+  }
+};
