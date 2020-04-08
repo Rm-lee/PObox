@@ -192,7 +192,9 @@ function Bookmarks(props) {
                       basic
                     />
                     <Icon
-                      onClick={() => {
+                      style={{ zIndex: "3" }}
+                      onClick={e => {
+                        e.stopPropagation();
                         props.deleteBookMark(mark.id);
                       }}
                       color="red"

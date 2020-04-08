@@ -20,6 +20,7 @@ import Todo from "./Todo";
 import ProjectBookmarks from "../Bookmarks/ProjectBookmarks";
 import ProjSettings from "./ProjSettings";
 import CommandViewer from "../Commands/CommandViewer";
+import ProjectFiles from "../Files/ProjectFiles";
 import ProjectApps from "../Apps/ProjectApps";
 import ProjectCommands from "../Commands/ProjectCommands";
 import { dragIn } from "../Utils/DragnDrop";
@@ -87,7 +88,7 @@ function Project(props) {
         );
         break;
       case "Files":
-        //   setView(<Files />)
+        setView(<ProjectFiles obj={project1} />);
         break;
       case "Todo":
         setView(<Todo projId={project1.id} />);

@@ -5,7 +5,8 @@ import {
   GETALLCOMMANDS,
   GETALLAPPS,
   GETALLTODOS,
-  CURRENTPROJ
+  CURRENTPROJ,
+  GETALLFILES
 } from "../Actions/index.js";
 import {
   GETALLBOOKMARKS,
@@ -102,6 +103,13 @@ export function reducer(state = initialState, action) {
       return {
         ...state,
         projDir: action.payload
+      };
+    }
+    case GETALLFILES: {
+      console.log("all file reducer");
+      return {
+        ...state,
+        files: action.payload
       };
     }
     default:

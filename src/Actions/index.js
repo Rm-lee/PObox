@@ -1,6 +1,6 @@
 export const GETALLPROJS = "GETALLPROJS";
 export const ADDPROJ = "ADDPROJ";
-export const CURRENTPROJ = "CURRENTPROJ"
+export const CURRENTPROJ = "CURRENTPROJ";
 export const GETINSTALLEDAPPS = "GETINSTALLEDAPPS";
 export const GETALLCOMMANDS = "GETALLCOMMANDS";
 export const ADDCOMMANDTOPROJ = "ADDCOMMANDTOPROJ";
@@ -8,15 +8,14 @@ export const GETALLSNIPPETS = "GETALLSNIPPETS";
 export const DELETPROJECT = "DELETEPROJECT";
 export const GETALLTODOS = "GETALLTODOS";
 export const GETALLAPPS = "GETALLAPPS";
+export const GETALLFILES = "GETALLFILES";
 const ipc = window.require("electron").ipcRenderer;
 
-
-export function setCurrentProject(proj){
+export function setCurrentProject(proj) {
   return dispatch => {
-dispatch({type:CURRENTPROJ,payload:proj})
+    dispatch({ type: CURRENTPROJ, payload: proj });
+  };
 }
-}
-
 
 export function getAllProjs() {
   //logic
@@ -47,7 +46,6 @@ export function deleteProj(projID) {
   return dispatch => {
     ipc.on("asynchronous-reply", function(event, arg) {
       dispatch({ type: GETALLPROJS, payload: arg });
-      
     });
   };
 }
@@ -179,17 +177,35 @@ export function updateApp(id, app) {
 }
 export function launchAppSolo(app) {
   return dispatch => {
-  ipc.send("launch-app-solo", app);
-  }
+    ipc.send("launch-app-solo", app);
+  };
 }
 export function launchAppInDir(app, path) {
   return dispatch => {
-  ipc.send("launch-app-in-dir", app, path);
-  }
+    ipc.send("launch-app-in-dir", app, path);
+  };
 }
 
 export function openUrl(url) {
   return dispatch => {
-  ipc.send("openLink", url);
-  }
+    ipc.send("openLink", url);
+  };
+}
+export function getAllFiles() {
+  ipc.send("getAllFiles");
+  console.log("get all files?????");
+  return dispatch => {
+    ipc.on("allFiles", function(event, arg) {
+      dispatch({ type: GETALLFILES, payload: arg });
+    });
+  };
+}
+export function addfile() {
+  ipc.send("addFile");
+
+  return dispatch => {
+    ipc.on("allFiles", function(event, arg) {
+      dispatch({ type: GETALLFILES, payload: arg });
+    });
+  };
 }

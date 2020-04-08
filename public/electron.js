@@ -42,6 +42,10 @@ const {
   deleteBookmark,
   updateBookmark
 } = require(path.join(__dirname, "./ipcAPI/bookMarkAPI"));
+const { addFileToProj, getAllFilesForProj } = require(path.join(
+  __dirname,
+  "./ipcAPI/filesAPI"
+));
 const sysos = os.platform();
 
 //create db and run migrations
@@ -227,6 +231,10 @@ newProjBookmark();
 getProjBookmarks();
 deleteBookmark();
 updateBookmark();
+
+//files ipc APIs
+addFileToProj();
+getAllFilesForProj();
 //newproj
 ipc.on("newProj", async function(event, arg) {
   await add(arg);
