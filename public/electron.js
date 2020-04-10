@@ -59,28 +59,6 @@ if (!fs.existsSync(path.resolve(app.getPath("userData"), "projects.db3"))) {
   });
 }
 //if linux if gnome kill process on suspend or gnome refresh because of glitch of losing system tray icon.
-// if (sysos === 'linux'){
-
-// need to watch for changes to
-
-// systemctl show systemd-logind.service --property=WatchdogTimestamp
-
-// then kill this process and restart
-// this dev app has process name of electron, should change to po-box in future
-// kill -9 $(pgrep electron | head -n 1)
-// then relaunch applicationCache.
-// }
-// let poboxPid
-// exec(
-//   ` pgrep electron | head -n 1
-//   `,
-//   (err, stdout, stderr) => {
-//     if (err) {
-//    } else {
-//       poboxPid = stdout
-//     }
-//   }
-// );
 
 // if login happens start another app then kill current on gnome(tray icon disapears)
 function loggedin(val) {
@@ -107,39 +85,16 @@ sessionBus
   );
 
 // ipc communication between ipc.renderer
-ipc.on("asynchronous-message", async function(event, arg1, arg2) {
-  if (arg1 === "get projs") {
-    await getAllProjs().then(resu => {
-      event.sender.send("asynchronous-reply", resu);
-    });
-  }
-  if (arg1 === "project") {
-    await add(arg2);
-  }
-});
-
-//add a project
-ipc.on("add-project", async (event, arg) => {
-  await add(arg);
-});
 
 //openBrowser Link
-
 ipc.on("openLink", (event, arg) => {
   shell.openItem(arg);
 });
 
-//get list of installed apps linux
-
-//search all of path with SH, weird glitch doesnt pull up some apps in /usr/bin like chrome, code ect
-// oldifs="\${IFS}"
-// IFS=':'; for i in \${PATH}; do
-//     find "\${i}" -type f -executable | grep ${arg}
-// done
-// IFS="\${oldifs}"
-
 ipc.on("installedApps", (event, arg) => {
   if (sysos === "linux") {
+    //get list of installed apps linux
+
     exec(
       `oldifs="\${IFS}"
 IFS=':'; for i in \${PATH}; do
@@ -203,14 +158,16 @@ IFS="\${oldifs}"`,
   }
 });
 
-function app_func() {
-  this.execCommand = function(cmd) {
-    return new Promise((resolve, reject) => {
-      exec(cmd, (error, stdout, stderr) => {
-        resolve(stdout);
+class app_func {
+  constructor() {
+    this.execCommand = function(cmd) {
+      return new Promise((resolve, reject) => {
+        exec(cmd, (error, stdout, stderr) => {
+          resolve(stdout);
+        });
       });
-    });
-  };
+    };
+  }
 }
 
 var homePathSearch = new app_func();
@@ -292,8 +249,33 @@ getAllFilesForProj();
 addSnippetAPI();
 getSnippetsAPI();
 deleteSnippetAPI();
-//newproj
-ipc.on("newProj", async function(event, arg) {
+// //newproj
+// ipc.on("newProj", async function(event, arg) {
+//   await add(arg);
+// });
+
+//getprojs
+ipc.on("asynchronous-message", async function(event, arg1, arg2) {
+  if (arg1 === "get projs") {
+    await getAllProjs().then(resu => {
+      event.sender.send("asynchronous-reply", resu);
+    });
+  }
+  if (arg1 === "project") {
+    await add(arg2);
+  }
+});
+
+//deleteProj
+ipc.on("deleteProj", async function(event, arg) {
+  await deleteProject(arg).then(res => {
+    getAllProjs().then(result => {
+      event.sender.send("asynchronous-reply", result);
+    });
+  });
+});
+//add a project
+ipc.on("add-project", async (event, arg) => {
   await add(arg);
 });
 
@@ -309,15 +291,6 @@ ipc.on("newCommand", async function(event, arg) {
 ipc.on("getAllCommands", async function(event, arg) {
   await getAllCommandsWithPID().then(result => {
     event.sender.send("command-list", result);
-  });
-});
-
-//deleteProj
-ipc.on("deleteProj", async function(event, arg) {
-  await deleteProject(arg).then(res => {
-    getAllProjs().then(result => {
-      event.sender.send("asynchronous-reply", result);
-    });
   });
 });
 
@@ -337,7 +310,7 @@ ipc.on("getTodos", async function(event, arg) {
     event.sender.send("todo-list", result);
   });
 });
-//delete snippet
+//delete todo
 ipc.on("deleteTodo", async function(event, arg) {
   await deleteTodo(arg).then(result => {
     getAllTodos().then(result => {

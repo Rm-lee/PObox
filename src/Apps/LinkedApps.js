@@ -19,11 +19,6 @@ import {
   launchAppSolo,
   launchAppInDir
 } from "../Actions/index";
-const spawn = window.require("child_process").spawn;
-const { exec } = window.require("child_process");
-const { execFile } = window.require("child_process");
-
-const path = window.require("path");
 function LinkedApps(props) {
   const [LinkedApps, setLinkedApps] = useState();
 
@@ -74,7 +69,13 @@ function LinkedApps(props) {
         {LinkedApps &&
           LinkedApps.map((app, index) => (
             <>
-              <List.Item key={app.id} style={{ fontSize: "1.2rem",marginLeft:"0",}}>
+              <List.Item
+                key={app.id}
+                style={{ fontSize: "1.2rem", marginLeft: "0" }}
+                onClick={() => {
+                  props.launchAppSolo(app);
+                }}
+              >
                 <List.Content
                   style={{
                     color: "#333333",
@@ -84,7 +85,13 @@ function LinkedApps(props) {
                   }}
                 >
                   {app.name}
-                  <div style={{width:"30%",display:"flex",justifyContent:"space-between"}}>
+                  <div
+                    style={{
+                      width: "30%",
+                      display: "flex",
+                      justifyContent: "space-between"
+                    }}
+                  >
                     <Icon
                       name={app.launch ? "circle" : "ban"}
                       color={app.launch ? "green" : "red"}
@@ -99,7 +106,7 @@ function LinkedApps(props) {
                           text="Disable Auto Launch"
                           onClick={() => disableLaunch(app)}
                         />
-                       
+
                         <Dropdown.Item
                           text="Remove"
                           onClick={() => deleteApp(app)}
