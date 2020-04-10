@@ -18,10 +18,6 @@ const { addTodo, getAllTodos, deleteTodo } = require(path.join(
   "./Models/todoModel"
 ));
 
-const { addSnippet, getAllSnippets, deleteSnippet } = require(path.join(
-  __dirname,
-  "./Models/snippetModel"
-));
 const {
   addApp,
   getAllApps,
@@ -46,6 +42,10 @@ const {
 const { addFileToProj, getAllFilesForProj } = require(path.join(
   __dirname,
   "./ipcAPI/filesAPI"
+));
+const { addSnippetAPI, getSnippetsAPI, deleteSnippetAPI } = require(path.join(
+  __dirname,
+  "./ipcAPI/snippetAPI"
 ));
 const sysos = os.platform();
 
@@ -275,6 +275,7 @@ ipc.on("select-dirs", async (event, arg) => {
   });
   event.sender.send("proj-selected", result.filePaths[0]);
 });
+
 //bookmark ipc APIs
 newBookmarkNoProj();
 getEveryBookmark();
@@ -286,6 +287,11 @@ updateBookmark();
 //files ipc APIs
 addFileToProj();
 getAllFilesForProj();
+
+//snippet ipc APIs
+addSnippetAPI();
+getSnippetsAPI();
+deleteSnippetAPI();
 //newproj
 ipc.on("newProj", async function(event, arg) {
   await add(arg);
@@ -305,32 +311,12 @@ ipc.on("getAllCommands", async function(event, arg) {
     event.sender.send("command-list", result);
   });
 });
-//add new snippet
-ipc.on("addSnippet", async function(event, arg) {
-  await addSnippet(arg).then(res => {
-    getAllSnippets().then(result => {
-      event.sender.send("snippet-list", result);
-    });
-  });
-});
+
+//deleteProj
 ipc.on("deleteProj", async function(event, arg) {
   await deleteProject(arg).then(res => {
     getAllProjs().then(result => {
       event.sender.send("asynchronous-reply", result);
-    });
-  });
-});
-//get all snippets
-ipc.on("getAllSnippets", async function(event, arg) {
-  await getAllSnippets().then(result => {
-    event.sender.send("snippet-list", result);
-  });
-});
-//delete snippet
-ipc.on("deleteSnippet", async function(event, arg) {
-  await deleteSnippet(arg).then(result => {
-    getAllSnippets().then(result => {
-      event.sender.send("snippetDeleted", result);
     });
   });
 });
@@ -451,6 +437,7 @@ const showWindow = () => {
 
   window.focus();
 };
+app.allowRendererProcessReuse = true;
 
 app.on("ready", () => {
   iconPath = path.join(__dirname, "code.png");
