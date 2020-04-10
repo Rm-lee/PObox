@@ -33,7 +33,8 @@ const fs = require("fs");
 const os = require("os");
 const dialog = electron.dialog;
 const { shell } = require("electron");
-const { exec } = require("child_process");
+const { exec, spawn } = require("child_process");
+
 const {
   newBookmarkNoProj,
   getEveryBookmark,
@@ -48,6 +49,8 @@ const { addFileToProj, getAllFilesForProj } = require(path.join(
 ));
 const sysos = os.platform();
 
+var dbus = require("dbus-native");
+
 //create db and run migrations
 const db = require("./data/db");
 if (!fs.existsSync(path.resolve(app.getPath("userData"), "projects.db3"))) {
@@ -55,6 +58,54 @@ if (!fs.existsSync(path.resolve(app.getPath("userData"), "projects.db3"))) {
     return db.seed.run();
   });
 }
+//if linux if gnome kill process on suspend or gnome refresh because of glitch of losing system tray icon.
+// if (sysos === 'linux'){
+
+// need to watch for changes to
+
+// systemctl show systemd-logind.service --property=WatchdogTimestamp
+
+// then kill this process and restart
+// this dev app has process name of electron, should change to po-box in future
+// kill -9 $(pgrep electron | head -n 1)
+// then relaunch applicationCache.
+// }
+// let poboxPid
+// exec(
+//   ` pgrep electron | head -n 1
+//   `,
+//   (err, stdout, stderr) => {
+//     if (err) {
+//    } else {
+//       poboxPid = stdout
+//     }
+//   }
+// );
+
+// if login happens start another app then kill current on gnome(tray icon disapears)
+function loggedin(val) {
+  if (val === 0 || val === "0") {
+    console.log("logged in");
+    app.quit();
+  }
+}
+var sessionBus = dbus.sessionBus();
+sessionBus
+  .getService("org.gnome.SessionManager")
+  .getInterface(
+    "/org/gnome/SessionManager/Presence",
+    "org.gnome.SessionManager.Presence",
+    (err, presence) => {
+      // dbus signals are EventEmitter events
+      presence.on("StatusChanged", function() {
+        // console.log('Status', arguments);
+        // if (argument[0] == "0"){
+        loggedin(arguments[0]);
+        //}
+      });
+    }
+  );
+
 // ipc communication between ipc.renderer
 ipc.on("asynchronous-message", async function(event, arg1, arg2) {
   if (arg1 === "get projs") {
@@ -435,7 +486,7 @@ app.on("window-all-closed", () => {
 });
 
 app.on("activate", () => {
-  if (mainWindow === null) {
+  if (appTray === null) {
     createWindow();
   }
 });
