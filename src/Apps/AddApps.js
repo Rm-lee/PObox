@@ -14,43 +14,41 @@ import AddAppsForm from "./AddAppsForm";
 import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 import { getInstalledApps, addApp } from "../Actions/index";
-
+import MessageToast from "../UIElements/MessageToast";
 
 function AddApps(props) {
-  const [searchTerm, setSearchTerm] = useState("")
+  const [searchTerm, setSearchTerm] = useState("");
 
   function appSearch(e, term) {
     props.getInstalledApps(term);
-    setSearchTerm(term)
+    setSearchTerm(term);
   }
-  const [sortedApps, setSortedApps] = useState()
-
+  const [sortedApps, setSortedApps] = useState();
+  const [showMessage, setShowMessage] = useState(false);
   function sortApps() {
-    if(props.installedApps.length > 0){
-    let sorted = props.installedApps.sort(function (a, b) {
-      var nameA = a.name.toLowerCase();
-      var nameB = b.name.toLowerCase();
-      if (nameA.charAt(0) === searchTerm.charAt(0)) {
-        return -1;
-      }
-      if (nameB.charAt(0) === searchTerm.charAt(0)) {
-        return 1;
-      }
+    if (props.installedApps.length > 0) {
+      let sorted = props.installedApps.sort(function(a, b) {
+        var nameA = a.name.toLowerCase();
+        var nameB = b.name.toLowerCase();
+        if (nameA.charAt(0) === searchTerm.charAt(0)) {
+          return -1;
+        }
+        if (nameB.charAt(0) === searchTerm.charAt(0)) {
+          return 1;
+        }
 
-      return 0;
-    });
+        return 0;
+      });
 
-    setSortedApps(sorted)
+      setSortedApps(sorted);
+    }
   }
-  }
-  
+
   useEffect(() => {
     if (props.installedApps) {
-      sortApps()
+      sortApps();
     }
-   
-  }, [props.installedApps])
-
+  }, [props.installedApps]);
 
   const addAppToProj = app => {
     const appToAdd = {
@@ -63,6 +61,13 @@ function AddApps(props) {
   };
   return (
     <>
+      <MessageToast
+        close={setShowMessage}
+        messageHeader="Done"
+        show={showMessage}
+        messageContent="added app to project linked apps"
+      />
+
       <AddAppsForm appSearch={appSearch} />
 
       <List
@@ -74,7 +79,8 @@ function AddApps(props) {
           width: "100%"
         }}
       >
-        {props.installedApps && sortedApps &&
+        {props.installedApps &&
+          sortedApps &&
           sortedApps.map((app, index) => (
             <>
               <Popup
@@ -82,7 +88,10 @@ function AddApps(props) {
                 content={app.path}
                 trigger={
                   <List.Item
-                    onClick={() => addAppToProj(app)}
+                    onClick={() => {
+                      addAppToProj(app);
+                      setShowMessage(true);
+                    }}
                     key={app.id}
                     style={{ fontSize: "1.2rem" }}
                   >
