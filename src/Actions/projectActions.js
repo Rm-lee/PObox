@@ -5,8 +5,6 @@ export function chooseProjectDir() {
   ipc.send("select-dirs");
   return dispatch => {
     ipc.on("proj-selected", function(event, arg) {
-      console.log(arg);
-
       dispatch({ type: CHOOSE_PROJECT_DIR, payload: arg });
     });
     ipc.removeListener("proj-selected", chooseProjectDir);

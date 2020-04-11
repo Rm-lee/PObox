@@ -63,7 +63,6 @@ if (!fs.existsSync(path.resolve(app.getPath("userData"), "projects.db3"))) {
 // if login happens start another app then kill current on gnome(tray icon disapears)
 function loggedin(val) {
   if (val === 0 || val === "0") {
-    console.log("logged in");
     app.quit();
   }
 }
@@ -127,7 +126,6 @@ IFS="\${oldifs}"`,
     homePathSearch.execCommand(cmd).then(res => {
       let windowsApps = [];
 
-      console.log(res);
       // the *entire* stdout and stderr (buffered)
       let list = res.split("\r");
 
@@ -188,7 +186,6 @@ ipc.on("launch-app-in-dir", async (event, app, path) => {
     });
   }
   if (sysos === "linux") {
-    console.log(path);
     exec(`cd ${path} && ${app.app_path} .`, (err, stdout, stderr) => {
       if (err) {
         console.log(err);
@@ -305,7 +302,6 @@ ipc.on("addTodo", async function(event, arg) {
 
 //get all todos
 ipc.on("getTodos", async function(event, arg) {
-  console.log("fired get todo in electron");
   await getAllTodos().then(result => {
     event.sender.send("todo-list", result);
   });
@@ -320,10 +316,8 @@ ipc.on("deleteTodo", async function(event, arg) {
 });
 //add new app
 ipc.on("addApp", async function(event, arg) {
-  console.log(` the arg in addapp is ${arg}`);
   await addApp(arg).then(res => {
     getAllAppsWithPid().then(result => {
-      console.log(result);
       event.sender.send("applist", result);
     });
   });

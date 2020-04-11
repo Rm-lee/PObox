@@ -133,7 +133,6 @@ export function deleteTodo(id) {
 }
 export function addApp(app) {
   ipc.send("addApp", app);
-  console.log(app);
   return dispatch => {
     ipc.send("getAppsWithPid", null);
     ipc.on("app-list", function(event, arg) {
@@ -168,7 +167,6 @@ export function deleteApp(id) {
 }
 export function updateApp(id, app) {
   ipc.send("updateApp", id, app);
-  console.log(id, app);
   return dispatch => {
     ipc.on("appUpdated", function(event, arg) {
       dispatch({ type: GETALLAPPS, payload: arg });
@@ -193,7 +191,6 @@ export function openUrl(url) {
 }
 export function getAllFiles() {
   ipc.send("getAllFiles");
-  console.log("get all files?????");
   return dispatch => {
     ipc.on("allFiles", function(event, arg) {
       dispatch({ type: GETALLFILES, payload: arg });

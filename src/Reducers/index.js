@@ -40,7 +40,6 @@ export function reducer(state = initialState, action) {
       };
     }
     case CURRENTPROJ: {
-      console.log(action.payload);
       return {
         ...state,
         currentProject: action.payload

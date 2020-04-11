@@ -31,7 +31,6 @@ function ProjectCommands(props) {
     setProjCommands(
       props.commands.filter(el => el.project_id === props.obj.id)
     );
-    console.log(props.commands);
   }, [props.commands]);
   useEffect(() => {
     if (dragCRef.current !== null)
