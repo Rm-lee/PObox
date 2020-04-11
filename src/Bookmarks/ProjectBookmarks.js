@@ -14,7 +14,8 @@ import AddBookmarkModal from "../Bookmarks/AddBookmarkModal";
 import {
   getAllBookMarks,
   updateBookMark,
-  getAllBookMarksNoPid
+  getAllBookMarksNoPid,
+  deleteBookMark
 } from "../Actions/bookmarkActions";
 import { openUrl } from "../Actions/index";
 import { withRouter } from "react-router-dom";
@@ -152,6 +153,12 @@ const ProjectBookmarks = props => {
                             text="Launch"
                             onClick={() => openLink(mark.url)}
                           />
+                          <Dropdown.Item
+                            text="Delete"
+                            onClick={() => {
+                              props.deleteBookMark(mark.id);
+                            }}
+                          />
                         </Dropdown.Menu>
                       </Dropdown>
                     </div>
@@ -175,6 +182,7 @@ const mapDispatchToProps = {
   getAllBookMarks: getAllBookMarks,
   updateBookMark: updateBookMark,
   openUrl: openUrl,
+  deleteBookMark: deleteBookMark,
   getAllBookMarksNoPid: getAllBookMarksNoPid
 };
 export default withRouter(
