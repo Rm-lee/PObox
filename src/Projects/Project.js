@@ -66,7 +66,7 @@ function Project(props) {
         props.setCurrentProject(null);
       };
     }
-  }, [props.projects, project1]);
+  }, [props.projects]);
 
   const dragRef = useRef();
   useEffect(() => {

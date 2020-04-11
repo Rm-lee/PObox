@@ -36,7 +36,6 @@ function Commands(props) {
     setUpdatedCommandList(
       list.filter(word => word.name.toLowerCase().includes(term.toLowerCase()))
     );
-    console.log(updatedCommandList);
   }
   function searchChange(e) {
     const value = e.target.value;
