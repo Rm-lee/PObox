@@ -17,12 +17,12 @@ import { getInstalledApps, addApp } from "../Actions/index";
 import MessageToast from "../UIElements/MessageToast";
 
 function AddApps(props) {
-  const [searchTerm, setSearchTerm] = useState("");
-
   function appSearch(e, term) {
     props.getInstalledApps(term);
     setSearchTerm(term);
   }
+  const [appName, setAppName] = useState("app");
+  const [searchTerm, setSearchTerm] = useState("");
   const [sortedApps, setSortedApps] = useState();
   const [showMessage, setShowMessage] = useState(false);
   function sortApps() {
@@ -63,9 +63,9 @@ function AddApps(props) {
     <>
       <MessageToast
         close={setShowMessage}
-        messageHeader="Done"
+        messageHeader="Success"
         show={showMessage}
-        messageContent="added app to project linked apps"
+        messageContent={`Added ${appName.toLocaleUpperCase()} to project linked apps`}
       />
 
       <AddAppsForm appSearch={appSearch} />
@@ -90,6 +90,7 @@ function AddApps(props) {
                   <List.Item
                     onClick={() => {
                       addAppToProj(app);
+                      setAppName(app.name);
                       setShowMessage(true);
                     }}
                     key={app.id}
