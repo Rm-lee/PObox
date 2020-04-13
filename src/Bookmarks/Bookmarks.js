@@ -63,13 +63,23 @@ function Bookmarks(props) {
 
   useEffect(() => {
     if (props.bookmarksNoPid) {
+      let marks = [];
       let arr = [{ key: 0, text: "none", value: "none" }];
       props.bookmarksNoPid.forEach((mark, i) => {
-        arr.push({ key: i + 1, text: mark.category, value: mark.category });
+        if (marks.indexOf(mark.category) < 0) {
+          marks.push(mark.category);
+          arr.push({
+            key: mark.category,
+            text: mark.category,
+            value: mark.category
+          });
+        }
       });
+
       setOptions(arr);
     }
   }, [props.bookmarksNoPid]);
+
   const openLink = url => {
     props.openUrl(url);
   };
