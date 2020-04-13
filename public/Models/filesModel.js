@@ -20,16 +20,16 @@ function linkFileToProj(file_id, project_id) {
   return db("file_proj").insert({ file_id, project_id });
 }
 
-//get all bookmarks
-function getAllFiles() {
-  return db("files").select();
-}
+// //get all bookmarks
+// function getAllFilesNoPID() {
+//   return db("files").select();
 // }
-// function getAllAppsWithPid() {
-//     return db("apps as p")
-//     .innerJoin('app_proj as ap','p.id','ap.id')
-//         .select()
 
+function getAllFiles() {
+  return db("files as f")
+    .innerJoin("file_proj as fp", "f.id", "fp.file_id")
+    .select();
+}
 // }
 // function deleteApp(id) {
 //     return db('apps')

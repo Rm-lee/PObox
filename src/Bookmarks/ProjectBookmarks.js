@@ -166,9 +166,9 @@ const ProjectBookmarks = props => {
                 </List.Item>
                 <Divider></Divider>
               </>
-            ))}{" "}
+            ))}
         </List>
-      </div>{" "}
+      </div>
     </>
   );
 };

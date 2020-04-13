@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect } from "react";
 import { dragIn } from "../Utils/DragnDrop";
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
-import { List } from "semantic-ui-react";
+import { List, Divider, Dropdown } from "semantic-ui-react";
 import { openUrl } from "../Actions/index";
 import AddFilesModal from "./AddFilesModal";
 
@@ -24,6 +24,7 @@ function ProjectFiles(props) {
   console.log(props);
 
   useEffect(() => {
+    console.log(props.files);
     setProjFiles(props.files.filter(el => el.project_id === props.obj.id));
   }, [props.files]);
 
@@ -33,18 +34,82 @@ function ProjectFiles(props) {
   }, []);
 
   return (
-    <List id="drag-file-here" ref={dragFRef}>
-      <AddFilesModal
-        noProj={false}
-        projID={props.obj.id}
-        popup="New File"
-        name={"New File"}
-        updateModalopen={setModalOpen}
-        filepath={filePath}
-        modalOpen={modalOpen}
-        itemStyle={itemStyle}
-      />
-    </List>
+    <div
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center"
+      }}
+    >
+      <List id="drag-file-here" style={ListStyle} ref={dragFRef}>
+        <AddFilesModal
+          noProj={false}
+          projID={props.obj.id}
+          popup="New File"
+          name={"New File"}
+          updateModalopen={setModalOpen}
+          filepath={filePath}
+          modalOpen={modalOpen}
+          itemStyle={itemStyle}
+        />
+      </List>
+      <List
+        selection
+        style={{
+          overflowY: "scroll",
+          minHeight: "300px",
+          maxHeight: "300px",
+          width: "90%",
+          paddingTop: "0",
+          marginTop: "0"
+        }}
+      >
+        {projFiles &&
+          projFiles.map((file, index) => (
+            <>
+              <List.Item
+                onClick={() => {
+                  openLink(file.url);
+                }}
+                key={file.id}
+                style={{ fontSize: "1.2rem" }}
+              >
+                <List.Content
+                  style={{
+                    color: "#333333",
+                    width: "100%",
+                    display: "flex",
+                    justifyContent: "space-between"
+                  }}
+                >
+                  {file.name}
+                  <div
+                    style={{
+                      display: "flex",
+                      justifyContent: "space-between",
+                      width: "30%"
+                    }}
+                  >
+                    {/* <Icon
+                        name={file.launch ? "circle" : "ban"}
+                        color={file.launch ? "green" : "red"}
+                      /> */}
+                    <Dropdown icon={{ name: "setting", fontSize: "1.2rem" }}>
+                      <Dropdown.Menu direction="left">
+                        <Dropdown.Item
+                          text="Launch"
+                          onClick={() => openLink(file.file_path)}
+                        />
+                      </Dropdown.Menu>
+                    </Dropdown>
+                  </div>
+                </List.Content>
+              </List.Item>
+              <Divider></Divider>
+            </>
+          ))}
+      </List>
+    </div>
   );
 }
 function mapStateToProps(state) {
