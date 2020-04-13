@@ -8,7 +8,7 @@ export const GETALLSNIPPETS = "GETALLSNIPPETS";
 export const DELETPROJECT = "DELETEPROJECT";
 export const GETALLTODOS = "GETALLTODOS";
 export const GETALLAPPS = "GETALLAPPS";
-export const GETALLFILES = "GETALLFILES";
+
 const ipc = window.require("electron").ipcRenderer;
 
 export function setCurrentProject(proj) {
@@ -187,22 +187,5 @@ export function launchAppInDir(app, path) {
 export function openUrl(url) {
   return dispatch => {
     ipc.send("openLink", url);
-  };
-}
-export function getAllFiles() {
-  ipc.send("getAllFiles");
-  return dispatch => {
-    ipc.on("allFiles", function(event, arg) {
-      dispatch({ type: GETALLFILES, payload: arg });
-    });
-  };
-}
-export function addfile() {
-  ipc.send("addFile");
-
-  return dispatch => {
-    ipc.on("allFiles", function(event, arg) {
-      dispatch({ type: GETALLFILES, payload: arg });
-    });
   };
 }

@@ -9,10 +9,10 @@ module.exports = {
 };
 //add a bookmark to project
 async function addFile(file) {
-  const { name, file_path } = file;
-  const { project_id } = app;
-  const [file_id] = await db("files").insert({ name, file_path });
-  return linkFileToProj(app_id, project_id);
+  const { name, file_path, category } = file;
+  const { project_id } = file;
+  const [file_id] = await db("files").insert({ name, file_path, category });
+  return linkFileToProj(file_id, project_id);
 }
 
 //link a project_id to a app_id
@@ -20,16 +20,16 @@ function linkFileToProj(file_id, project_id) {
   return db("file_proj").insert({ file_id, project_id });
 }
 
-//get all bookmarks
-function getAllFiles() {
-  return db("files").select();
-}
+// //get all bookmarks
+// function getAllFilesNoPID() {
+//   return db("files").select();
 // }
-// function getAllAppsWithPid() {
-//     return db("apps as p")
-//     .innerJoin('app_proj as ap','p.id','ap.id')
-//         .select()
 
+function getAllFiles() {
+  return db("files as f")
+    .innerJoin("file_proj as fp", "f.id", "fp.file_id")
+    .select();
+}
 // }
 // function deleteApp(id) {
 //     return db('apps')

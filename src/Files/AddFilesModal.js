@@ -3,7 +3,7 @@ import { Button, Modal, Form, List, Icon, Popup } from "semantic-ui-react";
 import { useState, useEffect } from "react";
 import { connect } from "react-redux";
 import Styled from "styled-components";
-
+import { addFileToProj, getAllFiles } from "../Actions/addFileActions";
 const DropHere = Styled.div`
 width:90%;
 display:flex;
@@ -31,26 +31,24 @@ border-left:2px solid darkgrey;
 
 `;
 
-const ipc = window.require("electron").ipcRenderer;
 const AddFilesModal = props => {
   const [fileObj, setFileObj] = useState({
     file_path: "",
     name: "",
-    description: "",
     category: "",
     project_id: props.projID
   });
 
-  const addBookMark = () => {
+  const addFile = () => {
     const { file_path, name, description, category } = fileObj;
     const noProjBookObj = { file_path, name, description, category };
 
     if (props.noProj) {
-      props.addBookMark(noProjBookObj);
-      handleClose();
+      // props.addBookMark(noProjBookObj);
+      // handleClose();
     } else {
-      console.log("this on fired on add bookmark modal");
-      props.addBookMarkToProj(fileObj);
+      console.log(fileObj);
+      props.addFileToProj(fileObj);
 
       handleClose();
     }
@@ -65,7 +63,7 @@ const AddFilesModal = props => {
 
   const handleOpen = () => props.updateModalopen(true);
 
-  function bookmarkChange(e) {
+  function fileChange(e) {
     const value = e.target.value;
     setFileObj({
       ...fileObj,
@@ -110,38 +108,30 @@ const AddFilesModal = props => {
         }
         centered={false}
       >
-        <Modal.Header>Add Bookmark Url</Modal.Header>
+        <Modal.Header>Add Resoure</Modal.Header>
         <Modal.Content>
           <Form>
             <Form.Field>
-              <label>Bookmark Name</label>
-              <input placeholder="Name" onChange={bookmarkChange} name="name" />
+              <label>Name</label>
+              <input placeholder="Name" onChange={fileChange} name="name" />
             </Form.Field>
             <Form.Field>
-              <label>Url</label>
+              <label>Location</label>
               <div>
                 <input
                   style={{ width: "80%" }}
                   placeholder="Location"
                   value={fileObj.file_path}
-                  onChange={bookmarkChange}
+                  onChange={fileChange}
                   name="file_path"
                 />
               </div>
             </Form.Field>
             <Form.Field>
-              <label>Description</label>
-              <input
-                placeholder="Description"
-                onChange={bookmarkChange}
-                name="description"
-              />
-            </Form.Field>
-            <Form.Field>
               <label>Category</label>
               <input
                 placeholder="Category"
-                onChange={bookmarkChange}
+                onChange={fileChange}
                 name="category"
               />
             </Form.Field>
@@ -153,16 +143,18 @@ const AddFilesModal = props => {
         <Button
           style={{ float: "right" }}
           onClick={() => {
-            addBookMark();
+            addFile();
           }}
           color="green"
         >
-          Add Bookmark
+          Add Resource
         </Button>
       </Modal>
     );
   }
 };
 // props.addBookMark(projectObj)
-const mapDispatchToProps = {};
+const mapDispatchToProps = {
+  addFileToProj
+};
 export default connect(null, mapDispatchToProps)(AddFilesModal);
