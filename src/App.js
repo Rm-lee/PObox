@@ -11,9 +11,9 @@ import {
   getAllAppsWithPid,
   getInstalledApps,
   getAllCommands,
-  getAllTodos,
-  getAllFiles
+  getAllTodos
 } from "./Actions/index";
+import { getAllFiles } from "./Actions/addFileActions";
 import { withRouter } from "react-router-dom";
 import {
   getAllBookMarksNoPid,

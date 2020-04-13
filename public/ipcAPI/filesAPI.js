@@ -13,6 +13,7 @@ module.exports = {
 //add new file
 function addFileToProj() {
   ipc.on("addFile", async function(event, arg) {
+    console.log(arg);
     await addFile(arg).then(res => {
       getAllFiles().then(result => {
         event.sender.send("allFiles", result);

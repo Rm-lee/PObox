@@ -5,9 +5,9 @@ import {
   GETALLCOMMANDS,
   GETALLAPPS,
   GETALLTODOS,
-  CURRENTPROJ,
-  GETALLFILES
+  CURRENTPROJ
 } from "../Actions/index.js";
+import { GETALLFILES } from "../Actions/addFileActions";
 import {
   GETALLBOOKMARKS,
   GETALLBOOKMARKSNOPID,

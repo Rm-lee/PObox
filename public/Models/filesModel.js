@@ -9,10 +9,10 @@ module.exports = {
 };
 //add a bookmark to project
 async function addFile(file) {
-  const { name, file_path } = file;
-  const { project_id } = app;
-  const [file_id] = await db("files").insert({ name, file_path });
-  return linkFileToProj(app_id, project_id);
+  const { name, file_path, category } = file;
+  const { project_id } = file;
+  const [file_id] = await db("files").insert({ name, file_path, category });
+  return linkFileToProj(file_id, project_id);
 }
 
 //link a project_id to a app_id
