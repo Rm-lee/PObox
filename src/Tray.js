@@ -8,7 +8,7 @@ import Project from "./Projects/Project";
 import Commands from "./Commands/Commands";
 import Snippets from "./Snippets/Snippets";
 import Bookmarks from "./Bookmarks/Bookmarks";
-
+import Files from "./Files/Files";
 const TrayContainer = Styled.div`
 width:100%;
 display:flex;
@@ -25,6 +25,7 @@ const Tray = () => {
         <Route exact path="/commands" component={Commands} />
         <Route exact path="/snippets" component={Snippets} />
         <Route exact path="/projects/:name" component={Project} />
+        <Route exact path="/files" component={Files} />
       </div>
     </TrayContainer>
   );
