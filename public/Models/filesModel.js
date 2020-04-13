@@ -7,7 +7,7 @@ module.exports = {
   // deleteApp,
   // updateApp,
 };
-//add a bookmark to project
+//add a fileResource to project
 async function addFile(file) {
   const { name, file_path, category } = file;
   const { project_id } = file;
@@ -15,7 +15,7 @@ async function addFile(file) {
   return linkFileToProj(file_id, project_id);
 }
 
-//link a project_id to a app_id
+//link a project_id to a file_id
 function linkFileToProj(file_id, project_id) {
   return db("file_proj").insert({ file_id, project_id });
 }
