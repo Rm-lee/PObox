@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import BreadCrumbs from "../UIElements/BreadCrumbs";
 import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
@@ -11,6 +11,7 @@ import {
   List,
   Icon,
   Form,
+  Dropdown,
   Popup,
   Label,
   Button
@@ -29,9 +30,37 @@ function Commands(props) {
     // display: "flex",
     // justifyContent: "center"
   };
+  const [options, setOptions] = useState([]);
   const [updatedCommandList, setUpdatedCommandList] = useState(props.commands);
   const [searchTerm, setTerm] = useState("");
+  const dropChange = (event, { value }) => {
+    setUpdatedCommandList(
+      props.commands.filter(word =>
+        word.category.toLowerCase().includes(event.target.textContent)
+      )
+    );
+    if (event.target.textContent === "none") {
+      setUpdatedCommandList(props.commands);
+    }
+  };
+  useEffect(() => {
+    if (props.commands) {
+      let comms = [];
+      let arr = [{ key: 0, text: "none", value: "none" }];
+      props.commands.forEach((command, i) => {
+        if (comms.indexOf(command.category) < 0) {
+          comms.push(command.category);
+          arr.push({
+            key: i + 1,
+            text: command.category,
+            value: command.category
+          });
+        }
+      });
 
+      setOptions(arr);
+    }
+  }, [props.bookmarksNoPid]);
   function nameSearch(e, term, list) {
     setUpdatedCommandList(
       list.filter(word => word.name.toLowerCase().includes(term.toLowerCase()))
@@ -57,7 +86,7 @@ function Commands(props) {
           <Form
             style={{
               display: "flex",
-              justifyContent: "center",
+              justifyContent: "space-around",
               width: "90%",
               margin: " "
             }}
@@ -66,9 +95,18 @@ function Commands(props) {
               nameSearch(e, searchTerm, props.commands);
             }}
           >
+            <Dropdown
+              search
+              selection
+              searchInput={{ type: "text" }}
+              options={options}
+              placeholder="Category"
+              onChange={dropChange}
+              style={{ width: "40%" }}
+            />
             <Input
               type="text"
-              style={{ width: "90%" }}
+              style={{ width: "40%" }}
               size="mini"
               icon={
                 <button

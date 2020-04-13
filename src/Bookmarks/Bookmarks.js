@@ -79,6 +79,7 @@ function Bookmarks(props) {
       setOptions(arr);
     }
   }, [props.bookmarksNoPid]);
+
   const openLink = url => {
     props.openUrl(url);
   };
