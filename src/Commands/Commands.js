@@ -3,6 +3,7 @@ import BreadCrumbs from "../UIElements/BreadCrumbs";
 import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 import Styled from "styled-components";
+import { filterCategory } from "../Utils/Utilities";
 import "./command.css";
 import {
   Input,
@@ -45,20 +46,7 @@ function Commands(props) {
   };
   useEffect(() => {
     if (props.commands) {
-      let comms = [];
-      let arr = [{ key: 0, text: "none", value: "none" }];
-      props.commands.forEach((command, i) => {
-        if (comms.indexOf(command.category) < 0) {
-          comms.push(command.category);
-          arr.push({
-            key: i + 1,
-            text: command.category,
-            value: command.category
-          });
-        }
-      });
-
-      setOptions(arr);
+      setOptions(filterCategory(props.commands));
     }
   }, [props.bookmarksNoPid]);
   function nameSearch(e, term, list) {

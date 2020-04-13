@@ -8,6 +8,7 @@ import {
   addBookMark,
   getAllBookMarksNoPid
 } from "../Actions/bookmarkActions";
+import { filterCategory } from "../Utils/Utilities";
 import { openUrl } from "../Actions/index";
 import AddBookmarkModal from "./AddBookmarkModal";
 import {
@@ -63,20 +64,7 @@ function Bookmarks(props) {
 
   useEffect(() => {
     if (props.bookmarksNoPid) {
-      let marks = [];
-      let arr = [{ key: 0, text: "none", value: "none" }];
-      props.bookmarksNoPid.forEach((mark, i) => {
-        if (marks.indexOf(mark.category) < 0) {
-          marks.push(mark.category);
-          arr.push({
-            key: mark.category,
-            text: mark.category,
-            value: mark.category
-          });
-        }
-      });
-
-      setOptions(arr);
+      setOptions(filterCategory(props.bookmarksNoPid));
     }
   }, [props.bookmarksNoPid]);
 
