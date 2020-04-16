@@ -4,6 +4,7 @@ import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 import Styled from "styled-components";
 import { filterCategory } from "../Utils/Utilities";
+import "./File.css";
 import {
   Input,
   Header,
@@ -17,6 +18,8 @@ import {
   Button
 } from "semantic-ui-react";
 const FileContainer = Styled.div`
+    display:flex;
+    flex-direction:column;
     padding:10px;
     border-radius:2px;
     align-items:center;
@@ -24,7 +27,8 @@ const FileContainer = Styled.div`
     width:90px;
     overflow-wrap: break-word;
     align-content:center;
-    height:90px;
+    min-height:80px;
+    
     &:hover{
         cursor:pointer;
         background:lightgrey;
@@ -37,7 +41,7 @@ function Files(props) {
     width: "100%",
     paddingTop: "15px"
   };
-
+  const [shortName, setShortName] = useState(true);
   const [options, setOptions] = useState([]);
   const [updatedCommandList, setUpdatedCommandList] = useState(props.files);
   const [searchTerm, setTerm] = useState("");
@@ -67,6 +71,24 @@ function Files(props) {
     setTerm(value);
   }
 
+  //maybe use onMouseOver to create an after psuedo element to house filename below icon
+  function nameShorten(id, contName, fName) {
+    const tagFileName = document.querySelector(`#${id}`);
+    const fileCont = document.querySelector(`#${contName}`);
+    fileCont.classList.remove("fileContainer");
+    tagFileName.classList.add("fileShortName");
+    tagFileName.classList.remove("fileLongName");
+    tagFileName.innerHTML =
+      fName.length > 10 ? fName.substring(0, 10) + "..." : fName;
+  }
+  function displayFullName(id, contName, fName) {
+    const tagFileName = document.querySelector(`#${id}`);
+    const fileCont = document.querySelector(`#${contName}`);
+    fileCont.classList.add("fileContainer");
+    tagFileName.classList.remove("fileShortName");
+    tagFileName.classList.add("fileLongName");
+    tagFileName.innerHTML = fName;
+  }
   return (
     <>
       <List style={ListStyle} selection verticalAlign="middle" size="big">
@@ -115,17 +137,32 @@ function Files(props) {
       </List>
       <div style={{ display: "flex", flexDirection: "wrap" }}>
         {updatedCommandList &&
-          updatedCommandList.map(file => (
-            <FileContainer key={file.name}>
-              <Icon size="big" name="file" />
-
-              <p style={{ color: "darkslategrey", fontSize: "1rem" }}>
-                {file.name}
+          updatedCommandList.map((file, i) => (
+            <FileContainer
+              id={"container" + i}
+              key={file.name}
+              onMouseOver={() => {
+                displayFullName("file" + i, "container" + i, file.name);
+              }}
+              onMouseOut={() => {
+                nameShorten("file" + i, "container" + i, file.name);
+              }}
+            >
+              <Icon size="big" color="grey" name="file" />
+              <p
+                id={"file" + i}
+                style={{
+                  textAlign: "center",
+                  width: "100%",
+                  color: "darkslategrey",
+                  fontSize: ".9rem"
+                }}
+              >
+                {shortName && file.name.length > 10
+                  ? file.name.substring(0, 10) + "..."
+                  : file.name}
+                {!shortName && file.name}
               </p>
-
-              <div style={{ display: "flex" }}>
-                <p as="h4" style={{ color: "tomato" }}></p>
-              </div>
             </FileContainer>
           ))}
       </div>
