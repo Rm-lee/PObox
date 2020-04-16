@@ -27,11 +27,10 @@ const FileContainer = Styled.div`
     width:90px;
     overflow-wrap: break-word;
     align-content:center;
-    min-height:80px;
+    min-height:90px;
     
     &:hover{
         cursor:pointer;
-        background:lightgrey;
     }
 `;
 function Files(props) {
@@ -87,7 +86,7 @@ function Files(props) {
     fileCont.classList.add("fileContainer");
     tagFileName.classList.remove("fileShortName");
     tagFileName.classList.add("fileLongName");
-    tagFileName.innerHTML = fName;
+    tagFileName.innerHTML = "";
   }
   return (
     <>
@@ -135,11 +134,19 @@ function Files(props) {
           <Header as="h4">Files</Header>
         </Divider>
       </List>
-      <div style={{ display: "flex", flexDirection: "wrap" }}>
+      <div
+        style={{
+          width: "100%",
+          display: "flex",
+          flexDirection: "row",
+          flexWrap: "wrap"
+        }}
+      >
         {updatedCommandList &&
           updatedCommandList.map((file, i) => (
             <FileContainer
               id={"container" + i}
+              className="fileContainer"
               key={file.name}
               onMouseOver={() => {
                 displayFullName("file" + i, "container" + i, file.name);
@@ -147,6 +154,7 @@ function Files(props) {
               onMouseOut={() => {
                 nameShorten("file" + i, "container" + i, file.name);
               }}
+              data-hover={file.name}
             >
               <Icon size="big" color="grey" name="file" />
               <p

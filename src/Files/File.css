@@ -7,3 +7,12 @@
 }
 .fileContainer {
 }
+.fileContainer:hover:after {
+  content: attr(data-hover);
+  position: absolute;
+  margin-top: 60px;
+  height: 100px;
+  text-align: center;
+  width: 120px;
+  padding: 5px;
+}
