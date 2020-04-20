@@ -18,3 +18,11 @@ export function getAllFiles() {
     });
   };
 }
+export function updateFile(id, file) {
+  ipc.send("updateFile", id, file);
+  return dispatch => {
+    ipc.on("fileUpdated", function(event, arg) {
+      dispatch({ type: GETALLFILES, payload: arg });
+    });
+  };
+}

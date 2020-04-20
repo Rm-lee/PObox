@@ -2,6 +2,7 @@ import React, { useState, useRef, useEffect } from "react";
 import { dragIn } from "../Utils/DragnDrop";
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
+import { updateFile } from "../Actions/addFileActions";
 import { List, Divider, Icon, Dropdown, Popup } from "semantic-ui-react";
 import { openUrl } from "../Actions/index";
 import AddFilesModal from "./AddFilesModal";
@@ -32,7 +33,19 @@ function ProjectFiles(props) {
     if (dragFRef.current !== null)
       dragIn(dragFRef.current, setFilePath, setModalOpen, false);
   }, []);
+  const setLaunch = file => {
+    const launchUpdate = { ...file, launch: true };
 
+    props.updateFile(file.id, launchUpdate);
+  };
+  const disableLaunch = file => {
+    const launchUpdate = {
+      ...file,
+      launch: false
+    };
+
+    props.updateFile(file.id, launchUpdate);
+  };
   return (
     <div
       style={{
@@ -112,6 +125,20 @@ function ProjectFiles(props) {
                           text="Launch"
                           onClick={() => openLink(file.file_path)}
                         />
+                        <Dropdown.Item
+                          text="Set Auto Launch"
+                          onClick={() => setLaunch(file)}
+                        />
+                        <Dropdown.Item
+                          text="Disable Auto Launch"
+                          onClick={() => disableLaunch(file)}
+                        />
+                        <Dropdown.Item
+                          text="remove"
+                          onClick={() =>
+                            alert("needs delete function and model")
+                          }
+                        />
                       </Dropdown.Menu>
                     </Dropdown>
                   </div>
@@ -130,7 +157,8 @@ function mapStateToProps(state) {
   };
 }
 const mapDispatchToProps = {
-  openUrl: openUrl
+  openUrl: openUrl,
+  updateFile: updateFile
 };
 export default withRouter(
   connect(mapStateToProps, mapDispatchToProps)(ProjectFiles)

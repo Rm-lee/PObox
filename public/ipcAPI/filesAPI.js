@@ -7,7 +7,8 @@ const { addFile, getAllFiles } = require(path.join(
 ));
 module.exports = {
   addFileToProj,
-  getAllFilesForProj
+  getAllFilesForProj,
+  updateFileFunc
 };
 
 //add new file
@@ -26,6 +27,15 @@ function getAllFilesForProj() {
   ipc.on("getAllFiles", async function(event, arg) {
     getAllFiles().then(result => {
       event.sender.send("allFiles", result);
+    });
+  });
+}
+function updateFileFunc() {
+  ipc.on("updateFile", async function(event, id, file) {
+    await updateApp(id, file).then(result => {
+      getAllFiles().then(result => {
+        event.sender.send("fileUpdated", result);
+      });
     });
   });
 }

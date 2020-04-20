@@ -2,7 +2,8 @@ const db = require("../data/db");
 
 module.exports = {
   addFile,
-  getAllFiles
+  getAllFiles,
+  updateFile
   // getAllAppsWithPid,
   // deleteApp,
   // updateApp,
@@ -30,6 +31,13 @@ function getAllFiles() {
     .innerJoin("file_proj as fp", "f.id", "fp.file_id")
     .select();
 }
+
+function updateFile(id, file) {
+  return db("files")
+    .where("id", id)
+    .update(file);
+}
+
 // }
 // function deleteApp(id) {
 //     return db('apps')
