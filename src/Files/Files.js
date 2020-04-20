@@ -34,8 +34,6 @@ const FileContainer = Styled.div`
     }
 `;
 function Files(props) {
-  const [isHidden, setIsHidden] = useState(true);
-  let crumbs = props.location.pathname.split("/");
   const ListStyle = {
     width: "100%",
     paddingTop: "15px"
@@ -75,18 +73,17 @@ function Files(props) {
     const tagFileName = document.querySelector(`#${id}`);
     const fileCont = document.querySelector(`#${contName}`);
     fileCont.classList.remove("fileContainer");
-    tagFileName.classList.add("fileShortName");
-    tagFileName.classList.remove("fileLongName");
     tagFileName.innerHTML =
-      fName.length > 10 ? fName.substring(0, 10) + "..." : fName;
+      fName.length > 9 ? fName.substring(0, 8) + "..." : fName;
+    tagFileName.style.color = "#333";
   }
   function displayFullName(id, contName, fName) {
     const tagFileName = document.querySelector(`#${id}`);
     const fileCont = document.querySelector(`#${contName}`);
     fileCont.classList.add("fileContainer");
-    tagFileName.classList.remove("fileShortName");
-    tagFileName.classList.add("fileLongName");
-    tagFileName.innerHTML = "";
+    tagFileName.innerHTML =
+      fName.length > 9 ? fName.substring(0, 8) + "..." : fName;
+    tagFileName.style.color = "white";
   }
   return (
     <>
@@ -148,13 +145,13 @@ function Files(props) {
               id={"container" + i}
               className="fileContainer"
               key={file.name}
-              onMouseOver={() => {
+              data-hover={file.name}
+              onMouseEnter={() => {
                 displayFullName("file" + i, "container" + i, file.name);
               }}
-              onMouseOut={() => {
+              onMouseLeave={() => {
                 nameShorten("file" + i, "container" + i, file.name);
               }}
-              data-hover={file.name}
             >
               <Icon size="big" color="grey" name="file" />
               <p
@@ -166,8 +163,8 @@ function Files(props) {
                   fontSize: ".9rem"
                 }}
               >
-                {shortName && file.name.length > 10
-                  ? file.name.substring(0, 10) + "..."
+                {shortName && file.name.length > 9
+                  ? file.name.substring(0, 8) + "..."
                   : file.name}
                 {!shortName && file.name}
               </p>

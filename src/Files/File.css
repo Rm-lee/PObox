@@ -1,18 +1,13 @@
-.fileShortName {
-}
-.fileLongName {
-  position: absolute;
-  margin-top: 30px;
-  width: 20% !important;
-}
-.fileContainer {
-}
 .fileContainer:hover:after {
   content: attr(data-hover);
+  color: #333;
   position: absolute;
-  margin-top: 60px;
-  height: 100px;
+  margin-top: 7px;
+  height: auto;
   text-align: center;
-  width: 120px;
-  padding: 5px;
+  transform: translate(0, 50%);
+  width: 100px;
+  background: rgb(107, 172, 184);
+  border-radius: 2px;
+  padding: 0 5px;
 }

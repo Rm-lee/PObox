@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect } from "react";
 import { dragIn } from "../Utils/DragnDrop";
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
-import { List, Divider, Dropdown } from "semantic-ui-react";
+import { List, Divider, Icon, Dropdown, Popup } from "semantic-ui-react";
 import { openUrl } from "../Actions/index";
 import AddFilesModal from "./AddFilesModal";
 
@@ -72,28 +72,40 @@ function ProjectFiles(props) {
                   openLink(file.url);
                 }}
                 key={file.id}
-                style={{ fontSize: "1.2rem" }}
+                style={{ fontSize: "1.1rem" }}
               >
                 <List.Content
                   style={{
                     color: "#333333",
                     width: "100%",
                     display: "flex",
-                    justifyContent: "space-between"
+                    justifyContent: "space-between",
+                    alignItems: "center"
                   }}
                 >
-                  {file.name}
+                  <Popup
+                    content={file.name}
+                    trigger={
+                      <p style={{ margin: 0 }}>
+                        {file.name.length > 25
+                          ? file.name.substring(0, 24) + "..."
+                          : file.name}
+                      </p>
+                    }
+                    basic
+                    inverted
+                  />{" "}
                   <div
                     style={{
                       display: "flex",
-                      justifyContent: "space-between",
+                      justifyContent: "flex-end",
                       width: "30%"
                     }}
                   >
-                    {/* <Icon
-                        name={file.launch ? "circle" : "ban"}
-                        color={file.launch ? "green" : "red"}
-                      /> */}
+                    <Icon
+                      name={file.launch ? "circle" : "ban"}
+                      color={file.launch ? "green" : "red"}
+                    />
                     <Dropdown icon={{ name: "setting", fontSize: "1.2rem" }}>
                       <Dropdown.Menu direction="left">
                         <Dropdown.Item
@@ -105,7 +117,7 @@ function ProjectFiles(props) {
                   </div>
                 </List.Content>
               </List.Item>
-              <Divider></Divider>
+              <Divider style={{ margin: "5px 0" }}></Divider>
             </>
           ))}
       </List>
