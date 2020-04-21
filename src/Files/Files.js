@@ -3,6 +3,7 @@ import BreadCrumbs from "../UIElements/BreadCrumbs";
 import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 import Styled from "styled-components";
+import { openUrl } from "../Actions/index";
 import { filterCategory } from "../Utils/Utilities";
 import "./File.css";
 import {
@@ -40,17 +41,28 @@ function Files(props) {
   };
   const [shortName, setShortName] = useState(true);
   const [options, setOptions] = useState([]);
-  const [updatedCommandList, setUpdatedCommandList] = useState(props.files);
+  const [updatedFileList, setUpdatedFileList] = useState(props.files);
   const [searchTerm, setTerm] = useState("");
-
+  const iconOptions = {
+    png: "file image outline",
+    pdf: "file pdf outline",
+    txt: "file text outlie",
+    jpg: "file image outline",
+    JPG: "file image outline",
+    jpeg: "file image outline",
+    mov: "file video",
+    mp4: "file video",
+    flv: "file video",
+    avi: "file video"
+  };
   const dropChange = (event, { value }) => {
-    setUpdatedCommandList(
+    setUpdatedFileList(
       props.files.filter(word =>
         word.category.toLowerCase().includes(event.target.textContent)
       )
     );
     if (event.target.textContent === "none") {
-      setUpdatedCommandList(props.files);
+      setUpdatedFileList(props.files);
     }
   };
   useEffect(() => {
@@ -59,7 +71,7 @@ function Files(props) {
     }
   }, [props.files]);
   function nameSearch(e, term, list) {
-    setUpdatedCommandList(
+    setUpdatedFileList(
       list.filter(word => word.name.toLowerCase().includes(term.toLowerCase()))
     );
   }
@@ -68,7 +80,6 @@ function Files(props) {
     setTerm(value);
   }
 
-  //maybe use onMouseOver to create an after psuedo element to house filename below icon
   function nameShorten(id, contName, fName) {
     const tagFileName = document.querySelector(`#${id}`);
     const fileCont = document.querySelector(`#${contName}`);
@@ -139,9 +150,10 @@ function Files(props) {
           flexWrap: "wrap"
         }}
       >
-        {updatedCommandList &&
-          updatedCommandList.map((file, i) => (
+        {updatedFileList &&
+          updatedFileList.map((file, i) => (
             <FileContainer
+              onClick={() => props.openUrl(file.file_path)}
               id={"container" + i}
               className="fileContainer"
               key={file.name}
@@ -153,7 +165,15 @@ function Files(props) {
                 nameShorten("file" + i, "container" + i, file.name);
               }}
             >
-              <Icon size="big" color="grey" name="file" />
+              <Icon
+                size="big"
+                color="grey"
+                name={
+                  iconOptions[
+                    file.name.slice(file.name.lastIndexOf(".") + 1)
+                  ] || "file"
+                }
+              />
               <p
                 id={"file" + i}
                 style={{
@@ -180,5 +200,7 @@ function mapStateToProps(state) {
     files: state.files
   };
 }
-const mapDispatchToProps = {};
+const mapDispatchToProps = {
+  openUrl: openUrl
+};
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Files));
