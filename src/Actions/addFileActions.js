@@ -2,6 +2,7 @@ export const GETALLFILES = "GETALLFILES";
 const ipc = window.require("electron").ipcRenderer;
 
 export function addFileToProj(file) {
+  console.log(file);
   ipc.send("addFile", file);
 
   return dispatch => {
@@ -17,4 +18,12 @@ export function getAllFiles() {
       dispatch({ type: GETALLFILES, payload: arg });
     });
   };
+}
+export function updateFile(id, file) {
+  ipc.send("updateFile", id, file);
+  return dispatch => {};
+}
+export function deleteFile(fileId) {
+  ipc.send("deleteFile", fileId);
+  return dispatch => {};
 }

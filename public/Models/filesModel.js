@@ -2,9 +2,9 @@ const db = require("../data/db");
 
 module.exports = {
   addFile,
-  getAllFiles
-  // getAllAppsWithPid,
-  // deleteApp,
+  getAllFiles,
+  updateFile,
+  deleteFileModel
   // updateApp,
 };
 //add a fileResource to project
@@ -30,12 +30,19 @@ function getAllFiles() {
     .innerJoin("file_proj as fp", "f.id", "fp.file_id")
     .select();
 }
-// }
-// function deleteApp(id) {
-//     return db('apps')
-//         .where({ id })
-//         .del()
-//   }
+
+function updateFile(id, file) {
+  const { name, file_path, launch } = file;
+  return db("files")
+    .where("id", id)
+    .update({ name, file_path, launch });
+}
+
+function deleteFileModel(id) {
+  return db("files")
+    .where({ id })
+    .del();
+}
 //   function updateApp(id,app){
 //       console.log(app)
 //       const {name, app_path, launch} = app

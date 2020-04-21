@@ -34,6 +34,10 @@ exports.up = async function(knex) {
       .string("file_path")
       .unique()
       .notNullable();
+    fil
+      .boolean("launch")
+      .defaultTo(false)
+      .notNullable();
   });
   await knex.schema.createTable("apps", app => {
     app.increments("id");

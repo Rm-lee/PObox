@@ -2,7 +2,8 @@ import React, { useState, useRef, useEffect } from "react";
 import { dragIn } from "../Utils/DragnDrop";
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
-import { List, Divider, Dropdown } from "semantic-ui-react";
+import { updateFile, deleteFile } from "../Actions/addFileActions";
+import { List, Divider, Icon, Dropdown, Popup } from "semantic-ui-react";
 import { openUrl } from "../Actions/index";
 import AddFilesModal from "./AddFilesModal";
 
@@ -32,7 +33,19 @@ function ProjectFiles(props) {
     if (dragFRef.current !== null)
       dragIn(dragFRef.current, setFilePath, setModalOpen, false);
   }, []);
+  const setLaunch = file => {
+    const launchUpdate = { ...file, launch: true };
 
+    props.updateFile(file.id, launchUpdate);
+  };
+  const disableLaunch = file => {
+    const launchUpdate = {
+      ...file,
+      launch: false
+    };
+
+    props.updateFile(file.id, launchUpdate);
+  };
   return (
     <div
       style={{
@@ -72,40 +85,70 @@ function ProjectFiles(props) {
                   openLink(file.url);
                 }}
                 key={file.id}
-                style={{ fontSize: "1.2rem" }}
+                style={{ fontSize: "1.1rem", padding: 0 }}
               >
                 <List.Content
                   style={{
                     color: "#333333",
                     width: "100%",
                     display: "flex",
-                    justifyContent: "space-between"
+                    justifyContent: "space-between",
+                    alignItems: "center"
                   }}
                 >
-                  {file.name}
+                  <Popup
+                    content={file.name}
+                    trigger={
+                      <p style={{ margin: 0, width: "70%" }}>
+                        {file.name.length > 20
+                          ? file.name.substring(0, 17) + "..."
+                          : file.name}
+                      </p>
+                    }
+                    basic
+                    inverted
+                  />
                   <div
                     style={{
+                      padding: "10px 5px",
+                      height: "100%",
+                      margin: 0,
                       display: "flex",
                       justifyContent: "space-between",
                       width: "30%"
                     }}
                   >
-                    {/* <Icon
-                        name={file.launch ? "circle" : "ban"}
-                        color={file.launch ? "green" : "red"}
-                      /> */}
-                    <Dropdown icon={{ name: "setting", fontSize: "1.2rem" }}>
+                    <Icon
+                      name={file.launch ? "circle" : "ban"}
+                      color={file.launch ? "green" : "red"}
+                    />
+                    <Dropdown
+                      style={{ fontSize: "1.3rem" }}
+                      icon={{ name: "setting" }}
+                    >
                       <Dropdown.Menu direction="left">
                         <Dropdown.Item
                           text="Launch"
                           onClick={() => openLink(file.file_path)}
+                        />
+                        <Dropdown.Item
+                          text="Set Auto Launch"
+                          onClick={() => setLaunch(file)}
+                        />
+                        <Dropdown.Item
+                          text="Disable Auto Launch"
+                          onClick={() => disableLaunch(file)}
+                        />
+                        <Dropdown.Item
+                          text="remove"
+                          onClick={() => deleteFile(file.id)}
                         />
                       </Dropdown.Menu>
                     </Dropdown>
                   </div>
                 </List.Content>
               </List.Item>
-              <Divider></Divider>
+              <Divider style={{ margin: "5px 0" }}></Divider>
             </>
           ))}
       </List>
@@ -118,7 +161,9 @@ function mapStateToProps(state) {
   };
 }
 const mapDispatchToProps = {
-  openUrl: openUrl
+  openUrl: openUrl,
+  updateFile: updateFile,
+  deleteFile: deleteFile
 };
 export default withRouter(
   connect(mapStateToProps, mapDispatchToProps)(ProjectFiles)

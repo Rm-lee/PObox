@@ -3,7 +3,9 @@ import BreadCrumbs from "../UIElements/BreadCrumbs";
 import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 import Styled from "styled-components";
+import { openUrl } from "../Actions/index";
 import { filterCategory } from "../Utils/Utilities";
+import "./File.css";
 import {
   Input,
   Header,
@@ -17,6 +19,8 @@ import {
   Button
 } from "semantic-ui-react";
 const FileContainer = Styled.div`
+    display:flex;
+    flex-direction:column;
     padding:10px;
     border-radius:2px;
     align-items:center;
@@ -24,32 +28,41 @@ const FileContainer = Styled.div`
     width:90px;
     overflow-wrap: break-word;
     align-content:center;
-    height:90px;
+    min-height:90px;
+    
     &:hover{
         cursor:pointer;
-        background:lightgrey;
     }
 `;
 function Files(props) {
-  const [isHidden, setIsHidden] = useState(true);
-  let crumbs = props.location.pathname.split("/");
   const ListStyle = {
     width: "100%",
     paddingTop: "15px"
   };
-
+  const [shortName, setShortName] = useState(true);
   const [options, setOptions] = useState([]);
-  const [updatedCommandList, setUpdatedCommandList] = useState(props.files);
+  const [updatedFileList, setUpdatedFileList] = useState(props.files);
   const [searchTerm, setTerm] = useState("");
-
+  const iconOptions = {
+    png: "file image outline",
+    pdf: "file pdf outline",
+    txt: "file text outlie",
+    jpg: "file image outline",
+    JPG: "file image outline",
+    jpeg: "file image outline",
+    mov: "file video",
+    mp4: "file video",
+    flv: "file video",
+    avi: "file video"
+  };
   const dropChange = (event, { value }) => {
-    setUpdatedCommandList(
+    setUpdatedFileList(
       props.files.filter(word =>
         word.category.toLowerCase().includes(event.target.textContent)
       )
     );
     if (event.target.textContent === "none") {
-      setUpdatedCommandList(props.files);
+      setUpdatedFileList(props.files);
     }
   };
   useEffect(() => {
@@ -58,7 +71,7 @@ function Files(props) {
     }
   }, [props.files]);
   function nameSearch(e, term, list) {
-    setUpdatedCommandList(
+    setUpdatedFileList(
       list.filter(word => word.name.toLowerCase().includes(term.toLowerCase()))
     );
   }
@@ -67,6 +80,22 @@ function Files(props) {
     setTerm(value);
   }
 
+  function nameShorten(id, contName, fName) {
+    const tagFileName = document.querySelector(`#${id}`);
+    const fileCont = document.querySelector(`#${contName}`);
+    fileCont.classList.remove("fileContainer");
+    tagFileName.innerHTML =
+      fName.length > 9 ? fName.substring(0, 8) + "..." : fName;
+    tagFileName.style.color = "#333";
+  }
+  function displayFullName(id, contName, fName) {
+    const tagFileName = document.querySelector(`#${id}`);
+    const fileCont = document.querySelector(`#${contName}`);
+    fileCont.classList.add("fileContainer");
+    tagFileName.innerHTML =
+      fName.length > 9 ? fName.substring(0, 8) + "..." : fName;
+    tagFileName.style.color = "white";
+  }
   return (
     <>
       <List style={ListStyle} selection verticalAlign="middle" size="big">
@@ -113,19 +142,52 @@ function Files(props) {
           <Header as="h4">Files</Header>
         </Divider>
       </List>
-      <div style={{ display: "flex", flexDirection: "wrap" }}>
-        {updatedCommandList &&
-          updatedCommandList.map(file => (
-            <FileContainer key={file.name}>
-              <Icon size="big" name="file" />
-
-              <p style={{ color: "darkslategrey", fontSize: "1rem" }}>
-                {file.name}
+      <div
+        style={{
+          width: "100%",
+          display: "flex",
+          flexDirection: "row",
+          flexWrap: "wrap"
+        }}
+      >
+        {updatedFileList &&
+          updatedFileList.map((file, i) => (
+            <FileContainer
+              onClick={() => props.openUrl(file.file_path)}
+              id={"container" + i}
+              className="fileContainer"
+              key={file.name}
+              data-hover={file.name}
+              onMouseEnter={() => {
+                displayFullName("file" + i, "container" + i, file.name);
+              }}
+              onMouseLeave={() => {
+                nameShorten("file" + i, "container" + i, file.name);
+              }}
+            >
+              <Icon
+                size="big"
+                color="grey"
+                name={
+                  iconOptions[
+                    file.name.slice(file.name.lastIndexOf(".") + 1)
+                  ] || "file"
+                }
+              />
+              <p
+                id={"file" + i}
+                style={{
+                  textAlign: "center",
+                  width: "100%",
+                  color: "darkslategrey",
+                  fontSize: ".9rem"
+                }}
+              >
+                {shortName && file.name.length > 9
+                  ? file.name.substring(0, 8) + "..."
+                  : file.name}
+                {!shortName && file.name}
               </p>
-
-              <div style={{ display: "flex" }}>
-                <p as="h4" style={{ color: "tomato" }}></p>
-              </div>
             </FileContainer>
           ))}
       </div>
@@ -138,5 +200,7 @@ function mapStateToProps(state) {
     files: state.files
   };
 }
-const mapDispatchToProps = {};
+const mapDispatchToProps = {
+  openUrl: openUrl
+};
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Files));
