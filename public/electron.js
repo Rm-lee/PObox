@@ -39,10 +39,12 @@ const {
   deleteBookmark,
   updateBookmark
 } = require(path.join(__dirname, "./ipcAPI/bookMarkAPI"));
-const { addFileToProj, getAllFilesForProj } = require(path.join(
-  __dirname,
-  "./ipcAPI/filesAPI"
-));
+const {
+  addFileToProj,
+  deleteFileAPI,
+  getAllFilesForProj,
+  updateFileFunc
+} = require(path.join(__dirname, "./ipcAPI/filesAPI"));
 const { addSnippetAPI, getSnippetsAPI, deleteSnippetAPI } = require(path.join(
   __dirname,
   "./ipcAPI/snippetAPI"
@@ -241,6 +243,8 @@ updateBookmark();
 //files ipc APIs
 addFileToProj();
 getAllFilesForProj();
+updateFileFunc();
+deleteFileAPI();
 
 //snippet ipc APIs
 addSnippetAPI();

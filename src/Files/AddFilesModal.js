@@ -40,15 +40,22 @@ const AddFilesModal = props => {
   });
 
   const addFile = () => {
-    const { file_path, name, description, category } = fileObj;
-    const noProjBookObj = { file_path, name, description, category };
+    let fileName = fileObj.file_path;
+    let nameStart;
+    if (fileName.lastIndexOf("\\") > -1) {
+      nameStart = fileName.lastIndexOf("\\") + 1;
+    } else {
+      nameStart = fileName.lastIndexOf("/") + 1;
+    }
+    let name = fileName.slice(nameStart);
+    const { file_path, category, project_id } = fileObj;
+    const noProjBookObj = { file_path, name, category };
 
     if (props.noProj) {
       // props.addBookMark(noProjBookObj);
       // handleClose();
     } else {
-      console.log(fileObj);
-      props.addFileToProj(fileObj);
+      props.addFileToProj({ file_path, name, project_id, category });
 
       handleClose();
     }
@@ -111,10 +118,10 @@ const AddFilesModal = props => {
         <Modal.Header>Add Resoure</Modal.Header>
         <Modal.Content>
           <Form>
-            <Form.Field>
+            {/* <Form.Field>
               <label>Name</label>
               <input placeholder="Name" onChange={fileChange} name="name" />
-            </Form.Field>
+            </Form.Field> */}
             <Form.Field>
               <label>Location</label>
               <div>

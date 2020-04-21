@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect } from "react";
 import { dragIn } from "../Utils/DragnDrop";
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
-import { updateFile } from "../Actions/addFileActions";
+import { updateFile, deleteFile } from "../Actions/addFileActions";
 import { List, Divider, Icon, Dropdown, Popup } from "semantic-ui-react";
 import { openUrl } from "../Actions/index";
 import AddFilesModal from "./AddFilesModal";
@@ -85,7 +85,7 @@ function ProjectFiles(props) {
                   openLink(file.url);
                 }}
                 key={file.id}
-                style={{ fontSize: "1.1rem" }}
+                style={{ fontSize: "1.1rem", padding: 0 }}
               >
                 <List.Content
                   style={{
@@ -99,19 +99,22 @@ function ProjectFiles(props) {
                   <Popup
                     content={file.name}
                     trigger={
-                      <p style={{ margin: 0 }}>
-                        {file.name.length > 25
-                          ? file.name.substring(0, 24) + "..."
+                      <p style={{ margin: 0, width: "70%" }}>
+                        {file.name.length > 20
+                          ? file.name.substring(0, 17) + "..."
                           : file.name}
                       </p>
                     }
                     basic
                     inverted
-                  />{" "}
+                  />
                   <div
                     style={{
+                      padding: "10px 5px",
+                      height: "100%",
+                      margin: 0,
                       display: "flex",
-                      justifyContent: "flex-end",
+                      justifyContent: "space-between",
                       width: "30%"
                     }}
                   >
@@ -119,7 +122,10 @@ function ProjectFiles(props) {
                       name={file.launch ? "circle" : "ban"}
                       color={file.launch ? "green" : "red"}
                     />
-                    <Dropdown icon={{ name: "setting", fontSize: "1.2rem" }}>
+                    <Dropdown
+                      style={{ fontSize: "1.3rem" }}
+                      icon={{ name: "setting" }}
+                    >
                       <Dropdown.Menu direction="left">
                         <Dropdown.Item
                           text="Launch"
@@ -135,9 +141,7 @@ function ProjectFiles(props) {
                         />
                         <Dropdown.Item
                           text="remove"
-                          onClick={() =>
-                            alert("needs delete function and model")
-                          }
+                          onClick={() => deleteFile(file.id)}
                         />
                       </Dropdown.Menu>
                     </Dropdown>
@@ -158,7 +162,8 @@ function mapStateToProps(state) {
 }
 const mapDispatchToProps = {
   openUrl: openUrl,
-  updateFile: updateFile
+  updateFile: updateFile,
+  deleteFile: deleteFile
 };
 export default withRouter(
   connect(mapStateToProps, mapDispatchToProps)(ProjectFiles)

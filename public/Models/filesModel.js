@@ -3,9 +3,8 @@ const db = require("../data/db");
 module.exports = {
   addFile,
   getAllFiles,
-  updateFile
-  // getAllAppsWithPid,
-  // deleteApp,
+  updateFile,
+  deleteFileModel
   // updateApp,
 };
 //add a fileResource to project
@@ -33,17 +32,17 @@ function getAllFiles() {
 }
 
 function updateFile(id, file) {
+  const { name, file_path, launch } = file;
   return db("files")
     .where("id", id)
-    .update(file);
+    .update({ name, file_path, launch });
 }
 
-// }
-// function deleteApp(id) {
-//     return db('apps')
-//         .where({ id })
-//         .del()
-//   }
+function deleteFileModel(id) {
+  return db("files")
+    .where({ id })
+    .del();
+}
 //   function updateApp(id,app){
 //       console.log(app)
 //       const {name, app_path, launch} = app

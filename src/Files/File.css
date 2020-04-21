@@ -6,8 +6,8 @@
   height: auto;
   text-align: center;
   transform: translate(0, 50%);
-  width: 100px;
+  max-width: 100px;
   background: rgb(107, 172, 184);
   border-radius: 2px;
-  padding: 0 5px;
+  padding: 1px 7px 7px;
 }
