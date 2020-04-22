@@ -140,7 +140,7 @@ function ProjectFiles(props) {
                           onClick={() => disableLaunch(file)}
                         />
                         <Dropdown.Item
-                          text="remove"
+                          text="Remove"
                           onClick={() => deleteFile(file.id)}
                         />
                       </Dropdown.Menu>

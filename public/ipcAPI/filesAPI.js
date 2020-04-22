@@ -6,14 +6,11 @@ const { addFile, getAllFiles, updateFile, deleteFileModel } = require(path.join(
   "../Models/filesModel"
 ));
 module.exports = {
-  addFileToProj,
-  getAllFilesForProj,
-  updateFileFunc,
-  deleteFileAPI
+  filesAPI
 };
 
 //add new file
-function addFileToProj() {
+function filesAPI() {
   ipc.on("addFile", async function(event, arg) {
     await addFile(arg).then(res => {
       getAllFiles().then(result => {
@@ -21,16 +18,13 @@ function addFileToProj() {
       });
     });
   });
-}
-//allfiles
-function getAllFilesForProj() {
+  //allfiles
   ipc.on("getAllFiles", async function(event, arg) {
     await getAllFiles().then(result => {
       event.sender.send("allFiles", result);
     });
   });
-}
-function updateFileFunc() {
+
   ipc.on("updateFile", async function(event, id, file) {
     await updateFile(id, file).then(result => {
       getAllFiles().then(result => {
@@ -38,9 +32,7 @@ function updateFileFunc() {
       });
     });
   });
-}
 
-function deleteFileAPI() {
   ipc.on("deleteFile", async function(event, arg) {
     await deleteFileModel(arg).then(result => {
       getAllFiles().then(result => {

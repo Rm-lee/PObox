@@ -15,7 +15,7 @@ import Styled from "styled-components";
 import { useEffect, useState, useRef } from "react";
 import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
-// import { Link, } from "react-router-dom"
+//import { Link, } from "react-router-dom"
 import Todo from "./Todo";
 import ProjectBookmarks from "../Bookmarks/ProjectBookmarks";
 import ProjSettings from "./ProjSettings";
@@ -93,6 +93,7 @@ function Project(props) {
       case "Todo":
         setView(<Todo projId={project1.id} />);
         break;
+
       default:
     }
   }, [activeItem, project1]);
@@ -179,6 +180,7 @@ function Project(props) {
               onClick={handleActive}
             />
           </Menu>
+
           <Divider></Divider>
         </Grid.Column>
 

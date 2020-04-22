@@ -58,14 +58,16 @@ function Commands(props) {
     const value = e.target.value;
     setTerm(value);
   }
-  const openLink = url => {
-    ipc.send("openLink", url);
-  };
+
   function copyCommandToCliboard(com) {
     navigator.clipboard.writeText(com);
   }
-  const hideCommandDiv = () => {
-    setIsHidden(!isHidden);
+  const hideCommandDiv = id => {
+    console.log(id);
+    const listItem = document.querySelector(`#${id} > div.commandView`);
+
+    listItem.classList.toggle("show-command-div");
+    listItem.classList.toggle("hidden-command-div");
   };
   return (
     <>
@@ -114,72 +116,65 @@ function Commands(props) {
           <Header as="h4">Commands</Header>
         </Divider>
         {updatedCommandList &&
-          updatedCommandList.map(command => (
-            <Popup
-              style={{ fontSize: ".8rem" }}
-              content="Expand"
-              trigger={
-                <List.Item key={command.name} style={itemStyle}>
-                  <Icon
-                    onMouseDown={() => hideCommandDiv()}
-                    style={{ marginRight: "10px" }}
-                    name="code"
-                    size="large"
-                    color="teal"
-                  />
-                  <List.Content>
-                    <List.Header
-                      onMouseDown={() => hideCommandDiv()}
-                      style={{ color: "darkslategrey", fontSize: "1.3rem" }}
-                    >
-                      {" "}
-                      {command.name}{" "}
-                    </List.Header>
-                  </List.Content>
-                  <List.Content>
-                    <div style={{ display: "flex", marginLeft: "44px" }}>
-                      <List.Header as="h4" style={{ color: "tomato" }}>
-                        {" "}
-                      </List.Header>
-                      <List.Description
-                        style={{
-                          width: "100%",
-                          fontSize: ".9rem",
-                          overflowWrap: "break-word"
-                        }}
-                      >
-                        {command.description}
-                      </List.Description>
-                    </div>
-                  </List.Content>
-                  <div
-                    className={
-                      isHidden ? "hidden-command-div" : "show-command-div"
-                    }
-                    key={command.command}
+          updatedCommandList.map((command, i) => (
+            <List.Item
+              key={command.name + i}
+              id={command.category + i}
+              style={itemStyle}
+              onMouseDown={() => hideCommandDiv(command.category + i)}
+            >
+              <Icon
+                style={{ marginRight: "10px" }}
+                name="code"
+                size="large"
+                color="teal"
+              />
+              <List.Content>
+                <List.Header
+                  style={{ color: "darkslategrey", fontSize: "1.3rem" }}
+                >
+                  {command.name}
+                </List.Header>
+              </List.Content>
+              <List.Content>
+                <div style={{ display: "flex", marginLeft: "44px" }}>
+                  <List.Header
+                    as="h4"
+                    style={{ color: "tomato" }}
+                  ></List.Header>
+                  <List.Description
+                    style={{
+                      width: "100%",
+                      fontSize: ".9rem",
+                      overflowWrap: "break-word"
+                    }}
                   >
-                    {command.command}
-                    <Popup
-                      content="Copy"
-                      position="left center"
-                      trigger={
-                        <Icon
-                          onClick={() => {
-                            copyCommandToCliboard(command.command);
-                          }}
-                          style={{ marginRight: "10px" }}
-                          name="copy"
-                          color="olive"
-                        />
-                      }
-                      basic
+                    {command.description}
+                  </List.Description>
+                </div>
+              </List.Content>
+              <div
+                className="commandView hidden-command-div"
+                key={command.command}
+              >
+                {command.command}
+                <Popup
+                  content="Copy"
+                  position="left center"
+                  trigger={
+                    <Icon
+                      onClick={() => {
+                        copyCommandToCliboard(command.command);
+                      }}
+                      style={{ marginRight: "10px" }}
+                      name="copy"
+                      color="olive"
                     />
-                  </div>
-                </List.Item>
-              }
-              basic
-              inverted
-            />
+                  }
+                  basic
+                />
+              </div>
+            </List.Item>
           ))}
       </List>
     </>

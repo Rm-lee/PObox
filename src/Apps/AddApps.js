@@ -65,7 +65,7 @@ function AddApps(props) {
         close={setShowMessage}
         messageHeader="Success"
         show={showMessage}
-        messageContent={`Added ${appName.toLocaleUpperCase()} to project linked apps`}
+        messageContent={`Added ${appName.toLocaleUpperCase()} to projects linked apps`}
       />
 
       <AddAppsForm appSearch={appSearch} />

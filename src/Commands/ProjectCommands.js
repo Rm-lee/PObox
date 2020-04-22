@@ -58,7 +58,7 @@ function ProjectCommands(props) {
             itemStyle={itemStyle}
           />
         </List>
-        <Divider style={{ width: "100%" }}></Divider>
+        <Divider style={{ width: "100%", margin: 0 }}></Divider>
 
         <List
           selection
