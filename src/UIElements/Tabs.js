@@ -105,6 +105,7 @@ function Tabs(props) {
           />
         </Menu>
       </Segment>
+      <ProjSettings close={openCloseSettings} visible={settings} />
     </>
   );
 }

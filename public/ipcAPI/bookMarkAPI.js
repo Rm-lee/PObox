@@ -10,16 +10,11 @@ const {
   deleteBookMark
 } = require(path.join(__dirname, "../Models/bookMarksModel"));
 module.exports = {
-  newProjBookmark,
-  getEveryBookmark,
-  getProjBookmarks,
-  deleteBookmark,
-  newBookmarkNoProj,
-  updateBookmark
+  bookmarksAPI
 };
 
 //newbookmark not linked to a proj
-function newBookmarkNoProj() {
+function bookmarksAPI() {
   ipc.on("newUnlinkedBookmark", async function(event, arg) {
     await addNonLinkedBookMark(arg).then(res => {
       getAllBookMarks().then(result => {
@@ -27,17 +22,15 @@ function newBookmarkNoProj() {
       });
     });
   });
-}
-//allbookmarks no pid
-function getEveryBookmark() {
+
+  //allbookmarks no pid
   ipc.on("allBookMarksNoPid", async function(event, arg) {
     getAllBookMarks().then(result => {
       event.sender.send("bookmarksWithoutPids", result);
     });
   });
-}
-//newbookmark
-function newProjBookmark() {
+
+  //newbookmark
   ipc.on("newBookmark", async function(event, arg) {
     await addBookMark(arg).then(res => {
       getAllBookMarksWithPID().then(result => {
@@ -48,17 +41,15 @@ function newProjBookmark() {
       });
     });
   });
-}
-//get all bookmarks
-function getProjBookmarks() {
+
+  //get all bookmarks
   ipc.on("getBookmarks", async function(event, arg) {
     await getAllBookMarksWithPID().then(resu => {
       event.sender.send("bookmark-list", resu);
     });
   });
-}
-//deletebookmark
-function deleteBookmark() {
+
+  //deletebookmark
   ipc.on("deleteBookmark", async function(event, arg) {
     await deleteBookMark(arg).then(result => {
       getAllBookMarksWithPID().then(result => {
@@ -69,9 +60,8 @@ function deleteBookmark() {
       });
     });
   });
-}
-//update launch state for bookmark
-function updateBookmark() {
+
+  //update launch state for bookmark
   ipc.on("updateBookMark", async function(event, id, mark) {
     await updateBookMark(id, mark).then(result => {
       getAllBookMarksWithPID().then(result => {

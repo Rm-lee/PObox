@@ -31,24 +31,9 @@ const dialog = electron.dialog;
 const { shell } = require("electron");
 const { exec, spawn } = require("child_process");
 
-const {
-  newBookmarkNoProj,
-  getEveryBookmark,
-  newProjBookmark,
-  getProjBookmarks,
-  deleteBookmark,
-  updateBookmark
-} = require(path.join(__dirname, "./ipcAPI/bookMarkAPI"));
-const {
-  addFileToProj,
-  deleteFileAPI,
-  getAllFilesForProj,
-  updateFileFunc
-} = require(path.join(__dirname, "./ipcAPI/filesAPI"));
-const { addSnippetAPI, getSnippetsAPI, deleteSnippetAPI } = require(path.join(
-  __dirname,
-  "./ipcAPI/snippetAPI"
-));
+const { bookmarksAPI } = require(path.join(__dirname, "./ipcAPI/bookMarkAPI"));
+const { filesAPI } = require(path.join(__dirname, "./ipcAPI/filesAPI"));
+const { snippetsAPI } = require(path.join(__dirname, "./ipcAPI/snippetAPI"));
 const sysos = os.platform();
 
 var dbus = require("dbus-native");
@@ -233,27 +218,13 @@ ipc.on("select-dirs", async (event, arg) => {
 });
 
 //bookmark ipc APIs
-newBookmarkNoProj();
-getEveryBookmark();
-newProjBookmark();
-getProjBookmarks();
-deleteBookmark();
-updateBookmark();
+bookmarksAPI();
 
 //files ipc APIs
-addFileToProj();
-getAllFilesForProj();
-updateFileFunc();
-deleteFileAPI();
+filesAPI();
 
 //snippet ipc APIs
-addSnippetAPI();
-getSnippetsAPI();
-deleteSnippetAPI();
-// //newproj
-// ipc.on("newProj", async function(event, arg) {
-//   await add(arg);
-// });
+snippetsAPI();
 
 //getprojs
 ipc.on("asynchronous-message", async function(event, arg1, arg2) {
