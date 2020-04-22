@@ -41,7 +41,8 @@ const FileContainer = Styled.div`
 function Files(props) {
   const ListStyle = {
     width: "100%",
-    paddingTop: "15px"
+    paddingTop: "15px",
+    marginBottom: "0"
   };
   const [visible, setVisible] = useState(false);
   const [shortName, setShortName] = useState(true);
@@ -143,7 +144,7 @@ function Files(props) {
             />
           </Form>
         </div>
-        <Divider horizontal>
+        <Divider horizontal style={{ marginBottom: "0" }}>
           <Header as="h4">Files</Header>
         </Divider>
       </List>
@@ -166,7 +167,7 @@ function Files(props) {
         </Sidebar>
 
         <Sidebar.Pusher>
-          <div style={{ minHeight: "68vh" }}>
+          <div style={{ minHeight: "72vh" }}>
             <div
               style={{
                 width: "100%",
