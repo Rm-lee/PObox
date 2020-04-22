@@ -5,9 +5,11 @@ import { connect } from "react-redux";
 import Styled from "styled-components";
 import { openUrl } from "../Actions/index";
 import { filterCategory } from "../Utils/Utilities";
+import SidePanelInfo from "../Utils/SidePanelInfo";
 import "./File.css";
 import {
   Input,
+  Sidebar,
   Header,
   Divider,
   List,
@@ -15,6 +17,8 @@ import {
   Form,
   Dropdown,
   Popup,
+  Segment,
+  Menu,
   Label,
   Button
 } from "semantic-ui-react";
@@ -39,6 +43,7 @@ function Files(props) {
     width: "100%",
     paddingTop: "15px"
   };
+  const [visible, setVisible] = useState(false);
   const [shortName, setShortName] = useState(true);
   const [options, setOptions] = useState([]);
   const [updatedFileList, setUpdatedFileList] = useState(props.files);
@@ -142,55 +147,81 @@ function Files(props) {
           <Header as="h4">Files</Header>
         </Divider>
       </List>
-      <div
-        style={{
-          width: "100%",
-          display: "flex",
-          flexDirection: "row",
-          flexWrap: "wrap"
-        }}
-      >
-        {updatedFileList &&
-          updatedFileList.map((file, i) => (
-            <FileContainer
-              onClick={() => props.openUrl(file.file_path)}
-              id={"container" + i}
-              className="fileContainer"
-              key={file.name}
-              data-hover={file.name}
-              onMouseEnter={() => {
-                displayFullName("file" + i, "container" + i, file.name);
-              }}
-              onMouseLeave={() => {
-                nameShorten("file" + i, "container" + i, file.name);
+      <Sidebar.Pushable>
+        <Sidebar
+          as={Menu}
+          animation="scale down"
+          icon="labeled"
+          direction="right"
+          inverted
+          onHide={() => setVisible(false)}
+          vertical
+          // target={segmentRef}
+          visible={visible}
+          width="thin"
+        >
+          <Menu.Item as="a">Linked Projects</Menu.Item>
+          <Menu.Item as="a">Remove</Menu.Item>
+          <Menu.Item as="a">Categories</Menu.Item>
+        </Sidebar>
+
+        <Sidebar.Pusher>
+          <div style={{ minHeight: "68vh" }}>
+            <div
+              style={{
+                width: "100%",
+                display: "flex",
+                flexDirection: "row",
+                flexWrap: "wrap"
               }}
             >
-              <Icon
-                size="big"
-                color="grey"
-                name={
-                  iconOptions[
-                    file.name.slice(file.name.lastIndexOf(".") + 1)
-                  ] || "file"
-                }
-              />
-              <p
-                id={"file" + i}
-                style={{
-                  textAlign: "center",
-                  width: "100%",
-                  color: "darkslategrey",
-                  fontSize: ".9rem"
-                }}
-              >
-                {shortName && file.name.length > 9
-                  ? file.name.substring(0, 8) + "..."
-                  : file.name}
-                {!shortName && file.name}
-              </p>
-            </FileContainer>
-          ))}
-      </div>
+              {updatedFileList &&
+                updatedFileList.map((file, i) => (
+                  <FileContainer
+                    onClick={() => {
+                      //props.openUrl(file.file_path)
+                      setVisible(true);
+                    }}
+                    id={"container" + i}
+                    className="fileContainer"
+                    key={file.name}
+                    data-hover={file.name}
+                    onMouseEnter={() => {
+                      displayFullName("file" + i, "container" + i, file.name);
+                    }}
+                    onMouseLeave={() => {
+                      nameShorten("file" + i, "container" + i, file.name);
+                    }}
+                  >
+                    <Icon
+                      size="big"
+                      color="grey"
+                      name={
+                        iconOptions[
+                          file.name.slice(file.name.lastIndexOf(".") + 1)
+                        ] || "file"
+                      }
+                    />
+                    <p
+                      id={"file" + i}
+                      style={{
+                        textAlign: "center",
+                        width: "100%",
+                        color: "darkslategrey",
+                        fontSize: ".9rem"
+                      }}
+                    >
+                      {shortName && file.name.length > 9
+                        ? file.name.substring(0, 8) + "..."
+                        : file.name}
+                      {!shortName && file.name}
+                    </p>
+                  </FileContainer>
+                ))}
+            </div>
+          </div>
+        </Sidebar.Pusher>
+      </Sidebar.Pushable>
     </>
   );
 }
