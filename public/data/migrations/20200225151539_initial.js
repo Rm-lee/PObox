@@ -21,7 +21,6 @@ exports.up = async function(knex) {
       .string("project_path")
       .unique()
       .notNullable();
-    // pro.integer("user_id").unsigned().notNullable().references('id').inTable('users').onUpdate('CASCADE').onDelete('CASCADE')
   });
   await knex.schema.createTable("files", fil => {
     fil.increments("id");
@@ -158,7 +157,7 @@ exports.up = async function(knex) {
 };
 exports.down = function(knex) {
   return knex.schema
-    .dropTableIfExists("todo")
+    .dropTableIfExists("todos")
     .dropTableIfExists("snippets")
     .dropTableIfExists("command_cat")
     .dropTableIfExists("books_proj")

@@ -8,24 +8,25 @@ overflow-y:scroll;
 `;
 
 const Terminal = Styled.div`
-width:100%;
+width:70%;
 position:absolute;
 bottom:0;
+right:0;
 background:#333333;
 color:#06fc02;
-height:120px;
+height:125px;
 font-size:1.1rem;
 letter-spacing:1px;
 padding: 10px 10px;
 display:flex;
 flex-direction:column;
-align-content:space-evenly:
+align-content:space-evenly;
+border-radius:2px;
 
 `;
 //onmouseover change color of icon
 
 function CommandViewer(props) {
-  const userString = `user@System:~/$  `;
   function copyCommandToCliboard() {
     navigator.clipboard.writeText(props.command.command);
   }
@@ -34,12 +35,7 @@ function CommandViewer(props) {
       <Terminal>
         {props.command && (
           <div style={{ display: "flex", justifyContent: "space-between" }}>
-            <div style={{ display: "flex" }}>
-              <p style={{ fontSize: "1.1rem", color: "#97C48F" }}>
-                {userString}
-              </p>{" "}
-              <p style={{ marginLeft: "10px" }}>{props.command.command}</p>
-            </div>
+            <p>{props.command.command}</p>
 
             <Popup
               content="Copy"
@@ -58,7 +54,7 @@ function CommandViewer(props) {
             />
           </div>
         )}
-        <CommandDescription>
+        <CommandDescription style={{ color: "white" }}>
           <p>{props.command.description}</p>
         </CommandDescription>
       </Terminal>
