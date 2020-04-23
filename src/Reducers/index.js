@@ -7,7 +7,7 @@ import {
   GETALLTODOS,
   CURRENTPROJ
 } from "../Actions/index.js";
-import { GETALLFILES } from "../Actions/addFileActions";
+import { GETALLFILES, FILELINKEDPROJS } from "../Actions/addFileActions";
 import {
   GETALLBOOKMARKS,
   GETALLBOOKMARKSNOPID,
@@ -28,7 +28,8 @@ const initialState = {
   todos: [],
   apps: [],
   currentProject: {},
-  projDir: ""
+  projDir: "",
+  linkedProjects: []
 };
 
 export function reducer(state = initialState, action) {
@@ -109,6 +110,12 @@ export function reducer(state = initialState, action) {
       return {
         ...state,
         files: action.payload
+      };
+    }
+    case FILELINKEDPROJS: {
+      return {
+        ...state,
+        linkedProjects: action.payload
       };
     }
     default:

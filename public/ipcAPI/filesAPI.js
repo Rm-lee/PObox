@@ -1,10 +1,13 @@
 const electron = require("electron");
 const path = require("path");
 const ipc = electron.ipcMain;
-const { addFile, getAllFiles, updateFile, deleteFileModel } = require(path.join(
-  __dirname,
-  "../Models/filesModel"
-));
+const {
+  addFile,
+  getAllFiles,
+  updateFile,
+  deleteFileModel,
+  getLinkedProjs
+} = require(path.join(__dirname, "../Models/filesModel"));
 module.exports = {
   filesAPI
 };
@@ -39,5 +42,15 @@ function filesAPI() {
         event.sender.send("allFiles", result);
       });
     });
+  });
+
+  ipc.on("filesLinkedProjects", async function(event, arg) {
+    await getLinkedProjs(arg)
+      .then(result => {
+        event.sender.send("filesLinkedProjs", result);
+      })
+      .catch(err => {
+        console.log("\n\nlinked", err);
+      });
   });
 }

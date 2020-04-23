@@ -9,7 +9,9 @@ import {
   Segment,
   Sidebar
 } from "semantic-ui-react";
+import SideEdit from "./SideEdit";
 import SideInfo from "./SideInfo";
+
 function SidePanelInfo(props) {
   const [activeItem, setActiveItem] = useState("Info");
   const [view, setView] = useState("Info");
@@ -18,13 +20,15 @@ function SidePanelInfo(props) {
   };
   useEffect(() => {
     switch (activeItem) {
+      case "Edit":
+        setView(<SideEdit data={props.data} />);
+        break;
       case "Info":
         setView(<SideInfo data={props.data} />);
         break;
-      case "Projects":
-        // setView(<SideProjects data={props.data} />);
+      case "Launch":
+        setView(<Header>Launch</Header>);
         break;
-
       default:
     }
   }, [activeItem, props.data]);
@@ -61,12 +65,12 @@ function SidePanelInfo(props) {
               <Menu.Item
                 style={{ width: "calc(100% / 3)" }}
                 as="a"
-                name="Projects"
-                active={activeItem === "Projects"}
+                name="Edit"
+                active={activeItem === "Edit"}
                 onClick={handleActive}
-                tag="Projects"
+                tag="Edit"
               >
-                Projects
+                Edit
               </Menu.Item>
               <Menu.Item
                 style={{ width: "calc(100% / 3)" }}

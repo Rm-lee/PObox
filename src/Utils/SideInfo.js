@@ -1,8 +1,15 @@
-import React from "react";
-import { Header, Icon, Form, Button } from "semantic-ui-react";
-
+import React, { useEffect } from "react";
+import { Header, Icon, List, Button, Label } from "semantic-ui-react";
+import { connect } from "react-redux";
+import { getLinkedProjects } from "../Actions/addFileActions";
 function SideInfo(props) {
+  useEffect(() => {
+    if (props.data.id) {
+      props.getLinkedProjects(props.data.id);
+    }
+  }, [props.data]);
   let objData = [];
+
   for (let [key, value] of Object.entries(props.data)) {
     if (!key.includes("launch") && !key.includes("id")) {
       objData.push({ key, value });
@@ -10,25 +17,36 @@ function SideInfo(props) {
   }
 
   return (
-    <Form size="small">
+    <List>
+      <Header as="h6">
+        <Icon name="info" circular />{" "}
+      </Header>
       {objData.map((data, i) => (
-        <Form.Field
-          inline
-          style={{
-            width: "100%",
-            display: "flex",
-            justifyContent: "space-between"
-          }}
-        >
-          <label>{data.key}:</label>
-          <input value={data.value} />
-        </Form.Field>
+        <List.Item style={{ display: "flex", justifyContent: "space-between" }}>
+          <List.Header>{data.key}: </List.Header>
+          <List.Content>{data.value} </List.Content>
+        </List.Item>
       ))}
-
-      <Button color="teal" type="submit">
-        Update
-      </Button>
-    </Form>
+      <Header>Linked to Projects</Header>
+      <Label.Group color="blue">
+        {props.linkedprojects &&
+          props.linkedprojects.map(proj => (
+            <Label as="a">
+              {props.projects[proj.project_id].name}
+              <Icon name="close" />
+            </Label>
+          ))}
+      </Label.Group>
+    </List>
   );
 }
-export default SideInfo;
+function mapStateToProps(state) {
+  return {
+    linkedprojects: state.linkedProjects,
+    projects: state.projects
+  };
+}
+const mapDispatchToProps = {
+  getLinkedProjects
+};
+export default connect(mapStateToProps, mapDispatchToProps)(SideInfo);
