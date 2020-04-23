@@ -1,39 +1,90 @@
-import React, { useState } from "react";
-import { Header, Image, Menu, Ref, Segment, Sidebar } from "semantic-ui-react";
-
+import React, { useState, useEffect } from "react";
+import {
+  Header,
+  Image,
+  Icon,
+  Button,
+  Menu,
+  Ref,
+  Segment,
+  Sidebar
+} from "semantic-ui-react";
+import SideInfo from "./SideInfo";
 function SidePanelInfo(props) {
-  const segmentRef = React.useRef();
-  const [visible, setVisible] = useState(props.visible);
+  const [activeItem, setActiveItem] = useState("Info");
+  const [view, setView] = useState("Info");
+  const handleActive = (e, { tag }) => {
+    setActiveItem(tag);
+  };
+  useEffect(() => {
+    switch (activeItem) {
+      case "Info":
+        setView(<SideInfo data={props.data} />);
+        break;
+      case "Projects":
+        // setView(<SideProjects data={props.data} />);
+        break;
+
+      default:
+    }
+  }, [activeItem, props.data]);
 
   return (
-    <Sidebar.Pushable as={Segment.Group} raised>
+    <Sidebar.Pushable>
       <Sidebar
-        as={Menu}
-        animation="overlay"
+        as={Segment}
+        animation="scale down"
         icon="labeled"
-        inverted
-        onHide={() => setVisible(false)}
+        direction="right"
+        style={{ padding: 0 }}
+        onHide={() => props.setVisible(false)}
         vertical
-        target={segmentRef}
-        visible={visible}
-        width="thin"
+        visible={props.visible}
+        width="wide"
       >
-        <Menu.Item as="a">Home</Menu.Item>
-        <Menu.Item as="a">Games</Menu.Item>
-        <Menu.Item as="a">Channels</Menu.Item>
+        <Segment.Group style={{ padding: "0 auto", background: "white" }}>
+          <Segment>
+            <Header>{props.data.name}</Header>
+          </Segment>
+          <Segment.Group>
+            <Menu pointing>
+              <Menu.Item
+                style={{ width: "calc(100% / 3)" }}
+                as="a"
+                name="Info"
+                active={activeItem === "Info"}
+                onClick={handleActive}
+                tag="Info"
+              >
+                Info
+              </Menu.Item>
+              <Menu.Item
+                style={{ width: "calc(100% / 3)" }}
+                as="a"
+                name="Projects"
+                active={activeItem === "Projects"}
+                onClick={handleActive}
+                tag="Projects"
+              >
+                Projects
+              </Menu.Item>
+              <Menu.Item
+                style={{ width: "calc(100% / 3)" }}
+                as="a"
+                name="Launch"
+                active={activeItem === "Launch"}
+                onClick={handleActive}
+                tag="Launch"
+              >
+                Launch
+              </Menu.Item>
+            </Menu>
+            <Segment style={{ borderTop: "none" }}>{view}</Segment>
+          </Segment.Group>
+        </Segment.Group>
       </Sidebar>
 
-      <Ref innerRef={segmentRef}>
-        <Segment secondary>
-          <Header as="h3">Clickable area</Header>
-          <p>When you will click there, the sidebar will be closed.</p>
-        </Segment>
-      </Ref>
-
-      <Segment>
-        <Header as="h3">Application Content</Header>
-        <Image src="/images/wireframe/paragraph.png" />
-      </Segment>
+      <Sidebar.Pusher>{props.children}</Sidebar.Pusher>
     </Sidebar.Pushable>
   );
 }
