@@ -50,7 +50,7 @@ function SidePanelInfo(props) {
           <Segment>
             <Header>{props.data.name}</Header>
           </Segment>
-          <Segment.Group>
+          <Segment.Group style={{ margin: 0, padding: "5px 15px 0" }}>
             <Menu pointing>
               <Menu.Item
                 style={{ width: "calc(100% / 3)" }}
@@ -83,7 +83,9 @@ function SidePanelInfo(props) {
                 Launch
               </Menu.Item>
             </Menu>
-            <Segment style={{ borderTop: "none" }}>{view}</Segment>
+            <Segment style={{ borderTop: "none", padding: "10px 0" }}>
+              {view}
+            </Segment>
           </Segment.Group>
         </Segment.Group>
       </Sidebar>

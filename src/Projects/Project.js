@@ -179,9 +179,13 @@ function Project(props) {
               active={activeItem === "Todo"}
               onClick={handleActive}
             />
+            <Menu.Item
+              style={{ fontSize: "1.2rem" }}
+              name="Settings"
+              active={activeItem === "Settings"}
+              onClick={handleActive}
+            />
           </Menu>
-
-          <Divider></Divider>
         </Grid.Column>
 
         <Grid.Column stretched width={11} style={{ paddingLeft: "0" }}>

@@ -1,7 +1,8 @@
 import React, { useEffect } from "react";
-import { Header, Icon, List, Button, Label } from "semantic-ui-react";
+import { Header, Icon, List, Table, Button, Label } from "semantic-ui-react";
 import { connect } from "react-redux";
 import { getLinkedProjects } from "../Actions/addFileActions";
+import "./Table.css";
 function SideInfo(props) {
   useEffect(() => {
     if (props.data.id) {
@@ -17,27 +18,34 @@ function SideInfo(props) {
   }
 
   return (
-    <List>
-      <Header as="h6">
-        <Icon name="info" circular />{" "}
-      </Header>
-      {objData.map((data, i) => (
-        <List.Item style={{ display: "flex", justifyContent: "space-between" }}>
-          <List.Header>{data.key}: </List.Header>
-          <List.Content>{data.value} </List.Content>
-        </List.Item>
-      ))}
+    <>
+      <Table celled unstackable>
+        <Table.Header>
+          <Table.Row>
+            <Table.HeaderCell>Item</Table.HeaderCell>
+            <Table.HeaderCell>Value</Table.HeaderCell>
+          </Table.Row>
+        </Table.Header>
+        <Table.Body>
+          {objData.map((data, i) => (
+            <Table.Row>
+              <Table.Cell>{data.key}</Table.Cell>
+              <Table.Cell>{data.value}</Table.Cell>
+            </Table.Row>
+          ))}
+        </Table.Body>
+      </Table>
       <Header>Linked to Projects</Header>
       <Label.Group color="blue">
         {props.linkedprojects &&
           props.linkedprojects.map(proj => (
-            <Label as="a">
+            <Label>
               {props.projects[proj.project_id].name}
               <Icon name="close" />
             </Label>
           ))}
       </Label.Group>
-    </List>
+    </>
   );
 }
 function mapStateToProps(state) {
