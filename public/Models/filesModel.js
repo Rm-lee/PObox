@@ -5,7 +5,8 @@ module.exports = {
   getAllFiles,
   updateFile,
   deleteFileModel,
-  getLinkedProjs
+  getLinkedProjs,
+  linkFileToProj
   // updateApp,
 };
 //add a fileResource to project

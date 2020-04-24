@@ -6,7 +6,8 @@ const {
   getAllFiles,
   updateFile,
   deleteFileModel,
-  getLinkedProjs
+  getLinkedProjs,
+  linkFileToProj
 } = require(path.join(__dirname, "../Models/filesModel"));
 module.exports = {
   filesAPI
@@ -45,9 +46,22 @@ function filesAPI() {
   });
 
   ipc.on("filesLinkedProjects", async function(event, arg) {
+    console.log(arg);
     await getLinkedProjs(arg)
       .then(result => {
         event.sender.send("filesLinkedProjs", result);
+      })
+      .catch(err => {
+        console.log("\n\nlinked", err);
+      });
+  });
+
+  ipc.on("linkFileToProjs", async function(event, file_id, proj_id) {
+    await linkFileToProj(file_id, proj_id)
+      .then(result => {
+        getLinkedProjs(arg).then(result => {
+          event.sender.send("filesLinkedProjs", result);
+        });
       })
       .catch(err => {
         console.log("\n\nlinked", err);

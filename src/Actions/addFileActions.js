@@ -36,3 +36,7 @@ export function getLinkedProjects(id) {
     });
   };
 }
+export function linkFileToProj(file_id, proj_id) {
+  ipc.send("linkFileToProjs", file_id, proj_id);
+  return dispatch => {};
+}

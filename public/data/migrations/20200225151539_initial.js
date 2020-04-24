@@ -71,7 +71,6 @@ exports.up = async function(knex) {
   });
 
   await knex.schema.createTable("file_proj", filp => {
-    filp.increments("id");
     filp
       .integer("file_id")
       .notNullable()
@@ -86,6 +85,7 @@ exports.up = async function(knex) {
       .inTable("projects")
       .onUpdate("CASCADE")
       .onDelete("CASCADE");
+    filp.primary(["file_id", "project_id"]);
   });
 
   await knex.schema.createTable("app_proj", appp => {

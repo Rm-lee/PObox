@@ -21,10 +21,10 @@ function SidePanelInfo(props) {
   useEffect(() => {
     switch (activeItem) {
       case "Edit":
-        setView(<SideEdit data={props.data} />);
+        setView(<SideEdit data={props.data} type={props.type} />);
         break;
       case "Info":
-        setView(<SideInfo data={props.data} />);
+        setView(<SideInfo data={props.data} type={props.type} />);
         break;
       case "Launch":
         setView(<Header>Launch</Header>);

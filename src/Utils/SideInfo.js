@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Header, Icon, List, Table, Button, Label } from "semantic-ui-react";
 import { connect } from "react-redux";
 import { getLinkedProjects } from "../Actions/addFileActions";
@@ -6,6 +6,7 @@ import "./Table.css";
 function SideInfo(props) {
   useEffect(() => {
     if (props.data.id) {
+      console.log(props.data.id, "get linked in ifo");
       props.getLinkedProjects(props.data.id);
     }
   }, [props.data]);
@@ -16,6 +17,18 @@ function SideInfo(props) {
       objData.push({ key, value });
     }
   }
+  const [linkedProjectObj, setLinkedProjectObj] = useState([]);
+
+  useEffect(() => {
+    let projs = [];
+    if (props.linkedprojects) {
+      props.linkedprojects.map((proj, i) => {
+        let projObj = props.projects.find(obj => obj.id === proj.project_id);
+        projs.push(projObj);
+        setLinkedProjectObj(projs);
+      });
+    }
+  }, [props.linkedprojects]);
 
   return (
     <>
@@ -28,7 +41,7 @@ function SideInfo(props) {
         </Table.Header>
         <Table.Body>
           {objData.map((data, i) => (
-            <Table.Row>
+            <Table.Row key={i}>
               <Table.Cell>{data.key}</Table.Cell>
               <Table.Cell>{data.value}</Table.Cell>
             </Table.Row>
@@ -38,9 +51,9 @@ function SideInfo(props) {
       <Header>Linked to Projects</Header>
       <Label.Group color="blue">
         {props.linkedprojects &&
-          props.linkedprojects.map(proj => (
-            <Label>
-              {props.projects[proj.project_id].name}
+          linkedProjectObj.map((proj, i) => (
+            <Label key={i}>
+              {proj.name}
               <Icon name="close" />
             </Label>
           ))}

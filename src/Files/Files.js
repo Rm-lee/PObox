@@ -4,7 +4,7 @@ import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 import Styled from "styled-components";
 import { openUrl } from "../Actions/index";
-import { filterCategory } from "../Utils/Utilities";
+import { filterCategory, getUnique } from "../Utils/Utilities";
 import SidePanelInfo from "../Utils/SidePanelInfo";
 import "./File.css";
 import {
@@ -13,6 +13,7 @@ import {
   Header,
   Divider,
   List,
+  Image,
   Icon,
   Form,
   Dropdown,
@@ -44,11 +45,14 @@ function Files(props) {
     paddingTop: "15px",
     marginBottom: "0"
   };
+
   const [file, setFile] = useState("");
   const [visible, setVisible] = useState(false);
   const [shortName, setShortName] = useState(true);
   const [options, setOptions] = useState([]);
-  const [updatedFileList, setUpdatedFileList] = useState(props.files);
+  const [updatedFileList, setUpdatedFileList] = useState(
+    props.files ? getUnique(props.files, "name") : null
+  );
   const [searchTerm, setTerm] = useState("");
   const iconOptions = {
     png: "file image outline",
@@ -64,12 +68,15 @@ function Files(props) {
   };
   const dropChange = (event, { value }) => {
     setUpdatedFileList(
-      props.files.filter(word =>
-        word.category.toLowerCase().includes(event.target.textContent)
+      getUnique(
+        props.files.filter(word =>
+          word.category.toLowerCase().includes(event.target.textContent)
+        ),
+        "name"
       )
     );
     if (event.target.textContent === "none") {
-      setUpdatedFileList(props.files);
+      setUpdatedFileList(getUnique(props.files, "name"));
     }
   };
   useEffect(() => {
@@ -79,7 +86,12 @@ function Files(props) {
   }, [props.files]);
   function nameSearch(e, term, list) {
     setUpdatedFileList(
-      list.filter(word => word.name.toLowerCase().includes(term.toLowerCase()))
+      getUnique(
+        list.filter(word =>
+          word.name.toLowerCase().includes(term.toLowerCase())
+        ),
+        "name"
+      )
     );
   }
   function searchChange(e) {
@@ -149,7 +161,12 @@ function Files(props) {
           <Header as="h4">Files</Header>
         </Divider>
       </List>
-      <SidePanelInfo visible={visible} setVisible={setVisible} data={file}>
+      <SidePanelInfo
+        visible={visible}
+        setVisible={setVisible}
+        type={"file"}
+        data={file}
+      >
         <div style={{ minHeight: "72vh" }}>
           <div
             style={{
@@ -178,15 +195,22 @@ function Files(props) {
                     nameShorten("file" + i, "container" + i, file.name);
                   }}
                 >
-                  <Icon
-                    size="big"
-                    color="grey"
-                    name={
-                      iconOptions[
-                        file.name.slice(file.name.lastIndexOf(".") + 1)
-                      ] || "file"
-                    }
-                  />
+                  {iconOptions[
+                    file.name.slice(file.name.lastIndexOf(".") + 1)
+                  ] == "file image outline" ? (
+                    //need to make request from node to get image to work
+                    <Image src={file.file_path} />
+                  ) : (
+                    <Icon
+                      size="big"
+                      color="grey"
+                      name={
+                        iconOptions[
+                          file.name.slice(file.name.lastIndexOf(".") + 1)
+                        ] || "file"
+                      }
+                    />
+                  )}
                   <p
                     id={"file" + i}
                     style={{
