@@ -1,28 +1,13 @@
-import React, { useState, useEffect } from "react";
-import BreadCrumbs from "../UIElements/BreadCrumbs";
+import React, { useState } from "react";
 import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 import Styled from "styled-components";
 import { openUrl } from "../Actions/index";
-import { filterCategory, getUnique } from "../Utils/Utilities";
+import { getUnique } from "../Utils/Utilities";
 import SidePanelInfo from "../Utils/SidePanelInfo";
+import SearchAndFilter from "../Utils/SearchAndFilter";
 import "./File.css";
-import {
-  Input,
-  Sidebar,
-  Header,
-  Divider,
-  List,
-  Image,
-  Icon,
-  Form,
-  Dropdown,
-  Popup,
-  Segment,
-  Menu,
-  Label,
-  Button
-} from "semantic-ui-react";
+import { Image, Icon } from "semantic-ui-react";
 const FileContainer = Styled.div`
     display:flex;
     flex-direction:column;
@@ -33,27 +18,18 @@ const FileContainer = Styled.div`
     width:90px;
     overflow-wrap: break-word;
     align-content:center;
-    min-height:90px;
-    
+    min-height:90px;    
     &:hover{
         cursor:pointer;
     }
 `;
 function Files(props) {
-  const ListStyle = {
-    width: "100%",
-    paddingTop: "15px",
-    marginBottom: "0"
-  };
-
   const [file, setFile] = useState("");
   const [visible, setVisible] = useState(false);
   const [shortName, setShortName] = useState(true);
-  const [options, setOptions] = useState([]);
-  const [updatedFileList, setUpdatedFileList] = useState(
+  const [updatedFileList, setUpdatedList] = useState(
     props.files ? getUnique(props.files, "name") : null
   );
-  const [searchTerm, setTerm] = useState("");
   const iconOptions = {
     png: "file image outline",
     pdf: "file pdf outline",
@@ -66,38 +42,6 @@ function Files(props) {
     flv: "file video",
     avi: "file video"
   };
-  const dropChange = (event, { value }) => {
-    setUpdatedFileList(
-      getUnique(
-        props.files.filter(word =>
-          word.category.toLowerCase().includes(event.target.textContent)
-        ),
-        "name"
-      )
-    );
-    if (event.target.textContent === "none") {
-      setUpdatedFileList(getUnique(props.files, "name"));
-    }
-  };
-  useEffect(() => {
-    if (props.files) {
-      setOptions(filterCategory(props.files));
-    }
-  }, [props.files]);
-  function nameSearch(e, term, list) {
-    setUpdatedFileList(
-      getUnique(
-        list.filter(word =>
-          word.name.toLowerCase().includes(term.toLowerCase())
-        ),
-        "name"
-      )
-    );
-  }
-  function searchChange(e) {
-    const value = e.target.value;
-    setTerm(value);
-  }
 
   function nameShorten(id, contName, fName) {
     const tagFileName = document.querySelector(`#${id}`);
@@ -117,50 +61,11 @@ function Files(props) {
   }
   return (
     <>
-      <List style={ListStyle} selection verticalAlign="middle" size="big">
-        <div>
-          <Form
-            style={{
-              display: "flex",
-              justifyContent: "space-around",
-              width: "90%"
-            }}
-            onSubmit={e => {
-              e.preventDefault();
-              nameSearch(e, searchTerm, props.files);
-            }}
-          >
-            <Dropdown
-              search
-              selection
-              searchInput={{ type: "text" }}
-              options={options}
-              placeholder="Category"
-              onChange={dropChange}
-              style={{ width: "40%" }}
-            />
-            <Input
-              type="text"
-              style={{ width: "40%" }}
-              size="mini"
-              icon={
-                <button
-                  style={{ background: "transparent", border: "none" }}
-                  type="submit"
-                >
-                  <Icon name="search" inverted circular link />
-                </button>
-              }
-              name="search"
-              placeholder="Search..."
-              onChange={searchChange}
-            />
-          </Form>
-        </div>
-        <Divider horizontal style={{ marginBottom: "0" }}>
-          <Header as="h4">Files</Header>
-        </Divider>
-      </List>
+      <SearchAndFilter
+        pageName={"Files"}
+        arr={props.files}
+        setUpdatedList={setUpdatedList}
+      />
       <SidePanelInfo
         visible={visible}
         setVisible={setVisible}
