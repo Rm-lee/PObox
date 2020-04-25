@@ -18,19 +18,20 @@ import {
   Button
 } from "semantic-ui-react";
 import addCommandModal from "./addCommandModal";
-const ipc = window.require("electron").ipcRenderer;
-
+import SidePanelInfo from "../Utils/SidePanelInfo";
 function Commands(props) {
-  const [isHidden, setIsHidden] = useState(true);
-  let crumbs = props.location.pathname.split("/");
+  // let crumbs = props.location.pathname.split("/");
   const ListStyle = {
     width: "100%",
     paddingTop: "15px"
   };
   const itemStyle = {
+    background: "lightgrey"
     // display: "flex",
     // justifyContent: "center"
   };
+  const [command, setCommand] = useState("");
+  const [visible, setVisible] = useState(false);
   const [options, setOptions] = useState([]);
   const [updatedCommandList, setUpdatedCommandList] = useState(props.commands);
   const [searchTerm, setTerm] = useState("");
@@ -115,67 +116,35 @@ function Commands(props) {
         <Divider horizontal>
           <Header as="h4">Commands</Header>
         </Divider>
-        {updatedCommandList &&
-          updatedCommandList.map((command, i) => (
-            <List.Item
-              key={command.name + i}
-              id={command.category + i}
-              style={itemStyle}
-              onMouseDown={() => hideCommandDiv(command.category + i)}
-            >
-              <Icon
-                style={{ marginRight: "10px" }}
-                name="code"
-                size="large"
-                color="teal"
-              />
-              <List.Content>
-                <List.Header
-                  style={{ color: "darkslategrey", fontSize: "1.3rem" }}
+        <SidePanelInfo
+          visible={visible}
+          setVisible={setVisible}
+          type={"file"}
+          data={command}
+        >
+          <List style={{ minHeight: "72vh" }}>
+            {updatedCommandList &&
+              updatedCommandList.map((command, i) => (
+                <List.Item
+                  key={command.name + i}
+                  id={command.category + i}
+                  style={itemStyle}
+                  onClick={() => {
+                    setCommand(command);
+                    setVisible(true);
+                  }}
                 >
-                  {command.name}
-                </List.Header>
-              </List.Content>
-              <List.Content>
-                <div style={{ display: "flex", marginLeft: "44px" }}>
-                  <List.Header
-                    as="h4"
-                    style={{ color: "tomato" }}
-                  ></List.Header>
-                  <List.Description
-                    style={{
-                      width: "100%",
-                      fontSize: ".9rem",
-                      overflowWrap: "break-word"
-                    }}
-                  >
-                    {command.description}
-                  </List.Description>
-                </div>
-              </List.Content>
-              <div
-                className="commandView hidden-command-div"
-                key={command.command}
-              >
-                {command.command}
-                <Popup
-                  content="Copy"
-                  position="left center"
-                  trigger={
-                    <Icon
-                      onClick={() => {
-                        copyCommandToCliboard(command.command);
-                      }}
-                      style={{ marginRight: "10px" }}
-                      name="copy"
-                      color="olive"
-                    />
-                  }
-                  basic
-                />
-              </div>
-            </List.Item>
-          ))}
+                  <Icon
+                    style={{ marginRight: "10px" }}
+                    name="code"
+                    size="small"
+                    color="teal"
+                  />
+                  <List.Header>{command.name}</List.Header>
+                </List.Item>
+              ))}
+          </List>
+        </SidePanelInfo>
       </List>
     </>
   );
