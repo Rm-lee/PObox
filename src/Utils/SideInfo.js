@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { Header, Icon, List, Table, Button, Label } from "semantic-ui-react";
 import { connect } from "react-redux";
-import { getLinkedProjects } from "../Actions/addFileActions";
+import { getLinkedProjects } from "../Actions/index.js";
 import "./Table.css";
 function SideInfo(props) {
   useEffect(() => {
-    if (props.data.id) {
-      console.log(props.data.id, "get linked in ifo");
-      props.getLinkedProjects(props.data.id);
+    //remove check for file, once other models are created
+    if (props.data.id && props.type === "file") {
+      props.getLinkedProjects(props.data.id, props.type);
     }
   }, [props.data]);
   let objData = [];

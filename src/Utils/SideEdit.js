@@ -33,12 +33,13 @@ function SideEdit(props) {
   }
   function submitUpdate() {
     console.log(props.type);
-    if (props.type == "file") {
-      addProjectsArr.forEach(
-        proj => (
-          console.log(props.data.id), props.linkFileToProj(props.data.id, proj)
-        )
+    if (props.type === "file") {
+      addProjectsArr.forEach(proj =>
+        props.linkFileToProj(props.data.id, proj)
+        //props.updateFile()
       );
+    } else if (props.type === "command") {
+      alert("setup command update and link to proj");
     }
   }
   return (

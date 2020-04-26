@@ -48,7 +48,7 @@ function SidePanelInfo(props) {
       >
         <Segment.Group style={{ padding: "0 auto", background: "white" }}>
           <Segment>
-            <Header>{props.data.name}</Header>
+            <Header textAlign="center">{props.data.name}</Header>
           </Segment>
           <Segment.Group style={{ margin: 0, padding: "5px 15px 0" }}>
             <Menu pointing>

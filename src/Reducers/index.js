@@ -5,9 +5,10 @@ import {
   GETALLCOMMANDS,
   GETALLAPPS,
   GETALLTODOS,
-  CURRENTPROJ
+  CURRENTPROJ,
+  RESOURCELINKEDPROJS
 } from "../Actions/index.js";
-import { GETALLFILES, FILELINKEDPROJS } from "../Actions/addFileActions";
+import { GETALLFILES } from "../Actions/addFileActions";
 import {
   GETALLBOOKMARKS,
   GETALLBOOKMARKSNOPID,
@@ -112,7 +113,7 @@ export function reducer(state = initialState, action) {
         files: action.payload
       };
     }
-    case FILELINKEDPROJS: {
+    case RESOURCELINKEDPROJS: {
       return {
         ...state,
         linkedProjects: action.payload

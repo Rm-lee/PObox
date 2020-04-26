@@ -11,7 +11,7 @@ function Commands(props) {
     paddingTop: "15px"
   };
   const itemStyle = {
-    background: "lightgrey"
+    color: "#333"
   };
   const [command, setCommand] = useState("");
   const [visible, setVisible] = useState(false);
@@ -31,10 +31,15 @@ function Commands(props) {
       <SidePanelInfo
         visible={visible}
         setVisible={setVisible}
-        type={"file"}
+        type={"command"}
         data={command}
       >
-        <List style={{ minHeight: "72vh" }}>
+        <List
+          selection
+          divided
+          verticalAlign="middle"
+          style={{ minHeight: "72vh" }}
+        >
           {updatedCommandList &&
             updatedCommandList.map((command, i) => (
               <List.Item
@@ -46,13 +51,8 @@ function Commands(props) {
                   setVisible(true);
                 }}
               >
-                <Icon
-                  style={{ marginRight: "10px" }}
-                  name="code"
-                  size="small"
-                  color="teal"
-                />
                 <List.Header>{command.name}</List.Header>
+                <List.Content>{command.description}</List.Content>
               </List.Item>
             ))}
         </List>
