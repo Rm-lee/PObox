@@ -6,20 +6,12 @@ import "./command.css";
 import { List, Icon } from "semantic-ui-react";
 import SidePanelInfo from "../Utils/SidePanelInfo";
 function Commands(props) {
-  const ListStyle = {
-    width: "100%",
-    paddingTop: "15px"
-  };
   const itemStyle = {
     color: "#333"
   };
   const [command, setCommand] = useState("");
   const [visible, setVisible] = useState(false);
   const [updatedCommandList, setUpdatedList] = useState(props.commands);
-
-  function copyCommandToCliboard(com) {
-    navigator.clipboard.writeText(com);
-  }
 
   return (
     <>
@@ -51,7 +43,7 @@ function Commands(props) {
                   setVisible(true);
                 }}
               >
-                <List.Header>{command.name}</List.Header>
+                <List.Header as="h3">{command.name}</List.Header>
                 <List.Content>{command.description}</List.Content>
               </List.Item>
             ))}

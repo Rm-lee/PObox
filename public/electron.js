@@ -30,7 +30,7 @@ const os = require("os");
 const dialog = electron.dialog;
 const { shell } = require("electron");
 const { exec, spawn } = require("child_process");
-
+const { commandsAPI } = require(path.join(__dirname, "./ipcAPI/commandAPI"));
 const { bookmarksAPI } = require(path.join(__dirname, "./ipcAPI/bookMarkAPI"));
 const { filesAPI } = require(path.join(__dirname, "./ipcAPI/filesAPI"));
 const { snippetsAPI } = require(path.join(__dirname, "./ipcAPI/snippetAPI"));
@@ -216,6 +216,8 @@ ipc.on("select-dirs", async (event, arg) => {
   });
   event.sender.send("proj-selected", result.filePaths[0]);
 });
+//commands ipcAPIs
+commandsAPI();
 
 //bookmark ipc APIs
 bookmarksAPI();
@@ -251,20 +253,20 @@ ipc.on("add-project", async (event, arg) => {
   await add(arg);
 });
 
-//newCommand
-ipc.on("newCommand", async function(event, arg) {
-  await addCommandToProj(arg).then(res => {
-    getAllCommandsWithPID().then(result => {
-      event.sender.send("commandAdded", result);
-    });
-  });
-});
-//getAllCommands
-ipc.on("getAllCommands", async function(event, arg) {
-  await getAllCommandsWithPID().then(result => {
-    event.sender.send("command-list", result);
-  });
-});
+// //newCommand
+// ipc.on("newCommand", async function(event, arg) {
+//   await addCommandToProj(arg).then(res => {
+//     getAllCommandsWithPID().then(result => {
+//       event.sender.send("commandAdded", result);
+//     });
+//   });
+// });
+// //getAllCommands
+// ipc.on("getAllCommands", async function(event, arg) {
+//   await getAllCommandsWithPID().then(result => {
+//     event.sender.send("command-list", result);
+//   });
+// });
 
 //add new todo
 ipc.on("addTodo", async function(event, arg) {

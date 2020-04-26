@@ -46,7 +46,6 @@ function filesAPI() {
   });
 
   ipc.on("filesLinkedProjects", async function(event, arg) {
-    console.log(arg);
     await getLinkedProjs(arg)
       .then(result => {
         event.sender.send("filesLinkedProjs", result);

@@ -1,12 +1,20 @@
 import React, { useEffect, useState } from "react";
-import { Header, Icon, List, Table, Button, Label } from "semantic-ui-react";
+import {
+  Header,
+  Icon,
+  List,
+  Image,
+  Table,
+  Button,
+  Label
+} from "semantic-ui-react";
 import { connect } from "react-redux";
 import { getLinkedProjects } from "../Actions/index.js";
 import "./Table.css";
 function SideInfo(props) {
   useEffect(() => {
     //remove check for file, once other models are created
-    if (props.data.id && props.type === "file") {
+    if (props.data.id) {
       props.getLinkedProjects(props.data.id, props.type);
     }
   }, [props.data]);
@@ -29,9 +37,15 @@ function SideInfo(props) {
       });
     }
   }, [props.linkedprojects]);
-
+  function copyCommandToCliboard(com) {
+    navigator.clipboard.writeText(com);
+  }
   return (
     <>
+      {props.type === "file" &&
+      props.data.name?.slice(props.data.name.lastIndexOf(".") + 1) === "png" ? (
+        <Image fluid src={props.data.file_path} />
+      ) : null}
       <Table celled unstackable>
         <Table.Header>
           <Table.Row>
@@ -43,7 +57,23 @@ function SideInfo(props) {
           {objData.map((data, i) => (
             <Table.Row key={i}>
               <Table.Cell>{data.key}</Table.Cell>
-              <Table.Cell>{data.value}</Table.Cell>
+              <Table.Cell
+                style={
+                  data.key === "command"
+                    ? { background: "#333", color: "lightgreen" }
+                    : null
+                }
+              >
+                {data.key === "command" && (
+                  <Icon
+                    name="copy"
+                    color="olive"
+                    style={{ marginRight: "10px", cursor: "pointer" }}
+                    onClick={copyCommandToCliboard(data.value)}
+                  />
+                )}{" "}
+                {data.value}
+              </Table.Cell>
             </Table.Row>
           ))}
         </Table.Body>

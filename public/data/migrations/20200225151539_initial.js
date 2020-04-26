@@ -125,7 +125,6 @@ exports.up = async function(knex) {
   });
 
   await knex.schema.createTable("command_cat", ccat => {
-    ccat.increments("id");
     ccat
       .integer("command_id")
       .notNullable()
@@ -140,6 +139,7 @@ exports.up = async function(knex) {
       .inTable("projects")
       .onUpdate("CASCADE")
       .onDelete("CASCADE");
+    ccat.primary(["command_id", "project_id"]);
   });
 
   await knex.schema.createTable("snippets", snip => {
