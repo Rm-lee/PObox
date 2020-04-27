@@ -22,3 +22,8 @@ export function getUnique(arr, comp) {
     .map(e => arr[e]);
   return unique;
 }
+export function shortenText(text, len) {
+  if (text.length > len) {
+    return text.substring(0, len - 3) + "...";
+  } else return text;
+}

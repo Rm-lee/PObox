@@ -34,7 +34,7 @@ function SidePanelInfo(props) {
   }, [activeItem, props.data]);
 
   return (
-    <Sidebar.Pushable>
+    <Sidebar.Pushable style={{ height: "72vh", overflowY: "scroll" }}>
       <Sidebar
         as={Segment}
         animation="scale down"

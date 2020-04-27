@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 import SearchAndFilter from "../Utils/SearchAndFilter";
+import { shortenText } from "../Utils/Utilities";
 import "./command.css";
 import { List, Popup, Card, Icon, Button } from "semantic-ui-react";
 import SidePanelInfo from "../Utils/SidePanelInfo";
@@ -28,13 +29,14 @@ function Commands(props) {
         type={"command"}
         data={command}
       >
-        <Card.Group stackable style={{ minHeight: "72vh", marginTop: "10px" }}>
+        <Card.Group stackable style={{ margin: "10px 0", padding: "10px 0" }}>
           {updatedCommandList &&
             updatedCommandList.map((command, i) => (
               <Card
                 style={{
+                  boxShadow: "4px 8px 10px #aaa",
                   maxWidth: "80%",
-                  margin: "10px auto",
+                  margin: "30px auto",
                   borderTopRightRadius: "0",
                   borderTopLeftRadius: "0",
                   borderBottomRadius: "2px"
@@ -43,6 +45,8 @@ function Commands(props) {
                 <Card.Content>
                   <Card.Header style={{ color: "#333" }}>
                     <Icon
+                      circular
+                      inverted
                       style={{ marginRight: "10px" }}
                       color="teal"
                       name="code"
@@ -58,7 +62,7 @@ function Commands(props) {
                       name="ellipsis horizontal"
                     />
                   </Card.Header>
-                  <Card.Meta>{command.description}</Card.Meta>
+                  <Card.Meta>{shortenText(command.description, 100)}</Card.Meta>
                 </Card.Content>
                 <Card.Content
                   extra
@@ -75,7 +79,7 @@ function Commands(props) {
                         }}
                         style={{ marginRight: "10px", float: "right" }}
                         name="copy"
-                        color="olive"
+                        color="teal"
                       />
                     }
                     basic

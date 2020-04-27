@@ -10,7 +10,7 @@ import {
 } from "semantic-ui-react";
 import BreadCrumbs from "../UIElements/BreadCrumbs";
 import { dragIn } from "../Utils/DragnDrop";
-import AddBookmarkModal from "../Bookmarks/AddBookmarkModal";
+import AddBookmarkModal from "../Bookmarks/projectsAddBookmark";
 import {
   getAllBookMarks,
   updateBookMark,

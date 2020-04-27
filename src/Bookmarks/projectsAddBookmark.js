@@ -11,20 +11,33 @@ import { connect } from "react-redux";
 import Styled from "styled-components";
 
 const DropHere = Styled.div`
-width:95%;
-color:green;
-margin:10px auto;
+width:90%;
+display:flex;
+padding:5px 0;
+flex-direction:column;
+border:2px dashed darkgrey;
+margin:5px auto;
+text-align:center;
+justify-content:center;
+align-items:center;
+background:#eeeeee;
 &:hover{
-    color:white;
+    background:lightgrey;
     cursor:pointer;
-}
-& .icon:hover{
-  background:green;
-  border:none;
 }
 
 `;
+const UnderArrow = Styled.div`
+height:5px;
+margin-top:5px;
+width:50px;
+border-bottom:2px solid darkgrey;
+border-right:2px solid darkgrey;
+border-left:2px solid darkgrey;
 
+`;
+
+const ipc = window.require("electron").ipcRenderer;
 const AddBookmarkModal = props => {
   const [bookMarkObj, setBookMarkObj] = useState({
     url: "",
@@ -73,6 +86,13 @@ const AddBookmarkModal = props => {
     }
   }, [props.filepath]);
 
+  // ipc.on('proj-selected', function (event, arg) {
+  //     setProjectObj({
+  //         ...projectObj,
+  //         project_path:arg
+  //     })
+  // })
+
   {
     return (
       <Modal
@@ -80,15 +100,14 @@ const AddBookmarkModal = props => {
         onClose={props.modalOpen}
         trigger={
           <DropHere onClick={handleOpen}>
+            <Icon name="arrow down" size="small" color="darkgrey" />
+            <UnderArrow />
             <Popup
               content={props.popup}
               trigger={
-                <Icon
-                  style={{ float: "right", boxShadow: "2px 2px 15px #aaa" }}
-                  name="plus"
-                  circular
-                  size="large"
-                />
+                <List.Content>
+                  <List.Header as="h4"> {props.name} </List.Header>
+                </List.Content>
               }
               basic
             />

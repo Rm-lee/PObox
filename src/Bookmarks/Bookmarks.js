@@ -8,82 +8,102 @@ import {
   addBookMark,
   getAllBookMarksNoPid
 } from "../Actions/bookmarkActions";
-import { filterCategory } from "../Utils/Utilities";
+import { shortenText } from "../Utils/Utilities";
 import { openUrl } from "../Actions/index";
 import AddBookmarkModal from "./AddBookmarkModal";
-import {
-  Input,
-  Header,
-  Divider,
-  List,
-  Icon,
-  Form,
-  Popup,
-  Dropdown,
-  Label,
-  Button
-} from "semantic-ui-react";
+import SidePanelInfo from "../Utils/SidePanelInfo";
+import SearchAndFilter from "../Utils/SearchAndFilter";
+import { Card, Icon } from "semantic-ui-react";
 import { dragIn } from "../Utils/DragnDrop";
 
 function Bookmarks(props) {
-  let crumbs = props.location.pathname.split("/");
-  const ListStyle = {
-    width: "100%"
-  };
-  const itemStyle = {
-    // display: "flex",
-    // justifyContent: "center"
-  };
-  const [updatedBookList, setUpdatedBookList] = useState(props.bookmarksNoPid);
-  const [searchTerm, setTerm] = useState("");
+  const [updatedList, setUpdatedList] = useState(props.bookmarksNoPid);
   const [urlName, setUrlName] = useState();
   const [modalOpen, setModalOpen] = useState(false);
   const dragBnonLinkedRef = useRef();
-  const [options, setOptions] = useState([]);
-
-  const dropChange = (event, { value }) => {
-    setUpdatedBookList(
-      props.bookmarksNoPid.filter(word =>
-        word.category.toLowerCase().includes(event.target.textContent)
-      )
-    );
-    if (event.target.textContent === "none") {
-      setUpdatedBookList(props.bookmarksNoPid);
-    }
-  };
-
-  function nameSearch(e, term, list) {
-    setUpdatedBookList(
-      list.filter(word => word.name.toLowerCase().includes(term.toLowerCase()))
-    );
-  }
-  function searchChange(e) {
-    const value = e.target.value;
-    setTerm(value);
-  }
-
-  useEffect(() => {
-    if (props.bookmarksNoPid) {
-      setOptions(filterCategory(props.bookmarksNoPid));
-    }
-  }, [props.bookmarksNoPid]);
 
   const openLink = url => {
     props.openUrl(url);
   };
 
   useEffect(() => {
-    if (dragBnonLinkedRef.current !== null)
-      dragIn(dragBnonLinkedRef.current, setUrlName, setModalOpen, true);
-  }, []);
-
-  useEffect(() => {
-    setUpdatedBookList(props.bookmarksNoPid);
+    setUpdatedList(props.bookmarksNoPid);
   }, [props.bookmarks, props.bookmarksNoPid]);
+
+  const [bookmark, setBookmark] = useState("");
+  const [visible, setVisible] = useState(false);
 
   return (
     <>
-      <List
+      <SearchAndFilter
+        pageName={"Bookmarks"}
+        setUpdatedList={setUpdatedList}
+        arr={props.bookmarksNoPid}
+      />
+
+      <SidePanelInfo
+        visible={visible}
+        setVisible={setVisible}
+        type={"file"}
+        data={bookmark}
+      >
+        <AddBookmarkModal
+          noProj={true}
+          popup="New BookMark"
+          name={"New BookMark"}
+          updateModalopen={setModalOpen}
+          filepath={urlName}
+          modalOpen={modalOpen}
+        />
+
+        <Card.Group stackable style={{ marginTop: "60px" }}>
+          {updatedList &&
+            updatedList.map((mark, i) => (
+              <Card
+                style={{
+                  boxShadow: "4px 8px 10px #aaa",
+                  maxWidth: "80%",
+                  margin: "30px auto",
+                  borderTopRightRadius: "0",
+                  borderTopLeftRadius: "0",
+                  borderBottomRadius: "2px"
+                }}
+              >
+                <Card.Content>
+                  <Card.Header style={{ color: "#333" }}>
+                    <Icon
+                      circular
+                      inverted
+                      style={{ marginRight: "10px", cursor: "pointer" }}
+                      color="teal"
+                      name="chrome"
+                      onClick={() => {
+                        openLink(mark.url);
+                      }}
+                    />
+                    {mark.name}
+                    <Icon
+                      onClick={() => {
+                        setBookmark(mark);
+                        setVisible(true);
+                      }}
+                      style={{ float: "right", cursor: "pointer" }}
+                      color="grey"
+                      name="ellipsis horizontal"
+                    />
+                  </Card.Header>
+                  <Card.Meta>{shortenText(mark.description, 100)}</Card.Meta>
+                </Card.Content>
+                <Card.Content extra style={{ fontSize: "1.1rem" }}>
+                  <a style={{ color: "dodgerblue" }} href={mark.url}>
+                    {mark.url}{" "}
+                  </a>
+                </Card.Content>
+              </Card>
+            ))}
+        </Card.Group>
+      </SidePanelInfo>
+      {/* <List
         id="drag-bookmark"
         ref={dragBnonLinkedRef}
         style={{
@@ -105,50 +125,7 @@ function Bookmarks(props) {
           modalOpen={modalOpen}
           itemStyle={itemStyle}
         />
-        <div>
-          <Form
-            style={{
-              display: "flex",
-              justifyContent: "space-around",
-              width: "95%",
-              marginTop: "10px "
-            }}
-            onSubmit={e => {
-              e.preventDefault();
-              nameSearch(e, searchTerm, props.bookmarksNoPid);
-            }}
-          >
-            <Dropdown
-              search
-              selection
-              searchInput={{ type: "text" }}
-              options={options}
-              placeholder="Category"
-              onChange={dropChange}
-              style={{ width: "40%" }}
-            />
-            <Input
-              type="text"
-              style={{ width: "40%" }}
-              size="mini"
-              icon={
-                <button
-                  style={{ background: "transparent", border: "none" }}
-                  type="submit"
-                >
-                  <Icon name="search" inverted circular link />
-                </button>
-              }
-              name="search"
-              placeholder="Search..."
-              onChange={searchChange}
-            />
-          </Form>
-        </div>
-
-        <Divider horizontal>
-          <Header as="h4">BookMarks</Header>
-        </Divider>
+       
         {updatedBookList &&
           updatedBookList.map(mark => (
             <List.Item style={itemStyle} onClick={() => openLink(mark.url)}>
@@ -214,7 +191,7 @@ function Bookmarks(props) {
               </List.Content>
             </List.Item>
           ))}
-      </List>
+      </List> */}
     </>
   );
 }
