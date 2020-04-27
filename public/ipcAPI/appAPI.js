@@ -7,7 +7,7 @@ const {
   deleteApp,
   updateApp,
   getAllAppsWithPid
-} = require(path.join(__dirname, "./Models/appsModel"));
+} = require(path.join(__dirname, "../Models/appsModel"));
 module.exports = {
   appsAPI
 };

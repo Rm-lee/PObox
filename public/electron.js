@@ -5,37 +5,23 @@ const BrowserWindow = electron.BrowserWindow;
 const path = require("path");
 const isDev = require("electron-is-dev");
 const ipc = electron.ipcMain;
-const { getAllCommandsWithPID, addCommandToProj } = require(path.join(
-  __dirname,
-  "./Models/commandModel"
-));
-const { getAllProjs, add, deleteProject } = require(path.join(
-  __dirname,
-  "./Models/projectModel"
-));
-const { addTodo, getAllTodos, deleteTodo } = require(path.join(
-  __dirname,
-  "./Models/todoModel"
-));
-
-const {
-  addApp,
-  getAllApps,
-  deleteApp,
-  updateApp,
-  getAllAppsWithPid
-} = require(path.join(__dirname, "./Models/appsModel"));
 const fs = require("fs");
 const os = require("os");
 const dialog = electron.dialog;
 const { shell } = require("electron");
+const { App_Search_Func } = require(path.join(
+  __dirname,
+  "./jsUtils/AppSearch"
+));
 const { exec, spawn } = require("child_process");
+const { todosAPI } = require(path.join(__dirname, "./ipcAPI/todoAPI"));
+const { projectsAPI } = require(path.join(__dirname, "./ipcAPI/projectAPI"));
+const { appsAPI } = require(path.join(__dirname, "./ipcAPI/appAPI"));
 const { commandsAPI } = require(path.join(__dirname, "./ipcAPI/commandAPI"));
 const { bookmarksAPI } = require(path.join(__dirname, "./ipcAPI/bookMarkAPI"));
 const { filesAPI } = require(path.join(__dirname, "./ipcAPI/filesAPI"));
 const { snippetsAPI } = require(path.join(__dirname, "./ipcAPI/snippetAPI"));
 const sysos = os.platform();
-
 var dbus = require("dbus-native");
 
 //create db and run migrations
@@ -45,11 +31,10 @@ if (!fs.existsSync(path.resolve(app.getPath("userData"), "projects.db3"))) {
     return db.seed.run();
   });
 }
-//if linux if gnome kill process on suspend or gnome refresh because of glitch of losing system tray icon.
 
-// if login happens start another app then kill current on gnome(tray icon disapears)
+// if login happens close app
 function loggedin(val) {
-  if (val === 0 || val === "0") {
+  if (val === 0) {
     app.quit();
   }
 }
@@ -60,17 +45,12 @@ sessionBus
     "/org/gnome/SessionManager/Presence",
     "org.gnome.SessionManager.Presence",
     (err, presence) => {
-      // dbus signals are EventEmitter events
+      // dbus signals
       presence.on("StatusChanged", function() {
-        // console.log('Status', arguments);
-        // if (argument[0] == "0"){
         loggedin(arguments[0]);
-        //}
       });
     }
   );
-
-// ipc communication between ipc.renderer
 
 //openBrowser Link
 ipc.on("openLink", (event, arg) => {
@@ -143,19 +123,7 @@ IFS="\${oldifs}"`,
   }
 });
 
-class app_func {
-  constructor() {
-    this.execCommand = function(cmd) {
-      return new Promise((resolve, reject) => {
-        exec(cmd, (error, stdout, stderr) => {
-          resolve(stdout);
-        });
-      });
-    };
-  }
-}
-
-var homePathSearch = new app_func();
+var homePathSearch = new App_Search_Func();
 
 //app launcher in proj dir
 
@@ -228,105 +196,13 @@ filesAPI();
 //snippet ipc APIs
 snippetsAPI();
 
-//getprojs
-ipc.on("asynchronous-message", async function(event, arg1, arg2) {
-  if (arg1 === "get projs") {
-    await getAllProjs().then(resu => {
-      event.sender.send("asynchronous-reply", resu);
-    });
-  }
-  if (arg1 === "project") {
-    await add(arg2);
-  }
-});
+//apps ipc APIs
+appsAPI();
 
-//deleteProj
-ipc.on("deleteProj", async function(event, arg) {
-  await deleteProject(arg).then(res => {
-    getAllProjs().then(result => {
-      event.sender.send("asynchronous-reply", result);
-    });
-  });
-});
-//add a project
-ipc.on("add-project", async (event, arg) => {
-  await add(arg);
-});
-
-// //newCommand
-// ipc.on("newCommand", async function(event, arg) {
-//   await addCommandToProj(arg).then(res => {
-//     getAllCommandsWithPID().then(result => {
-//       event.sender.send("commandAdded", result);
-//     });
-//   });
-// });
-// //getAllCommands
-// ipc.on("getAllCommands", async function(event, arg) {
-//   await getAllCommandsWithPID().then(result => {
-//     event.sender.send("command-list", result);
-//   });
-// });
-
-//add new todo
-ipc.on("addTodo", async function(event, arg) {
-  await addTodo(arg).then(res => {
-    getAllTodos().then(result => {
-      event.sender.send("todo-list", result);
-    });
-  });
-});
-
-//get all todos
-ipc.on("getTodos", async function(event, arg) {
-  await getAllTodos().then(result => {
-    event.sender.send("todo-list", result);
-  });
-});
-//delete todo
-ipc.on("deleteTodo", async function(event, arg) {
-  await deleteTodo(arg).then(result => {
-    getAllTodos().then(result => {
-      event.sender.send("todoDeleted", result);
-    });
-  });
-});
-//add new app
-ipc.on("addApp", async function(event, arg) {
-  await addApp(arg).then(res => {
-    getAllAppsWithPid().then(result => {
-      event.sender.send("applist", result);
-    });
-  });
-});
-//get all apps
-ipc.on("getApps", async function(event, arg) {
-  await getAllApps().then(result => {
-    event.sender.send("applist", result);
-  });
-});
-//get all apps with project id
-ipc.on("getAppsWithPid", async function(event, arg) {
-  await getAllAppsWithPid().then(result => {
-    event.sender.send("applist", result);
-  });
-});
-//delete app
-ipc.on("deleteApp", async function(event, arg) {
-  await deleteApp(arg).then(result => {
-    getAllAppsWithPid().then(result => {
-      event.sender.send("appDeleted", result);
-    });
-  });
-});
-//update app
-ipc.on("updateApp", async function(event, id, app) {
-  await updateApp(id, app).then(result => {
-    getAllAppsWithPid().then(result => {
-      event.sender.send("appUpdated", result);
-    });
-  });
-});
+//projects APIs
+projectsAPI();
+//todos APIs
+todosAPI();
 
 //define window and tray globaly
 let window = undefined;

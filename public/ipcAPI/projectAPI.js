@@ -3,7 +3,7 @@ const path = require("path");
 const ipc = electron.ipcMain;
 const { getAllProjs, add, deleteProject } = require(path.join(
   __dirname,
-  "./Models/projectModel"
+  "../Models/projectModel"
 ));
 module.exports = {
   projectsAPI

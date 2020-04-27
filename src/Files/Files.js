@@ -103,7 +103,6 @@ function Files(props) {
                   {iconOptions[
                     file.name.slice(file.name.lastIndexOf(".") + 1)
                   ] == "file image outline" ? (
-                    //need to make request from node to get image to work
                     <Image src={file.file_path} />
                   ) : (
                     <Icon
