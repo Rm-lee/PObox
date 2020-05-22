@@ -29,10 +29,11 @@ function getAllFiles() {
 }
 
 function updateFile(id, file) {
-  const { name, file_path, launch } = file;
+  const { name, file_path, launch, category } = file;
+  console.log(file);
   return db("files")
     .where("id", id)
-    .update({ name, file_path, launch });
+    .update({ name, file_path, launch, category });
 }
 
 function deleteFileModel(id) {

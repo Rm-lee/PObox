@@ -13,18 +13,21 @@ import { getLinkedProjects } from "../Actions/index.js";
 import "./Table.css";
 function SideInfo(props) {
   useEffect(() => {
-    //remove check for file, once other models are created
     if (props.data.id) {
       props.getLinkedProjects(props.data.id, props.type);
     }
   }, [props.data]);
   let objData = [];
-
-  for (let [key, value] of Object.entries(props.data)) {
-    if (!key.includes("launch") && !key.includes("id")) {
-      objData.push({ key, value });
+  useEffect(() => {
+    for (let [key, value] of Object.entries(props.data)) {
+      if (!key.includes("launch") && !key.includes("id")) {
+        objData.push({ key, value });
+      }
     }
-  }
+    setObjDataState(objData);
+  }, [props.data]);
+  const [objDataState, setObjDataState] = useState(objData);
+
   const [linkedProjectObj, setLinkedProjectObj] = useState([]);
 
   useEffect(() => {
@@ -54,7 +57,7 @@ function SideInfo(props) {
           </Table.Row>
         </Table.Header>
         <Table.Body>
-          {objData.map((data, i) => (
+          {objDataState.map((data, i) => (
             <Table.Row key={i}>
               <Table.Cell>{data.key}</Table.Cell>
               <Table.Cell

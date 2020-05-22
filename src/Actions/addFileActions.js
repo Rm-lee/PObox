@@ -20,6 +20,7 @@ export function getAllFiles() {
   };
 }
 export function updateFile(id, file) {
+  console.log(id, file);
   ipc.send("updateFile", id, file);
   return dispatch => {};
 }

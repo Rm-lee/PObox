@@ -54,7 +54,8 @@ function Projects(props) {
       }
     });
   };
-
+  var date = new Date(Date.now());
+  console.log(typeof date);
   return (
     <>
       <List

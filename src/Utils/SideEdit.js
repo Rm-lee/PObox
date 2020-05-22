@@ -1,12 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Header, Icon, Dropdown, Form, Button } from "semantic-ui-react";
 import Project from "../Projects/Project";
-import { linkFileToProj } from "../Actions/addFileActions";
+import { linkFileToProj, updateFile } from "../Actions/addFileActions";
 import { connect } from "react-redux";
 
 function SideEdit(props) {
   let projectoptions = [];
-  console.log(props.projects);
   props.projects.forEach((p, i) => {
     projectoptions.push({
       key: p.id,
@@ -16,11 +15,16 @@ function SideEdit(props) {
   });
   const [editObj, setEditObj] = useState(props.data);
   let objData = [];
-  for (let [key, value] of Object.entries(props.data)) {
-    if (!key.includes("id")) {
-      objData.push({ key, value });
+  useEffect(() => {
+    for (let [key, value] of Object.entries(props.data)) {
+      if (!key.includes("id")) {
+        objData.push({ key, value });
+      }
     }
-  }
+    setObjDataState(objData);
+  }, [props.data]);
+
+  const [objDataState, setObjDataState] = useState(objData);
   const [addProjectsArr, setAddProjectsArr] = useState([]);
   const addProjects = (e, data) => {
     setAddProjectsArr(data.value);
@@ -32,12 +36,11 @@ function SideEdit(props) {
     });
   }
   function submitUpdate() {
-    console.log(props.type);
     if (props.type === "file") {
-      addProjectsArr.forEach(proj =>
-        props.linkFileToProj(props.data.id, proj)
-        //props.updateFile()
-      );
+      addProjectsArr.forEach(proj => {
+        props.linkFileToProj(props.data.id, proj);
+      });
+      props.updateFile(props.data.id, editObj);
     } else if (props.type === "command") {
       alert("setup command update and link to proj");
     }
@@ -46,7 +49,7 @@ function SideEdit(props) {
     <>
       {editObj && props.data && (
         <Form size="small">
-          {objData.map((data, i) => (
+          {objDataState.map((data, i) => (
             <Form.Field
               key={i}
               inline
@@ -89,6 +92,7 @@ function mapStateToProps(state) {
   };
 }
 const mapDispatchToProps = {
-  linkFileToProj
+  linkFileToProj,
+  updateFile
 };
 export default connect(mapStateToProps, mapDispatchToProps)(SideEdit);
