@@ -4,7 +4,9 @@ module.exports = {
   addFile,
   getAllFiles,
   updateFile,
-  deleteFileModel
+  deleteFileModel,
+  getLinkedProjs,
+  linkFileToProj
   // updateApp,
 };
 //add a fileResource to project
@@ -20,11 +22,6 @@ function linkFileToProj(file_id, project_id) {
   return db("file_proj").insert({ file_id, project_id });
 }
 
-// //get all bookmarks
-// function getAllFilesNoPID() {
-//   return db("files").select();
-// }
-
 function getAllFiles() {
   return db("files as f")
     .innerJoin("file_proj as fp", "f.id", "fp.file_id")
@@ -32,10 +29,11 @@ function getAllFiles() {
 }
 
 function updateFile(id, file) {
-  const { name, file_path, launch } = file;
+  const { name, file_path, launch, category } = file;
+  console.log(file);
   return db("files")
     .where("id", id)
-    .update({ name, file_path, launch });
+    .update({ name, file_path, launch, category });
 }
 
 function deleteFileModel(id) {
@@ -43,11 +41,9 @@ function deleteFileModel(id) {
     .where({ id })
     .del();
 }
-//   function updateApp(id,app){
-//       console.log(app)
-//       const {name, app_path, launch} = app
-//       console.log(id)
-//     return db('apps')
-//     .where('id',id)
-//     .update({name,app_path,launch})
-// }
+
+function getLinkedProjs(id) {
+  return db("file_proj")
+    .where("file_id", id)
+    .select("project_id");
+}

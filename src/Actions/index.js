@@ -8,6 +8,7 @@ export const GETALLSNIPPETS = "GETALLSNIPPETS";
 export const DELETPROJECT = "DELETEPROJECT";
 export const GETALLTODOS = "GETALLTODOS";
 export const GETALLAPPS = "GETALLAPPS";
+export const RESOURCELINKEDPROJS = "RESOURCELINKEDPROJS";
 
 const ipc = window.require("electron").ipcRenderer;
 
@@ -70,6 +71,7 @@ export function addCommandToProj(command) {
 }
 export function getAllCommands() {
   return dispatch => {
+    console.log("fired get all commands");
     ipc.send("getAllCommands", null);
     ipc.on("command-list", function(event, arg) {
       dispatch({ type: GETALLCOMMANDS, payload: arg });
@@ -188,4 +190,23 @@ export function openUrl(url) {
   return dispatch => {
     ipc.send("openLink", url);
   };
+}
+export function getLinkedProjects(id, type) {
+  if (type === "file") {
+    ipc.send("filesLinkedProjects", id);
+    return dispatch => {
+      ipc.on("filesLinkedProjs", function(event, arg) {
+        dispatch({ type: RESOURCELINKEDPROJS, payload: arg });
+      });
+    };
+  }
+  if (type === "command") {
+    console.log(id);
+    ipc.send("commandsLinkedProjects", id);
+    return dispatch => {
+      ipc.on("commandLinkedProjs", function(event, arg) {
+        dispatch({ type: RESOURCELINKEDPROJS, payload: arg });
+      });
+    };
+  }
 }

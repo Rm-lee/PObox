@@ -73,13 +73,13 @@
     "electron": "^8.2.1",
     "electron-builder": "^22.3.2",
     "husky": ">=4",
-    "lint-staged": ">=10",
+    "lint-staged": ">=10 " ,
     "prettier": "^1.19.1",
     "wait-on": "^3.3.0"
   },
   "husky": {
     "hooks": {
-      "pre-commit": "lint-staged"
+      "pre-commit": " lint-staged"
     }
   },
   "lint-staged": {

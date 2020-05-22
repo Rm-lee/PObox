@@ -13,3 +13,17 @@ export function filterCategory(categories) {
   });
   return arr;
 }
+
+export function getUnique(arr, comp) {
+  const unique = arr
+    .map(e => e[comp])
+    .map((e, i, final) => final.indexOf(e) === i && i)
+    .filter(e => arr[e])
+    .map(e => arr[e]);
+  return unique;
+}
+export function shortenText(text, len) {
+  if (text.length > len) {
+    return text.substring(0, len - 3) + "...";
+  } else return text;
+}

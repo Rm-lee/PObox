@@ -9,7 +9,6 @@ import {
   getAllProjs,
   getAllSnippets,
   getAllAppsWithPid,
-  getInstalledApps,
   getAllCommands,
   getAllTodos
 } from "./Actions/index";
@@ -19,12 +18,11 @@ import {
   getAllBookMarksNoPid,
   getAllBookMarks
 } from "./Actions/bookmarkActions";
-// import {getAllProjs} from './Models/projectModel'
-const ipc = window.require("electron").ipcRenderer;
 const Container = Styled.div`
 width:100%;
 display:flex;
 flex-direction:column;
+
 
 `;
 

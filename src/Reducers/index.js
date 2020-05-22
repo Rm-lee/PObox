@@ -5,7 +5,8 @@ import {
   GETALLCOMMANDS,
   GETALLAPPS,
   GETALLTODOS,
-  CURRENTPROJ
+  CURRENTPROJ,
+  RESOURCELINKEDPROJS
 } from "../Actions/index.js";
 import { GETALLFILES } from "../Actions/addFileActions";
 import {
@@ -28,7 +29,8 @@ const initialState = {
   todos: [],
   apps: [],
   currentProject: {},
-  projDir: ""
+  projDir: "",
+  linkedProjects: []
 };
 
 export function reducer(state = initialState, action) {
@@ -109,6 +111,12 @@ export function reducer(state = initialState, action) {
       return {
         ...state,
         files: action.payload
+      };
+    }
+    case RESOURCELINKEDPROJS: {
+      return {
+        ...state,
+        linkedProjects: action.payload
       };
     }
     default:

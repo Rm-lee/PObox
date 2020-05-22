@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect } from "react";
 import { dragIn } from "../Utils/DragnDrop";
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
-import { updateFile, deleteFile } from "../Actions/addFileActions";
+import { updateFile, deleteFile, getAllFiles } from "../Actions/addFileActions";
 import { List, Divider, Icon, Dropdown, Popup } from "semantic-ui-react";
 import { openUrl } from "../Actions/index";
 import AddFilesModal from "./AddFilesModal";
@@ -23,7 +23,9 @@ function ProjectFiles(props) {
     props.openUrl(url);
   };
   console.log(props);
-
+  useEffect(() => {
+    props.getAllFiles();
+  }, []);
   useEffect(() => {
     console.log(props.files);
     setProjFiles(props.files.filter(el => el.project_id === props.obj.id));
@@ -163,7 +165,8 @@ function mapStateToProps(state) {
 const mapDispatchToProps = {
   openUrl: openUrl,
   updateFile: updateFile,
-  deleteFile: deleteFile
+  deleteFile: deleteFile,
+  getAllFiles: getAllFiles
 };
 export default withRouter(
   connect(mapStateToProps, mapDispatchToProps)(ProjectFiles)

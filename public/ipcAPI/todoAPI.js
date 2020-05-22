@@ -3,7 +3,7 @@ const path = require("path");
 const ipc = electron.ipcMain;
 const { addTodo, getAllTodos, deleteTodo } = require(path.join(
   __dirname,
-  "./Models/todoModel"
+  "../Models/todoModel"
 ));
 module.exports = {
   todosAPI
