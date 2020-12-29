@@ -95,9 +95,14 @@ function Bookmarks(props) {
                   <Card.Meta>{shortenText(mark.description, 100)}</Card.Meta>
                 </Card.Content>
                 <Card.Content extra style={{ fontSize: "1.1rem" }}>
-                  <a style={{ color: "dodgerblue" }} href={mark.url}>
+                  <p
+                    style={{ color: "dodgerblue" }}
+                    onClick={() => {
+                      openLink(mark.url);
+                    }}
+                  >
                     {mark.url}{" "}
-                  </a>
+                  </p>
                 </Card.Content>
               </Card>
             ))}
