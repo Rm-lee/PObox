@@ -9,8 +9,11 @@ import {
   Segment,
   Sidebar
 } from "semantic-ui-react";
+import { withRouter } from "react-router-dom";
+import { connect } from "react-redux";
 import SideEdit from "./SideEdit";
 import SideInfo from "./SideInfo";
+import { openUrl } from "../Actions/index";
 
 function SidePanelInfo(props) {
   const [activeItem, setActiveItem] = useState("Info");
@@ -26,9 +29,11 @@ function SidePanelInfo(props) {
       case "Info":
         setView(<SideInfo data={props.data} type={props.type} />);
         break;
-      case "Launch":
-        setView(<Header>Launch</Header>);
-        break;
+      // case "Launch":
+      //     console.log(props.data.file_path)
+      //     props.openUrl(props.data.file_path);
+
+      //   break;
       default:
     }
   }, [activeItem, props.data]);
@@ -77,7 +82,10 @@ function SidePanelInfo(props) {
                 as="a"
                 name="Launch"
                 active={activeItem === "Launch"}
-                onClick={handleActive}
+                onClick={() => {
+                  console.log(props.data.file_path);
+                  props.openUrl(props.data.file_path);
+                }}
                 tag="Launch"
               >
                 Launch
@@ -94,5 +102,12 @@ function SidePanelInfo(props) {
     </Sidebar.Pushable>
   );
 }
-
-export default SidePanelInfo;
+function mapStateToProps(state) {
+  return {};
+}
+const mapDispatchToProps = {
+  openUrl: openUrl
+};
+export default withRouter(
+  connect(mapStateToProps, mapDispatchToProps)(SidePanelInfo)
+);
