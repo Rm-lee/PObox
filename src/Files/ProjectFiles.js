@@ -23,9 +23,11 @@ function ProjectFiles(props) {
     props.openUrl(url);
   };
   console.log(props);
+
   useEffect(() => {
     props.getAllFiles();
   }, []);
+
   useEffect(() => {
     console.log(props.files);
     setProjFiles(props.files.filter(el => el.project_id === props.obj.id));
@@ -84,7 +86,7 @@ function ProjectFiles(props) {
             <>
               <List.Item
                 onClick={() => {
-                  openLink(file.url);
+                  openLink(file.file_path);
                 }}
                 key={file.id}
                 style={{ fontSize: "1.1rem", padding: 0 }}

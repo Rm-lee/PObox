@@ -30,9 +30,16 @@ if (!fs.existsSync(path.resolve(app.getPath("userData"), "projects.db3"))) {
 
 //openBrowser Link
 ipc.on("openLink", (event, arg) => {
-  shell.openItem(arg);
+  if (sysos === "darwin") {
+    if (arg.startsWith("https") === true) {
+      shell.openExternal(arg);
+    } else {
+      shell.openItem(arg);
+    }
+  } else {
+    shell.openItem(arg);
+  }
 });
-
 //select dir of project with dialog
 ipc.on("select-dirs", async (event, arg) => {
   const result = await dialog.showOpenDialog(window, {
