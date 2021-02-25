@@ -38,7 +38,7 @@ const ProjectBookmarks = props => {
       name: mark.name
     };
 
-    props.updateBookMark(mark.id, markData);
+    props.updateBookMark(mark.bookmark_id, markData);
   };
   const disableLaunch = mark => {
     const markData = {
@@ -49,7 +49,7 @@ const ProjectBookmarks = props => {
       name: mark.name
     };
 
-    props.updateBookMark(mark.id, markData);
+    props.updateBookMark(mark.bookmark_id, markData);
   };
   const [urlName, setUrlName] = useState();
   const [modalOpen, setModalOpen] = useState(false);
@@ -139,7 +139,10 @@ const ProjectBookmarks = props => {
                         name={mark.launch ? "circle" : "ban"}
                         color={mark.launch ? "green" : "red"}
                       />
-                      <Dropdown icon={{ name: "setting", fontSize: "1.2rem" }}>
+                      <Dropdown
+                        onClick={() => console.log(mark)}
+                        icon={{ name: "setting", fontSize: "1.2rem" }}
+                      >
                         <Dropdown.Menu direction="left">
                           <Dropdown.Item
                             text="Set Auto Launch"
