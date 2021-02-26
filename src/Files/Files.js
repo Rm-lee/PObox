@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 import Styled from "styled-components";
@@ -30,6 +30,10 @@ function Files(props) {
   const [updatedFileList, setUpdatedList] = useState(
     props.files ? getUnique(props.files, "name") : null
   );
+
+  useEffect(() => {
+    setUpdatedList(getUnique(props.files, "name"));
+  }, [props.files]);
   const iconOptions = {
     png: "file image outline",
     pdf: "file pdf outline",
@@ -71,6 +75,7 @@ function Files(props) {
         setVisible={setVisible}
         type={"file"}
         data={file}
+        setFile={setFile}
       >
         <div style={{ minHeight: "72vh" }}>
           <div
