@@ -16,6 +16,10 @@ function Commands(props) {
   function copyCommandToCliboard(command) {
     navigator.clipboard.writeText(command);
   }
+
+  useEffect(() => {
+    setUpdatedList(props.commands);
+  }, [props.commands]);
   return (
     <>
       <SearchAndFilter
@@ -28,6 +32,7 @@ function Commands(props) {
         setVisible={setVisible}
         type={"command"}
         data={command}
+        setDataObj={setCommand}
       >
         <Card.Group stackable style={{ margin: "10px 0", padding: "10px 0" }}>
           {updatedCommandList &&

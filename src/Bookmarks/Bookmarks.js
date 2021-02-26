@@ -17,7 +17,7 @@ import { Card, Icon } from "semantic-ui-react";
 import { dragIn } from "../Utils/DragnDrop";
 
 function Bookmarks(props) {
-  const [updatedList, setUpdatedList] = useState(props.bookmarksNoPid);
+  const [updatedList, setUpdatedList] = useState();
   const [urlName, setUrlName] = useState();
   const [modalOpen, setModalOpen] = useState(false);
   const dragBnonLinkedRef = useRef();
@@ -44,8 +44,9 @@ function Bookmarks(props) {
       <SidePanelInfo
         visible={visible}
         setVisible={setVisible}
-        type={"file"}
+        type={"bookmark"}
         data={bookmark}
+        setDataObj={setBookmark}
       >
         <AddBookmarkModal
           noProj={true}

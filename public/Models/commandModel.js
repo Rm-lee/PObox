@@ -7,7 +7,8 @@ module.exports = {
   getCommandsForProj,
   getAllCommands,
   deleteCommand,
-  getLinkedProjs
+  getLinkedProjs,
+  updateCommand
 };
 //add a command to project
 async function addCommandToProj(commandtoadd) {
@@ -29,7 +30,7 @@ function linkCommandToProj(command_id, project_id) {
 function getAllCommands() {
   return db("commands").select();
 }
-//get all bookmarks for a project
+//get all commands for a project
 function getCommandsForProj(id) {
   return db("command_cat").where("project_id", id);
 }
@@ -45,8 +46,15 @@ function getAllCommandsWithPID() {
     .select();
 }
 function getLinkedProjs(id) {
-  console.log("test");
   return db("command_cat")
     .where("command_id", id)
     .select("project_id");
+}
+function updateCommand(id, commandObj) {
+  console.log(commandObj);
+  const { name, description, command, category } = commandObj;
+  console.log(command);
+  return db("commands")
+    .where("id", id)
+    .update({ name, description, command, category });
 }

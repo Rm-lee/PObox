@@ -26,7 +26,7 @@ function SidePanelInfo(props) {
       case "Edit":
         setView(
           <SideEdit
-            setFile={props.setFile}
+            setDataObj={props.setDataObj}
             data={props.data}
             type={props.type}
           />
@@ -89,7 +89,6 @@ function SidePanelInfo(props) {
                 name="Launch"
                 active={activeItem === "Launch"}
                 onClick={() => {
-                  console.log(props.data.file_path);
                   props.openUrl(props.data.file_path);
                 }}
                 tag="Launch"
