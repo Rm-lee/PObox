@@ -59,6 +59,7 @@ function Projects(props) {
   return (
     <>
       <List
+        popup="test"
         id="drag-file"
         ref={dragRef}
         style={ListStyle}

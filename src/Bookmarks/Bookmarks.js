@@ -97,7 +97,7 @@ function Bookmarks(props) {
                 </Card.Content>
                 <Card.Content extra style={{ fontSize: "1.1rem" }}>
                   <p
-                    style={{ color: "dodgerblue" }}
+                    style={{ color: "dodgerblue", cursor: "pointer" }}
                     onClick={() => {
                       openLink(mark.url);
                     }}
