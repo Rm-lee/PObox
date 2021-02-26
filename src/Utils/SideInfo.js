@@ -11,6 +11,7 @@ import {
 import { connect } from "react-redux";
 import { getLinkedProjects } from "../Actions/index.js";
 import "./Table.css";
+
 function SideInfo(props) {
   useEffect(() => {
     if (props.data.id) {
@@ -24,9 +25,10 @@ function SideInfo(props) {
         objData.push({ key, value });
       }
     }
+    console.log(props.data);
     setObjDataState(objData);
   }, [props.data]);
-  const [objDataState, setObjDataState] = useState(objData);
+  const [objDataState, setObjDataState] = useState();
 
   const [linkedProjectObj, setLinkedProjectObj] = useState([]);
 
@@ -57,28 +59,30 @@ function SideInfo(props) {
           </Table.Row>
         </Table.Header>
         <Table.Body>
-          {objDataState.map((data, i) => (
-            <Table.Row key={i}>
-              <Table.Cell>{data.key}</Table.Cell>
-              <Table.Cell
-                style={
-                  data.key === "command"
-                    ? { background: "#333", color: "lightgreen" }
-                    : null
-                }
-              >
-                {data.key === "command" && (
-                  <Icon
-                    name="copy"
-                    color="olive"
-                    style={{ marginRight: "10px", cursor: "pointer" }}
-                    onClick={copyCommandToCliboard(data.value)}
-                  />
-                )}{" "}
-                {data.value}
-              </Table.Cell>
-            </Table.Row>
-          ))}
+          {props.data &&
+            objDataState &&
+            objDataState.map((data, i) => (
+              <Table.Row key={i}>
+                <Table.Cell>{data.key}</Table.Cell>
+                <Table.Cell
+                  style={
+                    data.key === "command"
+                      ? { background: "#333", color: "lightgreen" }
+                      : null
+                  }
+                >
+                  {data.key === "command" && (
+                    <Icon
+                      name="copy"
+                      color="olive"
+                      style={{ marginRight: "10px", cursor: "pointer" }}
+                      onClick={copyCommandToCliboard(data.value)}
+                    />
+                  )}{" "}
+                  {data.value}
+                </Table.Cell>
+              </Table.Row>
+            ))}
         </Table.Body>
       </Table>
       <Header>Linked to Projects</Header>

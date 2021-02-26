@@ -125,6 +125,36 @@ IFS="\${oldifs}"`,
       event.sender.send("list-of-installed-apps", windowsApps);
     });
   }
+  if (sysos === "darwin") {
+    //get list of installed apps linux
+
+    exec(
+      `oldifs="\${IFS}"
+IFS=':'; for i in \${PATH}; do
+    find "\${i}" -executable | grep ${arg}
+done
+IFS="\${oldifs}"`,
+      (err, stdout, stderr) => {
+        if (err) {
+          //some err occurred
+        } else {
+          // the *entire* stdout and stderr (buffered)
+          let macApps = [];
+
+          let applications = stdout.split("\n");
+          applications.forEach(app => {
+            let pathTo = app;
+            let name = app.slice(app.lastIndexOf("/") + 1);
+            let appObj = { name: `${name}`, path: `${pathTo}` };
+            if (appObj.name) {
+              macApps.push(appObj);
+            }
+          });
+          event.sender.send("list-of-installed-apps", macApps);
+        }
+      }
+    );
+  }
 });
 
 //app launcher in proj dir
