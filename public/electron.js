@@ -37,6 +37,7 @@ ipc.on("openLink", (event, arg) => {
       shell.openItem(arg);
     }
   } else {
+    console.log(arg);
     shell.openItem(arg);
   }
 });
@@ -90,7 +91,7 @@ function createWindow() {
     frame: true,
     fullscreenable: false,
     resizable: true,
-    transparent: true,
+    transparent: false,
     backgroundColor: "#312450",
     webPreferences: {
       nodeIntegration: true,

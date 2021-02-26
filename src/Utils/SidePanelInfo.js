@@ -89,7 +89,12 @@ function SidePanelInfo(props) {
                 name="Launch"
                 active={activeItem === "Launch"}
                 onClick={() => {
-                  props.openUrl(props.data.file_path);
+                  if (props.type === "file") {
+                    props.openUrl(props.data.file_path);
+                  }
+                  if (props.type === "bookmark") {
+                    props.openUrl(props.data.url);
+                  }
                 }}
                 tag="Launch"
               >
