@@ -6,7 +6,8 @@ const {
   addCommandToProj,
   getLinkedProjs,
   linkCommandToProj,
-  updateCommand
+  updateCommand,
+  deleteCommand
 } = require(path.join(__dirname, "../Models/commandModel"));
 module.exports = {
   commandsAPI
@@ -49,12 +50,20 @@ function commandsAPI() {
         console.log("\n\ncommand linked", err);
       });
   });
-}
-ipc.on("updateCommand", async function(event, id, command) {
-  console.log("hello");
-  await updateCommand(id, command).then(result => {
-    getAllCommandsWithPID().then(result => {
-      event.sender.send("command-list", result);
+
+  ipc.on("updateCommand", async function(event, id, command) {
+    await updateCommand(id, command).then(result => {
+      getAllCommandsWithPID().then(result => {
+        event.sender.send("command-list", result);
+      });
     });
   });
-});
+
+  ipc.on("deleteCommand", async function(event, arg) {
+    await deleteCommand(arg).then(result => {
+      getAllCommandsWithPID().then(result => {
+        event.sender.send("command-list", result);
+      });
+    });
+  });
+}

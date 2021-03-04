@@ -1,11 +1,14 @@
 import React, { useState, useEffect } from "react";
 import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
+import { deleteCommand } from "../Actions/index";
 import SearchAndFilter from "../Utils/SearchAndFilter";
 import { shortenText } from "../Utils/Utilities";
 import "./command.css";
 import { List, Popup, Card, Icon, Button } from "semantic-ui-react";
 import SidePanelInfo from "../Utils/SidePanelInfo";
+import Styled from "styled-components";
+
 function Commands(props) {
   const itemStyle = {
     color: "#333"
@@ -125,7 +128,9 @@ function mapStateToProps(state) {
     commands: state.commands
   };
 }
-const mapDispatchToProps = {};
+const mapDispatchToProps = {
+  deleteCommand
+};
 export default withRouter(
   connect(mapStateToProps, mapDispatchToProps)(Commands)
 );

@@ -193,7 +193,6 @@ export function getLinkedProjects(id, type) {
     };
   }
   if (type === "command") {
-    console.log(id);
     ipc.send("commandsLinkedProjects", id);
     return dispatch => {
       ipc.on("commandLinkedProjs", function(event, arg) {
@@ -202,7 +201,6 @@ export function getLinkedProjects(id, type) {
     };
   }
   if (type === "bookmark") {
-    console.log(id);
     ipc.send("bookmarkLinkedProjects", id);
     return dispatch => {
       ipc.on("bookmarkLinkedProjs", function(event, arg) {
@@ -225,4 +223,8 @@ export function getAllCommands() {
       dispatch({ type: GETALLCOMMANDS, payload: arg });
     });
   };
+}
+export function deleteCommand(id) {
+  ipc.send("deleteCommand", id);
+  return dispatch => {};
 }
