@@ -25,7 +25,6 @@ function SideInfo(props) {
         objData.push({ key, value });
       }
     }
-    console.log(props.data);
     setObjDataState(objData);
   }, [props.data]);
   const [objDataState, setObjDataState] = useState();

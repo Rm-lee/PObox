@@ -1,12 +1,26 @@
 import React, { useEffect, useState, useRef } from "react";
 import { Input, List, Icon, Button, Divider } from "semantic-ui-react";
 import Styled from "styled-components";
-import { getAllCommands, addCommandToProj } from "../Actions/index";
+import {
+  getAllCommands,
+  addCommandToProj,
+  deleteCommand
+} from "../Actions/index";
 import AddCommandModal from "./addCommandModal";
 import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 import { dragIn } from "../Utils/DragnDrop";
 
+const StyledDeleteIcon = Styled(Icon)`
+float:right;
+padding-right:5px;
+&:hover{
+    
+    transform-origin:center;
+    transform:scale(1.2)
+}
+
+`;
 const itemStyle = {
   display: "flex"
 };
@@ -83,6 +97,14 @@ function ProjectCommands(props) {
                     style={{ fontSize: "1.2rem", color: "#333333" }}
                   >
                     {command.name}
+                    <StyledDeleteIcon
+                      color="red"
+                      name="delete"
+                      onClick={e => {
+                        e.stopPropagation();
+                        props.deleteCommand(command.id);
+                      }}
+                    />{" "}
                   </List.Content>
                 </List.Item>
               </Fragment>
@@ -100,7 +122,8 @@ function mapStateToProps(state) {
 }
 const mapDispatchToProps = {
   getAllCommands: getAllCommands,
-  addCommandToProj: addCommandToProj
+  addCommandToProj: addCommandToProj,
+  deleteCommand: deleteCommand
 };
 export default withRouter(
   connect(mapStateToProps, mapDispatchToProps)(ProjectCommands)

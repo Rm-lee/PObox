@@ -84,19 +84,20 @@ const AddProjectModal = props => {
         open={props.modalOpen}
         onClose={props.modalOpen}
         trigger={
-          <DropHere onClick={handleOpen}>
-            <Icon name="arrow down" size="small" color="darkgrey" />
-            <UnderArrow />
-            <Popup
-              content={props.popup}
-              trigger={
+          <Popup
+            content={props.popup}
+            trigger={
+              <DropHere onClick={handleOpen}>
+                <Icon name="arrow down" size="small" color="darkgrey" />
+                <UnderArrow />
+
                 <List.Content>
                   <List.Header as="h4"> {props.name} </List.Header>
                 </List.Content>
-              }
-              basic
-            />
-          </DropHere>
+              </DropHere>
+            }
+            basic
+          />
         }
         centered={false}
       >

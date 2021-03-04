@@ -7,7 +7,8 @@ const {
   getAllBookMarks,
   getAllBookMarksWithPID,
   updateBookMark,
-  deleteBookMark
+  deleteBookMark,
+  getLinkedProjs
 } = require(path.join(__dirname, "../Models/bookMarksModel"));
 module.exports = {
   bookmarksAPI
@@ -61,12 +62,24 @@ function bookmarksAPI() {
     });
   });
 
-  //update launch state for bookmark
+  //update  bookmark
   ipc.on("updateBookMark", async function(event, id, mark) {
     await updateBookMark(id, mark).then(result => {
       getAllBookMarksWithPID().then(result => {
         event.sender.send("bookmark-list", result);
       });
+      getAllBookMarks().then(result => {
+        event.sender.send("bookmarksWithoutPids", result);
+      });
     });
   });
 }
+ipc.on("bookmarkLinkedProjects", async function(event, arg) {
+  await getLinkedProjs(arg)
+    .then(result => {
+      event.sender.send("bookmarkLinkedProjs", result);
+    })
+    .catch(err => {
+      console.log("\n\nlinked", err);
+    });
+});

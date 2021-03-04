@@ -159,7 +159,7 @@ const ProjectBookmarks = props => {
                           <Dropdown.Item
                             text="Delete"
                             onClick={() => {
-                              props.deleteBookMark(mark.id);
+                              props.deleteBookMark(mark.bookmark_id);
                             }}
                           />
                         </Dropdown.Menu>

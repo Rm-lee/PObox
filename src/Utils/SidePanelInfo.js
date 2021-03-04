@@ -14,6 +14,9 @@ import { connect } from "react-redux";
 import SideEdit from "./SideEdit";
 import SideInfo from "./SideInfo";
 import { openUrl } from "../Actions/index";
+import { deleteCommand } from "../Actions/index";
+import { deleteBookMark } from "../Actions/bookmarkActions";
+import { deleteFile } from "../Actions/addFileActions";
 
 function SidePanelInfo(props) {
   const [activeItem, setActiveItem] = useState("Info");
@@ -21,12 +24,27 @@ function SidePanelInfo(props) {
   const handleActive = (e, { tag }) => {
     setActiveItem(tag);
   };
+
+  const deleteItem = e => {
+    if (props.type === "command") {
+      props.deleteCommand(props.data.command_id);
+      props.setVisible(false);
+    }
+    if (props.type === "bookmark") {
+      props.deleteBookMark(props.data.id);
+      props.setVisible(false);
+    }
+    if (props.type === "file") {
+      props.deleteFile(props.data.file_id);
+      props.setVisible(false);
+    }
+  };
   useEffect(() => {
     switch (activeItem) {
       case "Edit":
         setView(
           <SideEdit
-            setFile={props.setFile}
+            setDataObj={props.setDataObj}
             data={props.data}
             type={props.type}
           />
@@ -64,7 +82,11 @@ function SidePanelInfo(props) {
           <Segment.Group style={{ margin: 0, padding: "5px 15px 0" }}>
             <Menu pointing>
               <Menu.Item
-                style={{ width: "calc(100% / 3)" }}
+                style={{
+                  display: "flex",
+                  justifyContent: "center",
+                  width: "calc(100% / 4)"
+                }}
                 as="a"
                 name="Info"
                 active={activeItem === "Info"}
@@ -74,7 +96,11 @@ function SidePanelInfo(props) {
                 Info
               </Menu.Item>
               <Menu.Item
-                style={{ width: "calc(100% / 3)" }}
+                style={{
+                  display: "flex",
+                  justifyContent: "center",
+                  width: "calc(100% / 4)"
+                }}
                 as="a"
                 name="Edit"
                 active={activeItem === "Edit"}
@@ -84,17 +110,42 @@ function SidePanelInfo(props) {
                 Edit
               </Menu.Item>
               <Menu.Item
-                style={{ width: "calc(100% / 3)" }}
+                style={{
+                  display: "flex",
+                  justifyContent: "center",
+                  width: "calc(100% / 4)"
+                }}
                 as="a"
                 name="Launch"
                 active={activeItem === "Launch"}
                 onClick={() => {
-                  console.log(props.data.file_path);
-                  props.openUrl(props.data.file_path);
+                  if (props.type === "file") {
+                    props.openUrl(props.data.file_path);
+                  }
+                  if (props.type === "bookmark") {
+                    props.openUrl(props.data.url);
+                  }
                 }}
                 tag="Launch"
               >
                 Launch
+              </Menu.Item>
+              <Menu.Item
+                style={{
+                  display: "flex",
+                  justifyContent: "center",
+                  fontSize: "1.3rem",
+                  fontWeight: "bold",
+                  color: "red",
+                  width: "calc(100% / 4)"
+                }}
+                as="a"
+                name="Delete"
+                active={activeItem === "Delete"}
+                onClick={deleteItem}
+                tag="Delete"
+              >
+                Delete
               </Menu.Item>
             </Menu>
             <Segment style={{ borderTop: "none", padding: "10px 0" }}>
@@ -112,7 +163,10 @@ function mapStateToProps(state) {
   return {};
 }
 const mapDispatchToProps = {
-  openUrl: openUrl
+  openUrl: openUrl,
+  deleteFile,
+  deleteCommand,
+  deleteBookMark
 };
 export default withRouter(
   connect(mapStateToProps, mapDispatchToProps)(SidePanelInfo)

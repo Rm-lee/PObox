@@ -2,8 +2,6 @@ export const dragIn = (el, setName, setModal, type) => {
   //type is boolean declaring whether dropping text==false, or a file==true,
 
   if (el) {
-    console.log(el);
-    console.log(el.props);
     const holder = document.getElementById(el.props.id);
     holder.ondragover = () => {
       return false;

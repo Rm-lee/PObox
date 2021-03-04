@@ -75,7 +75,7 @@ function Files(props) {
         setVisible={setVisible}
         type={"file"}
         data={file}
-        setFile={setFile}
+        setDataObj={setFile}
       >
         <div style={{ minHeight: "72vh" }}>
           <div

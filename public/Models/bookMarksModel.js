@@ -8,7 +8,8 @@ module.exports = {
   getAllBookMarksWithPID,
   deleteBookMark,
   updateBookMark,
-  addNonLinkedBookMark
+  addNonLinkedBookMark,
+  getLinkedProjs
 };
 //add a bookmark to project
 async function addBookMark(mark) {
@@ -45,7 +46,6 @@ function getAllBookMarksWithPID() {
     .select();
 }
 function deleteBookMark(id) {
-  console.log(id);
   return db("bookmarks")
     .where({ id })
     .del();
@@ -55,4 +55,9 @@ function updateBookMark(id, mark) {
   return db("bookmarks")
     .where("id", id)
     .update({ name, url, category, description, launch });
+}
+function getLinkedProjs(id) {
+  return db("books_proj")
+    .where("bookmark_id", id)
+    .select("project_id");
 }

@@ -2,6 +2,9 @@ import React, { useState, useEffect } from "react";
 import { Header, Icon, Dropdown, Form, Button } from "semantic-ui-react";
 import Project from "../Projects/Project";
 import { linkFileToProj, updateFile } from "../Actions/addFileActions";
+import { updateBookMark } from "../Actions/bookmarkActions";
+import { updateCommand } from "../Actions/index";
+
 import { connect } from "react-redux";
 
 function SideEdit(props) {
@@ -38,14 +41,16 @@ function SideEdit(props) {
   }
   function submitUpdate() {
     // should create a function to get file by id and set setFile to that obj, will be more safe...
-    props.setFile(editObj);
+    props.setDataObj(editObj);
     if (props.type === "file") {
       addProjectsArr.forEach(proj => {
         props.linkFileToProj(props.data.id, proj);
       });
       props.updateFile(props.data.id, editObj);
     } else if (props.type === "command") {
-      alert("setup command update and link to proj");
+      props.updateCommand(props.data.id, editObj);
+    } else if (props.type === "bookmark") {
+      props.updateBookMark(props.data.id, editObj);
     }
   }
   return (
@@ -96,6 +101,8 @@ function mapStateToProps(state) {
 }
 const mapDispatchToProps = {
   linkFileToProj,
-  updateFile
+  updateFile,
+  updateCommand,
+  updateBookMark
 };
 export default connect(mapStateToProps, mapDispatchToProps)(SideEdit);

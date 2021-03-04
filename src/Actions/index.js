@@ -69,15 +69,6 @@ export function addCommandToProj(command) {
     });
   };
 }
-export function getAllCommands() {
-  return dispatch => {
-    console.log("fired get all commands");
-    ipc.send("getAllCommands", null);
-    ipc.on("command-list", function(event, arg) {
-      dispatch({ type: GETALLCOMMANDS, payload: arg });
-    });
-  };
-}
 export function getAllSnippets() {
   return dispatch => {
     ipc.send("getAllSnippets", null);
@@ -202,7 +193,6 @@ export function getLinkedProjects(id, type) {
     };
   }
   if (type === "command") {
-    console.log(id);
     ipc.send("commandsLinkedProjects", id);
     return dispatch => {
       ipc.on("commandLinkedProjs", function(event, arg) {
@@ -210,4 +200,31 @@ export function getLinkedProjects(id, type) {
       });
     };
   }
+  if (type === "bookmark") {
+    ipc.send("bookmarkLinkedProjects", id);
+    return dispatch => {
+      ipc.on("bookmarkLinkedProjs", function(event, arg) {
+        dispatch({ type: RESOURCELINKEDPROJS, payload: arg });
+      });
+    };
+  }
+}
+export function updateCommand(id, command) {
+  console.log(command);
+  ipc.send("updateCommand", id, command);
+  return dispatch => {};
+}
+
+export function getAllCommands() {
+  return dispatch => {
+    console.log("fired get all commands");
+    ipc.send("getAllCommands", null);
+    ipc.on("command-list", function(event, arg) {
+      dispatch({ type: GETALLCOMMANDS, payload: arg });
+    });
+  };
+}
+export function deleteCommand(id) {
+  ipc.send("deleteCommand", id);
+  return dispatch => {};
 }
