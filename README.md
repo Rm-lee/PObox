@@ -40,7 +40,7 @@ npm run build
 
 ### WIP:
 
-Mac not 100% supported, especially application searching, some other minor bugs might be noticed. If anything is broken or bug is found please open an issue.
+Mac not 100% supported, application searching for Mac not supported. Other minor bugs might be noticed. 
 
 ## Author
 
