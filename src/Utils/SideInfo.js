@@ -46,8 +46,10 @@ function SideInfo(props) {
   }
   return (
     <>
-      {props.type === "file" &&
-      props.data.name?.slice(props.data.name.lastIndexOf(".") + 1) === "png" ? (
+      {(props.type === "file" &&
+        props.data.name?.slice(props.data.name.lastIndexOf(".") + 1) ===
+          "png") ||
+      props.data.name?.slice(props.data.name.lastIndexOf(".") + 1) === "jpg" ? (
         <Image fluid src={props.data.file_path} />
       ) : null}
       <Table celled unstackable>

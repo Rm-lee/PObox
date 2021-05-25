@@ -76,7 +76,7 @@ function SideEdit(props) {
             </Form.Field>
           ))}
           <Form.Field>
-            <Dropdown
+            {/* <Dropdown
               placeholder="Add to Project"
               fluid
               multiple
@@ -84,7 +84,7 @@ function SideEdit(props) {
               selection
               options={projectoptions}
               onChange={addProjects}
-            />
+            /> */}
           </Form.Field>
           <Button color="teal" onClick={submitUpdate}>
             Update

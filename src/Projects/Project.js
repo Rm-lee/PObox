@@ -42,7 +42,6 @@ padding-top:0;
 
 function Project(props) {
   const [settings, setSettings] = useState(false);
-
   const [project1, setProject1] = useState();
   const [modalOpen, setModalOpen] = useState(false);
   const [fileName, setFileName] = useState();
@@ -51,6 +50,7 @@ function Project(props) {
   const [activeItem, setActiveItem] = useState("Apps");
   const [view, setView] = useState();
   const [commandInViewer, setCommandInViewer] = useState("");
+
   useEffect(() => {
     if (!props.projects) {
       props.history.push("/");
@@ -101,7 +101,11 @@ function Project(props) {
     setSettings(!settings);
   };
   const handleActive = (e, { name }) => {
-    setActiveItem(name);
+    if (name === "Settings") {
+      openCloseSettings();
+    } else {
+      setActiveItem(name);
+    }
   };
   const deleteThisProject = ID => {
     props.deleteProj(ID);
@@ -192,7 +196,7 @@ function Project(props) {
           <Segment>{view}</Segment>
         </Grid.Column>
       </Grid>
-
+      <ProjSettings close={openCloseSettings} visible={settings} />
       {/* </HalfDiv> */}
       {activeItem === "Commands" ? (
         <CommandViewer command={commandInViewer} />

@@ -87,13 +87,15 @@ function createWindow() {
   window = new BrowserWindow({
     width: 490,
     height: 550,
+
     show: false,
     frame: false,
     fullscreenable: false,
-    resizable: true,
+    resizable: false,
     transparent: false,
     backgroundColor: "#312450",
     webPreferences: {
+      devTools: false,
       nodeIntegration: true,
       preload: path.join(__dirname, "preload.js")
     }
