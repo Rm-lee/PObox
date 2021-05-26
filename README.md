@@ -6,7 +6,6 @@
 - [Installation](#installion)
   - [Dependencies](#dependencies)
   - [Setup Process](#setup-process)
-- [Usage](#usage)
 - [Features](#features)
 - [Project Structure](#project-structure)
 
@@ -16,7 +15,13 @@
 
 <br>
 
-### Cross platform system tray application for Linux and Windows that keeps Project files and resources organized and easily accessible. Users can drag and drop project folders onto application to start linking resources for said project. Resources that can be linked include, files ( if file is an image a thumbnail will be shown), bookmarks to specific websites needed for project, command line commands for the project and search and linking of specific desktop applications used for project. All information is stored in projects.db file created locally in respective platforms app data location.
+### Trying to keep track of all of the projects you are working on, where they're saved, what resources they use, documentation, specific commands to run them ect can be a real pain. So I decided to solve this problem by creating a small application that sits in your computers system tray to help organize all of these into one quick and easy to access place.
+
+#
+
+## What
+
+#### PO-box is a Cross platform system tray application for Linux, Windows and Mac that keeps Project files and resources organized and easily accessible. Resources that can be linked include, files, bookmarks to specific websites useful for a project, command line commands for the project also search and linking of specific desktop applications used for project. All information is stored in projects.db3 file created locally in respective platforms app data location. On linux this would be located in your user's `home/.config/po-box` directory.
 
 <br>
 
@@ -68,32 +73,40 @@ npm run build
 ```
 
 - The resulting executables will be created in the **dist/** directory.
-  On linux this will create an appimage and snap image
-
-#
-
-### Usage
-
-![](pobox0421.gif)
+  On linux this will create an appimage and snap image.
 
 #
 
 ### Features
 
-- Drag and drop folders on main projects page `New Project` box to add create a new project location.
+- Drag and drop folders on main projects page `New Project` box to create a new project entry.
 - Search for applications on system that are useful for a project and link them to individual projects.
   - Set which applications are to be automatically launched or launch them individually in projects directory by clicking on them.
-- drag and drop of bookmarks
+- Add project relavent bookmarks to a project by entering url or drag and drop a bookmark/url on `New BookMark` box in a project's `Bookmarks` tab.
+- Save project relavent commands for easy copy and paste for use later
+- Drag and drop project relavent files on project's `New File` box in project's `Files` tab, such as documentation, images, cheatsheets ect for easy access later.
+- Keep track of a project's progress with to do list for individual projects.
+- Files, Applications (IDEs for example) and Bookmarks can be set to be automatically launched with the press of a button from the main page of projects for quickly getting back to work on a project.
+- Top Tabs
+  - The tabs along the top of the application give access to resources from all projects to easily search without diving into each individual project.
+  - Editing of resource attributes are also found in these tabs.
+  - Code snippets can be saved with syntax highlighting per language to give you quick access to your favorite snippets.
 
 #
 
 ### Project Structure
 
+This project incorporates Electron, React, Redux and sqlite3 for the database.
+
+- The front-end is located in the `src` directory. This consists of React and Redux.
+- The Electron/Node backend and db files are all locatated in the `public` directory.
+- The ipcApi Directory in `public` contains what you could think of as endpoints which communicate with the database models inturn passing the data back to the front-end through interprocess communication. Electron uses `main` and `renderer` processes. More information on Electron's interprocess communication can be found in their api [here](https://www.electronjs.org/docs/api)
+
 #
 
 ### WIP:
 
-Mac not 100% supported, application searching for Mac not supported. Other minor bugs might be noticed.
+Mac not 100% supported, application searching for Mac not supported. Also it has been noticed there is a icon bug in the system tray of mac.
 
 ## Author
 
