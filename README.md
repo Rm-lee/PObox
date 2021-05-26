@@ -81,7 +81,7 @@ npm run build
 - Add project relevant bookmarks to a project by entering url or drag and drop a bookmark/url on `New BookMark` box in a project's `Bookmarks` tab.
 - Save project relevant commands for easy copy and paste for use later
 - Drag and drop project relevant files on project's `New File` box in project's `Files` tab, such as documentation, images, cheatsheets ect for easy access later.
-- Keep track of a project's progress with to do list for individual projects.
+- Keep track of a project's progress with a to do list for individual projects.
 - Files, Applications (IDEs for example) and Bookmarks can be set to be automatically launched with the press of a button from the main page of projects for quickly getting back to work on a project.
 - Top Tabs
   - The tabs along the top of the application give access to resources from all projects to easily search without diving into each individual project.
@@ -96,7 +96,7 @@ This project incorporates Electron, React, Redux and SQLite for the database.
 
 - The front-end is located in the `src/` directory. This consists of React and Redux.
 - The Electron/Node backend and db files are all locatated in the `public/` directory.
-- The ipcApi Directory in `public/` contains what you could think of as endpoints which communicate with the database models inturn passing the data back to the front-end through interprocess communication. Electron uses `main` and `renderer` processes. More information on Electron's interprocess communication can be found in their api documentation [here](https://www.electronjs.org/docs/api)
+- The ipcApi Directory in `public/` contains what you could think of as endpoints which communicate with the database models in turn passing the data back to the front-end through interprocess communication. Electron uses `main` and `renderer` processes. More information on Electron's interprocess communication can be found in their api documentation [here](https://www.electronjs.org/docs/api)
 
 #
 
