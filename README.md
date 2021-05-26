@@ -92,7 +92,7 @@ npm run build
 
 ### Project Structure
 
-This project incorporates Electron, React, Redux and sqlite3 for the database.
+This project incorporates Electron, React, Redux and SQLite for the database.
 
 - The front-end is located in the `src/` directory. This consists of React and Redux.
 - The Electron/Node backend and db files are all locatated in the `public/` directory.
