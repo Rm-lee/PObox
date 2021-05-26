@@ -15,7 +15,7 @@
 
 <br>
 
-#### Trying to keep track of all of the projects you are working on, where they're saved, what resources they use, documentation, specific commands used to run them ect can be a real pain. So I decided to solve this problem by creating a small application that sits in your computers system tray to help organize all of these into one quick and easy to access place.
+#### Trying to keep track of all of the projects you are working on, where they're saved, what resources they use, documentation, specific commands used to run them along with everything else can be a real pain. So I decided to solve this problem by creating a small application that sits in your computer’s system tray to help organize all of these into one easy to access place allowing you to get a project running and back working on it quickly.
 
 - PO-box is a Cross platform system tray application for Linux, Windows and Mac that keeps Project files and resources organized and easily accessible. Resources that can be linked include files, bookmarks to specific websites useful for a project, command line commands for the project, also searching for and linking of specific desktop applications used for project to individual projects. All information is persisted in projects.db3 file created locally in respective platforms app data location. On linux this would be located in your user's `home/.config/po-box` directory.
 
