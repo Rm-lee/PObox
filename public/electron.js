@@ -90,11 +90,11 @@ function createWindow() {
     show: false,
     frame: false,
     fullscreenable: false,
-    resizable: true,
+    resizable: false,
     transparent: false,
     backgroundColor: "#312450",
     webPreferences: {
-      // devTools: false,
+      devTools: false,
       nodeIntegration: true,
       preload: path.join(__dirname, "preload.js")
     }
@@ -105,14 +105,6 @@ function createWindow() {
       ? "http://localhost:3000/"
       : `file://${path.join(__dirname, "../build/index.html")}`
   );
-
-  //devtools redux
-  // BrowserWindow.addDevToolsExtension(
-  //   path.join(
-  //     os.homedir(),
-  //     ".config/google-chrome/Default/Extensions/lmhkpmbekcpmknklioeibfkpmmfibljd/2.17.0_0"
-  //   )
-  // );
 }
 const showWindow = () => {
   const trayBounds = appTray.getBounds();
