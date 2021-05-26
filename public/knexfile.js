@@ -6,7 +6,7 @@ module.exports = {
   connection: {
     filename: path.resolve(app.getPath("userData"), "projects.db3")
   },
-  debug: true,
+  debug: false,
   pool: {
     afterCreate: (conn, done) => {
       conn.run("PRAGMA foreign_keys = ON", done);

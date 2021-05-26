@@ -1,23 +1,21 @@
-import React from "react";
-import { useEffect, useState } from "react";
-import { Route } from "react-router-dom";
-import "./App.css";
-import Styled from "styled-components";
+import React, { useEffect } from "react";
 import { connect } from "react-redux";
-import Tray from "./Tray";
+import { Route, withRouter } from "react-router-dom";
+import Styled from "styled-components";
+import { getAllFiles } from "./Actions/addFileActions";
 import {
-  getAllProjs,
-  getAllSnippets,
+  getAllBookMarks,
+  getAllBookMarksNoPid
+} from "./Actions/bookmarkActions";
+import {
   getAllAppsWithPid,
   getAllCommands,
+  getAllProjs,
+  getAllSnippets,
   getAllTodos
 } from "./Actions/index";
-import { getAllFiles } from "./Actions/addFileActions";
-import { withRouter } from "react-router-dom";
-import {
-  getAllBookMarksNoPid,
-  getAllBookMarks
-} from "./Actions/bookmarkActions";
+import "./App.css";
+import Tray from "./Tray";
 const Container = Styled.div`
 width:100%;
 display:flex;

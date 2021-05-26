@@ -1,6 +1,6 @@
 import React from "react";
-import Styled from "styled-components";
 import { Icon, Popup } from "semantic-ui-react";
+import Styled from "styled-components";
 const CommandDescription = Styled.div`
 max-width:99%;
 overflow-wrap: break-word;

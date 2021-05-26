@@ -1,38 +1,15 @@
 exports.up = async function(knex) {
-  await knex.schema.createTable("users", user => {
-    user.increments("id");
-
-    user
-      .string("username", 255)
-      .notNullable()
-      .unique();
-
-    user.string("password", 255).notNullable();
-  });
-
   await knex.schema.createTable("projects", pro => {
     pro.increments("id");
-    pro
-      .string("name")
-      .unique()
-      .notNullable();
+    pro.string("name").notNullable();
     pro.string("description");
-    pro
-      .string("project_path")
-      .unique()
-      .notNullable();
+    pro.string("project_path").notNullable();
   });
   await knex.schema.createTable("files", fil => {
     fil.increments("id");
-    fil
-      .string("name")
-      .unique()
-      .notNullable();
+    fil.string("name").notNullable();
     fil.string("category").notNullable();
-    fil
-      .string("file_path")
-      .unique()
-      .notNullable();
+    fil.string("file_path").notNullable();
     fil
       .boolean("launch")
       .defaultTo(false)
@@ -50,10 +27,7 @@ exports.up = async function(knex) {
 
   await knex.schema.createTable("bookmarks", book => {
     book.increments("id");
-    book
-      .string("name")
-      .unique()
-      .notNullable();
+    book.string("name").notNullable();
     book.string("description");
     book.string("url").notNullable();
     book.string("category").notNullable();
@@ -167,6 +141,5 @@ exports.down = function(knex) {
     .dropTableIfExists("bookmarks")
     .dropTableIfExists("apps")
     .dropTableIfExists("files")
-    .dropTableIfExists("projects")
-    .dropTableIfExists("users");
+    .dropTableIfExists("projects");
 };

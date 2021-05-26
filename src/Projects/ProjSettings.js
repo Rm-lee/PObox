@@ -1,21 +1,8 @@
-import React, { useState, useEffect } from "react";
-import Styled from "styled-components";
-import {
-  Icon,
-  Menu,
-  Grid,
-  Segment,
-  Sidebar,
-  Header,
-  Image
-} from "semantic-ui-react";
-import { deleteProj, openUrl } from "../Actions/index";
-import { withRouter } from "react-router-dom";
+import React from "react";
 import { connect } from "react-redux";
-
-const Settings = Styled.div`
-
-`;
+import { withRouter } from "react-router-dom";
+import { Icon, Menu, Modal, Segment, Sidebar } from "semantic-ui-react";
+import { deleteProj, openUrl } from "../Actions/index";
 
 function ProjSettings(props) {
   return (
@@ -39,24 +26,44 @@ function ProjSettings(props) {
           <Menu.Item
             onClick={e => {
               e.stopPropagation();
-              props.openUrl("https://gitlab.com/jekyll-hyde/po-box");
+              props.openUrl("https://github.com/Rm-lee/PObox");
             }}
           >
             <Icon name="info circle" />
             About
           </Menu.Item>
-          <Menu.Item>
+          {/* <Menu.Item>
             <Icon name="save" />
             Export Database
-          </Menu.Item>
+          </Menu.Item> */}
 
-          <Menu.Item
-            onClick={e => {
-              e.stopPropagation();
-            }}
-          >
-            Future Features
-          </Menu.Item>
+          <Modal
+            trigger={
+              <Menu.Item
+                onClick={e => {
+                  e.stopPropagation();
+                }}
+              >
+                Future Features
+              </Menu.Item>
+            }
+            header="Future Features"
+            content={
+              <div
+                style={{
+                  width: "100%",
+                  display: "flex",
+                  justifyContent: "center"
+                }}
+              >
+                <p style={{ margin: "10px 0 ", fontSize: "1.2rem" }}>
+                  Automatic updates<br></br>UI Improvements<br></br>Exporting of
+                  Database<br></br>Thumbnail support for more file types
+                </p>
+              </div>
+            }
+            actions={["Close"]}
+          />
         </Sidebar>
 
         <Sidebar
@@ -88,7 +95,7 @@ function ProjSettings(props) {
               }}
               as="a"
             >
-              Delete {props.currentProject.name}
+              Remove {props.currentProject.name}
             </Menu.Item>
           )}
         </Sidebar>

@@ -1,13 +1,12 @@
-import React, { useState, useEffect } from "react";
-import { withRouter } from "react-router-dom";
+import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
+import { withRouter } from "react-router-dom";
+import { Card, Icon, Popup } from "semantic-ui-react";
 import { deleteCommand } from "../Actions/index";
 import SearchAndFilter from "../Utils/SearchAndFilter";
+import SidePanelInfo from "../Utils/SidePanelInfo";
 import { shortenText } from "../Utils/Utilities";
 import "./command.css";
-import { List, Popup, Card, Icon, Button } from "semantic-ui-react";
-import SidePanelInfo from "../Utils/SidePanelInfo";
-import Styled from "styled-components";
 
 function Commands(props) {
   const itemStyle = {
@@ -41,6 +40,7 @@ function Commands(props) {
           {updatedCommandList &&
             updatedCommandList.map((command, i) => (
               <Card
+                key={i}
                 style={{
                   boxShadow: "4px 8px 10px #aaa",
                   maxWidth: "80%",

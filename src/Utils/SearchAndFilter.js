@@ -1,14 +1,14 @@
-import React, { useState, useEffect } from "react";
-import { filterCategory, getUnique } from "./Utilities";
+import React, { useEffect, useState } from "react";
 import {
-  Input,
-  Header,
   Divider,
-  List,
-  Icon,
+  Dropdown,
   Form,
-  Dropdown
+  Header,
+  Icon,
+  Input,
+  List
 } from "semantic-ui-react";
+import { filterCategory, getUnique } from "./Utilities";
 function SearchAndFilter(props) {
   const ListStyle = {
     width: "100%",

@@ -1,14 +1,6 @@
 import React, { useEffect, useState } from "react";
-import {
-  Header,
-  Icon,
-  List,
-  Image,
-  Table,
-  Button,
-  Label
-} from "semantic-ui-react";
 import { connect } from "react-redux";
+import { Header, Icon, Image, Label, Table } from "semantic-ui-react";
 import { getLinkedProjects } from "../Actions/index.js";
 import "./Table.css";
 
@@ -46,8 +38,10 @@ function SideInfo(props) {
   }
   return (
     <>
-      {props.type === "file" &&
-      props.data.name?.slice(props.data.name.lastIndexOf(".") + 1) === "png" ? (
+      {(props.type === "file" &&
+        props.data.name?.slice(props.data.name.lastIndexOf(".") + 1) ===
+          "png") ||
+      props.data.name?.slice(props.data.name.lastIndexOf(".") + 1) === "jpg" ? (
         <Image fluid src={props.data.file_path} />
       ) : null}
       <Table celled unstackable>

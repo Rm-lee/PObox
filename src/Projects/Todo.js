@@ -1,18 +1,9 @@
-import React, { useState, useEffect, useRef } from "react";
-import {
-  Header,
-  Divider,
-  List,
-  Icon,
-  Popup,
-  Label,
-  Input,
-  Button
-} from "semantic-ui-react";
-import { getAllTodos, addTodo, deleteTodo } from "../Actions/index";
-import { withRouter } from "react-router-dom";
+import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
+import { withRouter } from "react-router-dom";
+import { Divider, Icon, Input, List } from "semantic-ui-react";
 import Styled from "styled-components";
+import { addTodo, deleteTodo, getAllTodos } from "../Actions/index";
 
 const StyledIconDiv = Styled.div`
 padding:15px 10px;

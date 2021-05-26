@@ -37,7 +37,6 @@ ipc.on("openLink", (event, arg) => {
       shell.openItem(arg);
     }
   } else {
-    console.log(arg);
     shell.openItem(arg);
   }
 });
@@ -87,6 +86,7 @@ function createWindow() {
   window = new BrowserWindow({
     width: 490,
     height: 550,
+
     show: false,
     frame: false,
     fullscreenable: false,
@@ -94,6 +94,7 @@ function createWindow() {
     transparent: false,
     backgroundColor: "#312450",
     webPreferences: {
+      // devTools: false,
       nodeIntegration: true,
       preload: path.join(__dirname, "preload.js")
     }

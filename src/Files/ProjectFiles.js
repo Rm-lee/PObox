@@ -1,10 +1,10 @@
-import React, { useState, useRef, useEffect } from "react";
-import { dragIn } from "../Utils/DragnDrop";
+import React, { useEffect, useRef, useState } from "react";
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
-import { updateFile, deleteFile, getAllFiles } from "../Actions/addFileActions";
-import { List, Divider, Icon, Dropdown, Popup } from "semantic-ui-react";
+import { Divider, Dropdown, Icon, List, Popup } from "semantic-ui-react";
+import { deleteFile, getAllFiles, updateFile } from "../Actions/addFileActions";
 import { openUrl } from "../Actions/index";
+import { dragIn } from "../Utils/DragnDrop";
 import AddFilesModal from "./AddFilesModal";
 
 function ProjectFiles(props) {

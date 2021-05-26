@@ -51,9 +51,7 @@ function getLinkedProjs(id) {
     .select("project_id");
 }
 function updateCommand(id, commandObj) {
-  console.log(commandObj);
   const { name, description, command, category } = commandObj;
-  console.log(command);
   return db("commands")
     .where("id", id)
     .update({ name, description, command, category });

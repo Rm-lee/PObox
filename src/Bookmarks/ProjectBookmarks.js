@@ -1,26 +1,16 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
+import { connect } from "react-redux";
+import { withRouter } from "react-router-dom";
+import { Divider, Dropdown, Icon, List } from "semantic-ui-react";
 import {
-  Header,
-  Divider,
-  List,
-  Icon,
-  Popup,
-  Label,
-  Dropdown
-} from "semantic-ui-react";
-import BreadCrumbs from "../UIElements/BreadCrumbs";
-import { dragIn } from "../Utils/DragnDrop";
-import AddBookmarkModal from "../Bookmarks/projectsAddBookmark";
-import {
+  deleteBookMark,
   getAllBookMarks,
-  updateBookMark,
   getAllBookMarksNoPid,
-  deleteBookMark
+  updateBookMark
 } from "../Actions/bookmarkActions";
 import { openUrl } from "../Actions/index";
-import { withRouter } from "react-router-dom";
-import { connect } from "react-redux";
-import Styled from "styled-components";
+import AddBookmarkModal from "../Bookmarks/projectsAddBookmark";
+import { dragIn } from "../Utils/DragnDrop";
 
 const ProjectBookmarks = props => {
   const ListStyle = {
@@ -114,7 +104,11 @@ const ProjectBookmarks = props => {
               <>
                 <List.Item
                   onClick={() => {
-                    openLink(mark.url);
+                    let updatedUrl = mark.url;
+                    if (!updatedUrl.startsWith("https://")) {
+                      updatedUrl = `https://${updatedUrl}`;
+                    }
+                    openLink(updatedUrl);
                   }}
                   key={mark.id}
                   style={{ fontSize: "1.2rem" }}

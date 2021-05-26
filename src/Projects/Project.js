@@ -1,35 +1,19 @@
-import React from "react";
-import BreadCrumbs from "../UIElements/BreadCrumbs";
-import {
-  Header,
-  Menu,
-  Label,
-  Grid,
-  Segment,
-  Button,
-  Divider,
-  Popup,
-  Icon
-} from "semantic-ui-react";
-import Styled from "styled-components";
-import { useEffect, useState, useRef } from "react";
-import { withRouter } from "react-router-dom";
+import React, { useEffect, useRef, useState } from "react";
 import { connect } from "react-redux";
+import { withRouter } from "react-router-dom";
+import { Grid, Header, Menu, Popup, Segment } from "semantic-ui-react";
+import Styled from "styled-components";
+import { deleteProj, setCurrentProject } from "../Actions/index";
+import ProjectApps from "../Apps/ProjectApps";
+import ProjectBookmarks from "../Bookmarks/ProjectBookmarks";
+import CommandViewer from "../Commands/CommandViewer";
+import ProjectCommands from "../Commands/ProjectCommands";
+import ProjectFiles from "../Files/ProjectFiles";
+import { dragIn } from "../Utils/DragnDrop";
+import ProjSettings from "./ProjSettings";
+import "./settings.css";
 //import { Link, } from "react-router-dom"
 import Todo from "./Todo";
-import ProjectBookmarks from "../Bookmarks/ProjectBookmarks";
-import ProjSettings from "./ProjSettings";
-import CommandViewer from "../Commands/CommandViewer";
-import ProjectFiles from "../Files/ProjectFiles";
-import ProjectApps from "../Apps/ProjectApps";
-import ProjectCommands from "../Commands/ProjectCommands";
-import { dragIn } from "../Utils/DragnDrop";
-import { deleteProj, setCurrentProject } from "../Actions/index";
-import "./settings.css";
-const HalfDiv = Styled.div`
-display:flex;
-justify-content:space-evenly;
-`;
 
 const HeaderBar = Styled.div`
 display:flex;
@@ -42,15 +26,14 @@ padding-top:0;
 
 function Project(props) {
   const [settings, setSettings] = useState(false);
-
   const [project1, setProject1] = useState();
   const [modalOpen, setModalOpen] = useState(false);
   const [fileName, setFileName] = useState();
-  const [projBooks, setProjBooks] = useState();
   let crumbs = props.location.pathname.split("/");
   const [activeItem, setActiveItem] = useState("Apps");
   const [view, setView] = useState();
   const [commandInViewer, setCommandInViewer] = useState("");
+
   useEffect(() => {
     if (!props.projects) {
       props.history.push("/");
@@ -101,7 +84,11 @@ function Project(props) {
     setSettings(!settings);
   };
   const handleActive = (e, { name }) => {
-    setActiveItem(name);
+    if (name === "Settings") {
+      openCloseSettings();
+    } else {
+      setActiveItem(name);
+    }
   };
   const deleteThisProject = ID => {
     props.deleteProj(ID);
@@ -192,7 +179,7 @@ function Project(props) {
           <Segment>{view}</Segment>
         </Grid.Column>
       </Grid>
-
+      <ProjSettings close={openCloseSettings} visible={settings} />
       {/* </HalfDiv> */}
       {activeItem === "Commands" ? (
         <CommandViewer command={commandInViewer} />
