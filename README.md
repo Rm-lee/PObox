@@ -104,6 +104,12 @@ This project incorporates Electron, React, Redux and SQLite for the database.
 
 Mac not 100% supported, application searching for Mac not supported.
 
+#
+
+<div style="text-align:center" >
+<img src="pobox0421.gif" width="50%" >
+</div>
+
 ## Author
 
 **Roger Lee**
