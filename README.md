@@ -3,7 +3,7 @@
 ## Table of Contents
 
 - [Why](#why)
-- [Installation](#installion)
+- [Installation](#installation)
   - [Dependencies](#dependencies)
   - [Setup Process](#setup-process)
 - [Features](#features)
