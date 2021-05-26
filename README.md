@@ -15,13 +15,9 @@
 
 <br>
 
-### Trying to keep track of all of the projects you are working on, where they're saved, what resources they use, documentation, specific commands to run them ect can be a real pain. So I decided to solve this problem by creating a small application that sits in your computers system tray to help organize all of these into one quick and easy to access place.
+#### Trying to keep track of all of the projects you are working on, where they're saved, what resources they use, documentation, specific commands used to run them ect can be a real pain. So I decided to solve this problem by creating a small application that sits in your computers system tray to help organize all of these into one quick and easy to access place.
 
-#
-
-## What
-
-#### PO-box is a Cross platform system tray application for Linux, Windows and Mac that keeps Project files and resources organized and easily accessible. Resources that can be linked include, files, bookmarks to specific websites useful for a project, command line commands for the project also search and linking of specific desktop applications used for project. All information is stored in projects.db3 file created locally in respective platforms app data location. On linux this would be located in your user's `home/.config/po-box` directory.
+- PO-box is a Cross platform system tray application for Linux, Windows and Mac that keeps Project files and resources organized and easily accessible. Resources that can be linked include files, bookmarks to specific websites useful for a project, command line commands for the project, also searching for and linking of specific desktop applications used for project to individual projects. All information is persisted in projects.db3 file created locally in respective platforms app data location. On linux this would be located in your user's `home/.config/po-box` directory.
 
 <br>
 
@@ -36,11 +32,11 @@
 ### Dependencies
 
 - `Node`
-  - tested with versions `14.15.4`, `14.16.1` and `14.17.0` on Ubuntu 20.04 though other versions should work fine. You can check your version installed from the command line by running
+  - tested with versions `14.15.4`, `14.16.1` and `14.17.0` on Ubuntu 20.04 and Mac, though other versions should work fine. You can check the version of Nodejs installed on your system from the command line by running
   ```sh
   node -v
   ```
-  -note: A great easy script to manage `Node` installations on linux is `nvm`. You can find it [here](https://github.com/nvm-sh/nvm)
+  -Note: A great easy script to manage `Node` installations on linux is `nvm`. You can find it [here](https://github.com/nvm-sh/nvm)
 
 ### Setup Process
 
@@ -72,8 +68,8 @@ npm start
 npm run build
 ```
 
-- The resulting executables will be created in the **dist/** directory.
-  On linux this will create an appimage and snap image.
+- The resulting executables will be created in the `dist/` directory.
+  On linux this will create an appimage and snap package.
 
 #
 
@@ -82,9 +78,9 @@ npm run build
 - Drag and drop folders on main projects page `New Project` box to create a new project entry.
 - Search for applications on system that are useful for a project and link them to individual projects.
   - Set which applications are to be automatically launched or launch them individually in projects directory by clicking on them.
-- Add project relavent bookmarks to a project by entering url or drag and drop a bookmark/url on `New BookMark` box in a project's `Bookmarks` tab.
-- Save project relavent commands for easy copy and paste for use later
-- Drag and drop project relavent files on project's `New File` box in project's `Files` tab, such as documentation, images, cheatsheets ect for easy access later.
+- Add project relevant bookmarks to a project by entering url or drag and drop a bookmark/url on `New BookMark` box in a project's `Bookmarks` tab.
+- Save project relevant commands for easy copy and paste for use later
+- Drag and drop project relevant files on project's `New File` box in project's `Files` tab, such as documentation, images, cheatsheets ect for easy access later.
 - Keep track of a project's progress with to do list for individual projects.
 - Files, Applications (IDEs for example) and Bookmarks can be set to be automatically launched with the press of a button from the main page of projects for quickly getting back to work on a project.
 - Top Tabs
@@ -98,15 +94,15 @@ npm run build
 
 This project incorporates Electron, React, Redux and sqlite3 for the database.
 
-- The front-end is located in the `src` directory. This consists of React and Redux.
-- The Electron/Node backend and db files are all locatated in the `public` directory.
-- The ipcApi Directory in `public` contains what you could think of as endpoints which communicate with the database models inturn passing the data back to the front-end through interprocess communication. Electron uses `main` and `renderer` processes. More information on Electron's interprocess communication can be found in their api [here](https://www.electronjs.org/docs/api)
+- The front-end is located in the `src/` directory. This consists of React and Redux.
+- The Electron/Node backend and db files are all locatated in the `public/` directory.
+- The ipcApi Directory in `public/` contains what you could think of as endpoints which communicate with the database models inturn passing the data back to the front-end through interprocess communication. Electron uses `main` and `renderer` processes. More information on Electron's interprocess communication can be found in their api documentation [here](https://www.electronjs.org/docs/api)
 
 #
 
 ### WIP:
 
-Mac not 100% supported, application searching for Mac not supported. Also it has been noticed there is a icon bug in the system tray of mac.
+Mac not 100% supported, application searching for Mac not supported.
 
 ## Author
 
