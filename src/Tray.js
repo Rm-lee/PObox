@@ -1,14 +1,14 @@
 import React from "react";
-import { Route, Link } from "react-router-dom";
+import { Route } from "react-router-dom";
 import Styled from "styled-components";
+import Bookmarks from "./Bookmarks/Bookmarks";
+import Commands from "./Commands/Commands";
+import Files from "./Files/Files";
+import Project from "./Projects/Project";
+import Projects from "./Projects/Projects";
+import Snippets from "./Snippets/Snippets";
 // import {useEffect, useState} from 'react'
 import Tabs from "./UIElements/Tabs";
-import Projects from "./Projects/Projects";
-import Project from "./Projects/Project";
-import Commands from "./Commands/Commands";
-import Snippets from "./Snippets/Snippets";
-import Bookmarks from "./Bookmarks/Bookmarks";
-import Files from "./Files/Files";
 const TrayContainer = Styled.div`
 width:100%;
 display:flex;

@@ -1,14 +1,13 @@
 import React from "react";
 import ReactDOM from "react-dom";
+import { Provider } from "react-redux";
+import { HashRouter as Router } from "react-router-dom";
+import { applyMiddleware, compose, createStore } from "redux";
+import thunk from "redux-thunk";
+import "semantic-ui-css/semantic.min.css";
 import App from "./App";
 import "./index.css";
-import { Provider } from "react-redux";
-import thunk from "redux-thunk";
-import logger from "redux-logger";
 import { reducer } from "./Reducers";
-import { createStore, applyMiddleware, compose } from "redux";
-import { HashRouter as Router } from "react-router-dom";
-import "semantic-ui-css/semantic.min.css";
 const createLogActionStackTraceMiddleware = (actionTypes = []) => {
   const logActionStackTraceMiddleware = storeAPI => next => action => {
     if (action.type && actionTypes.includes(action.type)) {

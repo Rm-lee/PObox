@@ -178,7 +178,6 @@ export function launchAppInDir(app, path) {
 }
 
 export function openUrl(url) {
-  console.log("url", url);
   return dispatch => {
     ipc.send("openLink", url);
   };

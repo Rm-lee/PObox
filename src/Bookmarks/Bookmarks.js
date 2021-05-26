@@ -1,20 +1,16 @@
-import React, { useState, useRef, useEffect } from "react";
-import { withRouter } from "react-router-dom";
+import React, { useEffect, useRef, useState } from "react";
 import { connect } from "react-redux";
-import Styled from "styled-components";
+import { withRouter } from "react-router-dom";
+import { Card, Icon } from "semantic-ui-react";
 import {
-  updateBookMark,
   deleteBookMark,
-  addBookMark,
   getAllBookMarksNoPid
 } from "../Actions/bookmarkActions";
-import { shortenText } from "../Utils/Utilities";
 import { openUrl } from "../Actions/index";
-import AddBookmarkModal from "./AddBookmarkModal";
-import SidePanelInfo from "../Utils/SidePanelInfo";
 import SearchAndFilter from "../Utils/SearchAndFilter";
-import { Card, Icon } from "semantic-ui-react";
-import { dragIn } from "../Utils/DragnDrop";
+import SidePanelInfo from "../Utils/SidePanelInfo";
+import { shortenText } from "../Utils/Utilities";
+import AddBookmarkModal from "./AddBookmarkModal";
 
 function Bookmarks(props) {
   const [updatedList, setUpdatedList] = useState();
@@ -23,7 +19,11 @@ function Bookmarks(props) {
   const dragBnonLinkedRef = useRef();
 
   const openLink = url => {
-    props.openUrl(url);
+    let updatedUrl = url;
+    if (!url.startsWith("https://")) {
+      updatedUrl = `https://${url}`;
+    }
+    props.openUrl(updatedUrl);
   };
 
   useEffect(() => {

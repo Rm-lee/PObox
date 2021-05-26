@@ -1,31 +1,19 @@
-import React from "react";
-import BreadCrumbs from "../UIElements/BreadCrumbs";
-import {
-  Header,
-  Menu,
-  Label,
-  Grid,
-  Segment,
-  Button,
-  Divider,
-  Popup,
-  Icon
-} from "semantic-ui-react";
-import Styled from "styled-components";
-import { useEffect, useState, useRef } from "react";
-import { withRouter } from "react-router-dom";
+import React, { useEffect, useRef, useState } from "react";
 import { connect } from "react-redux";
+import { withRouter } from "react-router-dom";
+import { Grid, Header, Menu, Popup, Segment } from "semantic-ui-react";
+import Styled from "styled-components";
+import { deleteProj, setCurrentProject } from "../Actions/index";
+import ProjectApps from "../Apps/ProjectApps";
+import ProjectBookmarks from "../Bookmarks/ProjectBookmarks";
+import CommandViewer from "../Commands/CommandViewer";
+import ProjectCommands from "../Commands/ProjectCommands";
+import ProjectFiles from "../Files/ProjectFiles";
+import { dragIn } from "../Utils/DragnDrop";
+import ProjSettings from "./ProjSettings";
+import "./settings.css";
 //import { Link, } from "react-router-dom"
 import Todo from "./Todo";
-import ProjectBookmarks from "../Bookmarks/ProjectBookmarks";
-import ProjSettings from "./ProjSettings";
-import CommandViewer from "../Commands/CommandViewer";
-import ProjectFiles from "../Files/ProjectFiles";
-import ProjectApps from "../Apps/ProjectApps";
-import ProjectCommands from "../Commands/ProjectCommands";
-import { dragIn } from "../Utils/DragnDrop";
-import { deleteProj, setCurrentProject } from "../Actions/index";
-import "./settings.css";
 const HalfDiv = Styled.div`
 display:flex;
 justify-content:space-evenly;

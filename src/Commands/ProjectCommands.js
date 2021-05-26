@@ -1,15 +1,15 @@
-import React, { useEffect, useState, useRef } from "react";
-import { Input, List, Icon, Button, Divider } from "semantic-ui-react";
+import React, { useEffect, useRef, useState } from "react";
+import { connect } from "react-redux";
+import { withRouter } from "react-router-dom";
+import { Divider, Icon, List } from "semantic-ui-react";
 import Styled from "styled-components";
 import {
-  getAllCommands,
   addCommandToProj,
-  deleteCommand
+  deleteCommand,
+  getAllCommands
 } from "../Actions/index";
-import AddCommandModal from "./addCommandModal";
-import { withRouter } from "react-router-dom";
-import { connect } from "react-redux";
 import { dragIn } from "../Utils/DragnDrop";
+import AddCommandModal from "./addCommandModal";
 
 const StyledDeleteIcon = Styled(Icon)`
 float:right;

@@ -1,14 +1,11 @@
-import React, { useRef } from "react";
-import { Header, Divider, Label, List, Icon, Popup } from "semantic-ui-react";
-import Styled from "styled-components";
-import { Link } from "react-router-dom";
-import { useEffect, useState } from "react";
-import BreadCrumbs from "../UIElements/BreadCrumbs";
-import AddProjectModal from "./AddProjectModal";
-import { withRouter } from "react-router-dom";
+import React, { useEffect, useRef, useState } from "react";
 import { connect } from "react-redux";
-import { dragIn } from "../Utils/DragnDrop";
+import { Link, withRouter } from "react-router-dom";
+import { Divider, Header, Icon, Label, List, Popup } from "semantic-ui-react";
+import Styled from "styled-components";
 import { launchAppInDir, openUrl } from "../Actions/index";
+import { dragIn } from "../Utils/DragnDrop";
+import AddProjectModal from "./AddProjectModal";
 function Projects(props) {
   const [fileName, setFileName] = useState();
 

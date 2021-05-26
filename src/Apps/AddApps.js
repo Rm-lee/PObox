@@ -1,20 +1,10 @@
 import React, { useEffect, useState } from "react";
-import {
-  Label,
-  Form,
-  Input,
-  Icon,
-  Popup,
-  Dropdown,
-  List,
-  Divider
-} from "semantic-ui-react";
-import Styled from "styled-components";
-import AddAppsForm from "./AddAppsForm";
-import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
-import { getInstalledApps, addApp } from "../Actions/index";
+import { withRouter } from "react-router-dom";
+import { Divider, List, Popup } from "semantic-ui-react";
+import { addApp, getInstalledApps } from "../Actions/index";
 import MessageToast from "../UIElements/MessageToast";
+import AddAppsForm from "./AddAppsForm";
 
 function AddApps(props) {
   function appSearch(e, term) {

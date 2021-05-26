@@ -1,19 +1,19 @@
-import {
-  GETALLPROJS,
-  GETALLSNIPPETS,
-  GETINSTALLEDAPPS,
-  GETALLCOMMANDS,
-  GETALLAPPS,
-  GETALLTODOS,
-  CURRENTPROJ,
-  RESOURCELINKEDPROJS
-} from "../Actions/index.js";
 import { GETALLFILES } from "../Actions/addFileActions";
 import {
   GETALLBOOKMARKS,
   GETALLBOOKMARKSNOPID,
   LOADING
 } from "../Actions/bookmarkActions";
+import {
+  CURRENTPROJ,
+  GETALLAPPS,
+  GETALLCOMMANDS,
+  GETALLPROJS,
+  GETALLSNIPPETS,
+  GETALLTODOS,
+  GETINSTALLEDAPPS,
+  RESOURCELINKEDPROJS
+} from "../Actions/index.js";
 import { CHOOSE_PROJECT_DIR } from "../Actions/projectActions";
 
 const initialState = {

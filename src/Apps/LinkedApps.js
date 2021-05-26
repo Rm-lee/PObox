@@ -1,23 +1,12 @@
 import React, { useEffect, useState } from "react";
-import {
-  Label,
-  Form,
-  Input,
-  Icon,
-  Popup,
-  Dropdown,
-  List,
-  Divider
-} from "semantic-ui-react";
-import Styled from "styled-components";
-import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
+import { withRouter } from "react-router-dom";
+import { Divider, Dropdown, Icon, List } from "semantic-ui-react";
 import {
   deleteApp,
-  updateApp,
-  deleteTodo,
+  launchAppInDir,
   launchAppSolo,
-  launchAppInDir
+  updateApp
 } from "../Actions/index";
 function LinkedApps(props) {
   const [LinkedApps, setLinkedApps] = useState();

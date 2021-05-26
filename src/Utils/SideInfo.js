@@ -1,14 +1,6 @@
 import React, { useEffect, useState } from "react";
-import {
-  Header,
-  Icon,
-  List,
-  Image,
-  Table,
-  Button,
-  Label
-} from "semantic-ui-react";
 import { connect } from "react-redux";
+import { Header, Icon, Image, Label, Table } from "semantic-ui-react";
 import { getLinkedProjects } from "../Actions/index.js";
 import "./Table.css";
 

@@ -1,14 +1,5 @@
-import React, { useEffect, useState } from "react";
-import {
-  Label,
-  Form,
-  Input,
-  Icon,
-  Popup,
-  Dropdown,
-  List,
-  Divider
-} from "semantic-ui-react";
+import React, { useState } from "react";
+import { Divider, Form, Icon, Input } from "semantic-ui-react";
 
 function AddAppsForm(props) {
   const [searchTerm, setTerm] = useState("");

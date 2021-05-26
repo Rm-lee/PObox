@@ -1,11 +1,9 @@
-import React, { useState, useEffect } from "react";
-import { Header, Icon, Dropdown, Form, Button } from "semantic-ui-react";
-import Project from "../Projects/Project";
+import React, { useEffect, useState } from "react";
+import { connect } from "react-redux";
+import { Button, Form } from "semantic-ui-react";
 import { linkFileToProj, updateFile } from "../Actions/addFileActions";
 import { updateBookMark } from "../Actions/bookmarkActions";
 import { updateCommand } from "../Actions/index";
-
-import { connect } from "react-redux";
 
 function SideEdit(props) {
   const [editObj, setEditObj] = useState(props.data);

@@ -1,8 +1,7 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
+import { Icon, Menu, Segment } from "semantic-ui-react";
 import ProjSettings from "../Projects/ProjSettings";
-import { Menu, Segment, Icon } from "semantic-ui-react";
-import { useState } from "react";
 
 function Tabs(props) {
   const [activeItem, setActiveItem] = useState("Projects");

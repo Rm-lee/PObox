@@ -1,14 +1,9 @@
-import React from "react";
-import { Button, Modal, Form, List, Icon, Popup } from "semantic-ui-react";
-import { useState, useEffect } from "react";
-import {
-  addBookMarkToProj,
-  getAllBookMarks,
-  addBookMark
-} from "../Actions/bookmarkActions";
-import { withRouter } from "react-router-dom";
+import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
+import { withRouter } from "react-router-dom";
+import { Button, Form, Icon, Modal, Popup } from "semantic-ui-react";
 import Styled from "styled-components";
+import { addBookMark, addBookMarkToProj } from "../Actions/bookmarkActions";
 
 const DropHere = Styled.div`
 width:95%;

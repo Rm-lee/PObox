@@ -1,13 +1,12 @@
-import React, { useState, useEffect } from "react";
-import { withRouter } from "react-router-dom";
+import React, { useState } from "react";
 import { connect } from "react-redux";
+import { withRouter } from "react-router-dom";
+import { Icon, Image } from "semantic-ui-react";
 import Styled from "styled-components";
 import { openUrl } from "../Actions/index";
-import { getUnique } from "../Utils/Utilities";
-import SidePanelInfo from "../Utils/SidePanelInfo";
 import SearchAndFilter from "../Utils/SearchAndFilter";
+import SidePanelInfo from "../Utils/SidePanelInfo";
 import "./File.css";
-import { Image, Icon } from "semantic-ui-react";
 const FileContainer = Styled.div`
     display:flex;
     flex-direction:column;
@@ -27,17 +26,20 @@ function Files(props) {
   const [file, setFile] = useState("");
   const [visible, setVisible] = useState(false);
   const [shortName, setShortName] = useState(true);
-  const [updatedFileList, setUpdatedList] = useState(
-    props.files ? getUnique(props.files, "name") : null
-  );
+  //remove duplicates if file was linked to multiple projects
 
-  useEffect(() => {
-    setUpdatedList(getUnique(props.files, "name"));
-  }, [props.files]);
+  const [updatedFileList, setUpdatedList] = useState(props.files);
+  //   props.files ? getUnique(props.files, "name") : null
+  // );
+
+  // useEffect(() => {
+  //   setUpdatedList(getUnique(props.files, "name"));
+  // }, [props.files]);
   const iconOptions = {
     png: "file image outline",
     pdf: "file pdf outline",
     txt: "file text outlie",
+    docx: "file text outlie",
     jpg: "file image outline",
     JPG: "file image outline",
     jpeg: "file image outline",

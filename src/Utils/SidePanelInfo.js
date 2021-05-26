@@ -1,22 +1,12 @@
-import React, { useState, useEffect } from "react";
-import {
-  Header,
-  Image,
-  Icon,
-  Button,
-  Menu,
-  Ref,
-  Segment,
-  Sidebar
-} from "semantic-ui-react";
-import { withRouter } from "react-router-dom";
+import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
+import { withRouter } from "react-router-dom";
+import { Header, Menu, Segment, Sidebar } from "semantic-ui-react";
+import { deleteFile } from "../Actions/addFileActions";
+import { deleteBookMark } from "../Actions/bookmarkActions";
+import { deleteCommand, openUrl } from "../Actions/index";
 import SideEdit from "./SideEdit";
 import SideInfo from "./SideInfo";
-import { openUrl } from "../Actions/index";
-import { deleteCommand } from "../Actions/index";
-import { deleteBookMark } from "../Actions/bookmarkActions";
-import { deleteFile } from "../Actions/addFileActions";
 
 function SidePanelInfo(props) {
   const [activeItem, setActiveItem] = useState("Info");

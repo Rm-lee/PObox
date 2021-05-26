@@ -1,9 +1,8 @@
-import React from "react";
-import { Button, Modal, Form, List, Icon, Popup } from "semantic-ui-react";
-import { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
+import { Button, Form, Icon, List, Modal, Popup } from "semantic-ui-react";
 import Styled from "styled-components";
-import { addFileToProj, getAllFiles } from "../Actions/addFileActions";
+import { addFileToProj } from "../Actions/addFileActions";
 const DropHere = Styled.div`
 width:90%;
 display:flex;
