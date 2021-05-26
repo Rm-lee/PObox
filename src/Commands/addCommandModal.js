@@ -133,11 +133,11 @@ const AddCommandModal = props => {
             </Form.Field>
           </Form>
         </Modal.Content>
-        <Button style={{ float: "right" }} onClick={handleClose} color="red">
+        <Button style={{ float: "right" }} onClick={handleClose}>
           Cancel
         </Button>
         <Button
-          style={{ float: "right" }}
+          style={{ float: "right", marginBottom: "10px" }}
           onClick={() => {
             props.addCommandToProj(commandObj);
             handleClose();

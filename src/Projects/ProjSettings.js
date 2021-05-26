@@ -2,12 +2,7 @@ import React from "react";
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
 import { Icon, Menu, Modal, Segment, Sidebar } from "semantic-ui-react";
-import Styled from "styled-components";
 import { deleteProj, openUrl } from "../Actions/index";
-
-const Settings = Styled.div`
-
-`;
 
 function ProjSettings(props) {
   return (

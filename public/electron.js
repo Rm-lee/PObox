@@ -37,7 +37,6 @@ ipc.on("openLink", (event, arg) => {
       shell.openItem(arg);
     }
   } else {
-    console.log(arg);
     shell.openItem(arg);
   }
 });

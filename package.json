@@ -73,6 +73,11 @@
     "concurrently": "^5.0.0",
     "electron": "^8.2.1",
     "electron-builder": "^22.11.5",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-config-react": "^1.1.7",
+    "eslint-plugin-json": "^3.0.0",
+    "eslint-plugin-prettier": "^3.4.0",
+    "eslint-plugin-react-hooks": "^4.2.0",
     "husky": ">=4",
     "lint-staged": ">=10 ",
     "prettier": "^1.19.1",
@@ -84,6 +89,6 @@
     }
   },
   "lint-staged": {
-    "*.{js,css,md}": "prettier --write"
+    "*.{js,css,md}": "prettier --write "
   }
 }

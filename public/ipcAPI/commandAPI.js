@@ -25,7 +25,6 @@ function commandsAPI() {
   //getAllCommands
   ipc.on("getAllCommands", async function(event, arg) {
     await getAllCommandsWithPID().then(result => {
-      console.log(result);
       event.sender.send("command-list", result);
     });
   });

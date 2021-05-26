@@ -14,10 +14,6 @@ import ProjSettings from "./ProjSettings";
 import "./settings.css";
 //import { Link, } from "react-router-dom"
 import Todo from "./Todo";
-const HalfDiv = Styled.div`
-display:flex;
-justify-content:space-evenly;
-`;
 
 const HeaderBar = Styled.div`
 display:flex;
@@ -33,7 +29,6 @@ function Project(props) {
   const [project1, setProject1] = useState();
   const [modalOpen, setModalOpen] = useState(false);
   const [fileName, setFileName] = useState();
-  const [projBooks, setProjBooks] = useState();
   let crumbs = props.location.pathname.split("/");
   const [activeItem, setActiveItem] = useState("Apps");
   const [view, setView] = useState();

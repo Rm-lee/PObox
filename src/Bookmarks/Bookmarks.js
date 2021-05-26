@@ -61,6 +61,7 @@ function Bookmarks(props) {
           {updatedList &&
             updatedList.map((mark, i) => (
               <Card
+                key={i}
                 style={{
                   boxShadow: "4px 8px 10px #aaa",
                   maxWidth: "80%",

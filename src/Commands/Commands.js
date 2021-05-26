@@ -40,6 +40,7 @@ function Commands(props) {
           {updatedCommandList &&
             updatedCommandList.map((command, i) => (
               <Card
+                key={i}
                 style={{
                   boxShadow: "4px 8px 10px #aaa",
                   maxWidth: "80%",
