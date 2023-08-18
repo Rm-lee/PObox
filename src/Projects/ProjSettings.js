@@ -107,7 +107,6 @@ function ProjSettings(props) {
             onClick={e => {
               e.stopPropagation();
               props.getGit();
-              console.log(props.getInfo)
             }}
             as="a"
           >

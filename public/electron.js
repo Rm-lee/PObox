@@ -19,14 +19,21 @@ const { bookmarksAPI } = require(path.join(__dirname, "./ipcAPI/bookMarkAPI"));
 const { filesAPI } = require(path.join(__dirname, "./ipcAPI/filesAPI"));
 const { snippetsAPI } = require(path.join(__dirname, "./ipcAPI/snippetAPI"));
 const sysos = os.platform();
+// fs.watch("./", { recursive: true }, (eventType, filename) => {
+//   console.log("The file ", filename, " was modified! ");
+//   git.getLastCommit(function (err, commit) {
+//     // read commit object properties
 
+//   });        // We can look for different types of changes on a file
+//   // using the event type like: rename, change, etc.
+//   // console.log("It was a ", eventType, " event type.");
+// });
 const git = require("git-last-commit")
 
 ipc.on("get_git_info", async function (event, arg) {
   git.getLastCommit(function (err, commit) {
-    console.log(commit)
     event.sender.send("git_info", commit);
-  });
+  }, { dst: arg });
 });
 
 //create db and run migrations
@@ -117,8 +124,8 @@ function createWindow() {
   );
 }
 const showWindow = () => {
-  //const trayBounds = appTray.getBounds();
-  // positioner.position(window, trayBounds);
+  const trayBounds = appTray.getBounds();
+  positioner.position(window, trayBounds);
 
   window.show();
 

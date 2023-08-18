@@ -226,11 +226,10 @@ export function deleteCommand(id) {
   ipc.send("deleteCommand", id);
   return dispatch => { };
 }
-export function getGit() {
-  ipc.send("get_git_info")
+export function getGit(arg) {
+  ipc.send("get_git_info", arg)
   return dispatch => {
     ipc.on("git_info", function (event, arg) {
-      console.log(arg)
       dispatch({ type: GETGITINFO, payload: arg })
     })
   }

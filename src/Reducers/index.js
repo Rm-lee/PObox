@@ -122,7 +122,6 @@ export function reducer(state = initialState, action) {
       };
     }
     case GETGITINFO: {
-      console.log(action.payload)
       return {
         ...state,
         gitInfo: action.payload

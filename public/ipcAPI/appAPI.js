@@ -161,7 +161,8 @@ IFS="\${oldifs}"`,
 ipc.on("launch-app-in-dir", async (event, app, path) => {
   if (sysos === "win32") {
     let dot = "";
-    if (app.name.toLowerCase() === "code") {
+    if (app.name.toLowerCase().includes("code") === true) {
+      app.app_path = `D:\\Users\\%USERNAME%\\AppData\\Local\\Programs\\Microsoft VS Code\\bin\\code-tunnel.exe `
       dot = ".";
     }
     exec(`cd "${path}" && "${app.app_path}" ${dot}`, (err, stdout, stderr) => {

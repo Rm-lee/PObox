@@ -3,12 +3,13 @@ import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
 import { Grid, Header, Menu, Popup, Segment } from "semantic-ui-react";
 import Styled from "styled-components";
-import { deleteProj, setCurrentProject } from "../Actions/index";
+import { deleteProj, setCurrentProject, getGit } from "../Actions/index";
 import ProjectApps from "../Apps/ProjectApps";
 import ProjectBookmarks from "../Bookmarks/ProjectBookmarks";
 import CommandViewer from "../Commands/CommandViewer";
 import ProjectCommands from "../Commands/ProjectCommands";
 import ProjectFiles from "../Files/ProjectFiles";
+import GitProject from "../Git/GitProject";
 import { dragIn } from "../Utils/DragnDrop";
 import ProjSettings from "./ProjSettings";
 import "./settings.css";
@@ -76,7 +77,9 @@ function Project(props) {
       case "Todo":
         setView(<Todo projId={project1.id} />);
         break;
-
+      case "Git":
+        setView(<GitProject projPath={project1.path} />);
+        break;
       default:
     }
   }, [activeItem, project1]);
@@ -86,6 +89,11 @@ function Project(props) {
   const handleActive = (e, { name }) => {
     if (name === "Settings") {
       openCloseSettings();
+    }
+    if (name === "Git") {
+
+      props.getGit(project1.project_path);
+      setActiveItem(name);
     } else {
       setActiveItem(name);
     }
@@ -94,7 +102,6 @@ function Project(props) {
     props.deleteProj(ID);
     props.history.push("/projects");
   };
-  console.log(settings);
   return (
     <>
       {project1 && (
@@ -172,6 +179,12 @@ function Project(props) {
               active={activeItem === "Settings"}
               onClick={handleActive}
             />
+            <Menu.Item
+              style={{ fontSize: "1.2rem" }}
+              name="Git"
+              active={activeItem === "Git"}
+              onClick={handleActive}
+            />
           </Menu>
         </Grid.Column>
 
@@ -191,12 +204,14 @@ function Project(props) {
 function mapStateToProps(state) {
   return {
     projects: state.projects,
+    gitInfo: state.gitInfo,
     bookmarks: state.bookmarks
   };
 }
 const mapDispatchToProps = {
   deleteProj: deleteProj,
-  setCurrentProject: setCurrentProject
+  setCurrentProject: setCurrentProject,
+  getGit: getGit
 };
 export default withRouter(
   connect(mapStateToProps, mapDispatchToProps)(Project)
